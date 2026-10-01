@@ -1116,11 +1116,20 @@ function inicializarFiltrosDesplegables() {
     });
 
     // 2. Observer global para detectar selects creados o mostrados dinámicamente
-    const bodyObserver = new MutationObserver(() => {
-        document.querySelectorAll('select.seleccion-formulario, select.filtro-seleccionar, select.desplegable-custom, .panel-cuerpo select').forEach(select => {
-            if (!select._customDesplegableWrapper && select.dataset.noCustom !== 'true') {
-                convertirSelectEnDesplegableCustom(select);
-            }
+    // agrupado por cuadro: antes recorria todo el documento en cada cambio del DOM
+    let revisionPendiente = false;
+    const bodyObserver = new MutationObserver((cambios) => {
+        if (revisionPendiente) return;
+        const agregoNodos = cambios.some(c => Array.prototype.some.call(c.addedNodes, n => n.nodeType === 1));
+        if (!agregoNodos) return;
+        revisionPendiente = true;
+        requestAnimationFrame(() => {
+            revisionPendiente = false;
+            document.querySelectorAll('select.seleccion-formulario, select.filtro-seleccionar, select.desplegable-custom, .panel-cuerpo select').forEach(select => {
+                if (!select._customDesplegableWrapper && select.dataset.noCustom !== 'true') {
+                    convertirSelectEnDesplegableCustom(select);
+                }
+            });
         });
     });
     bodyObserver.observe(document.body, { childList: true, subtree: true });
@@ -1444,3 +1453,211 @@ document.addEventListener('invalid', function (e) {
     campo.addEventListener('change', limpiar, { once: true });
     campo.addEventListener('input', limpiar, { once: true });
 }, true);
+
+/* ==========================================================================
+   Texto largo: se recorta en tablas y tarjetas y se ve completo en un modal
+   ========================================================================== */
+(function textoLargo() {
+    const LIMITE_CELDA = 40;      // caracteres visibles en una celda de tabla
+    const LIMITE_TARJETA = 120;   // caracteres visibles en descripciones de tarjetas
+    // descripciones dentro de tarjetas: [selector del texto, selector del titulo dentro de la tarjeta]
+    const TARJETAS = [
+        ['.desc-tarea-guardia', '.item-tarea-guardia', '.titulo-tarea-guardia'],
+        ['.infp-item-desc', '.infp-item', '.infp-item-titulo']
+    ];
+
+    /** recorta los nodos de texto largos de un elemento; devuelve true si recorto algo */
+    function recortar(raiz, limite) {
+        let recorto = false;
+        const recorrido = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT);
+        const nodos = [];
+        while (recorrido.nextNode()) nodos.push(recorrido.currentNode);
+        nodos.forEach(n => {
+            const t = n.nodeValue.replace(/\s+/g, ' ');
+            if (t.trim().length > limite) {
+                n.nodeValue = t.trim().slice(0, limite - 1).trimEnd() + '…';
+                recorto = true;
+            }
+        });
+        return recorto;
+    }
+
+    function textoVisible(el) {
+        return (el.innerText || el.textContent || '').replace(/[ \t]+/g, ' ').replace(/\n{2,}/g, '\n').trim();
+    }
+
+    function procesarCelda(td) {
+        td.dataset.kpRevisado = '1';
+        if (td.colSpan > 1 || td.classList.contains('tabla-vacia')) return;
+        if (td.querySelector('button, a, input, select, textarea, table')) return;
+        const completo = textoVisible(td);
+        const desborda = td.scrollWidth > td.clientWidth + 1; // recortado por css (una sola linea)
+        const recorto = completo.length > LIMITE_CELDA && recortar(td, LIMITE_CELDA);
+        if (!recorto && !desborda) return;
+        td.dataset.textoCompleto = completo;
+        td.classList.add('celda-texto-largo');
+        td.title = 'Ver información completa';
+        const marca = document.createElement('span');
+        marca.className = 'kp-ver-mas';
+        marca.textContent = 'ver más';
+        marca.setAttribute('aria-hidden', 'true');
+        (td.lastElementChild && td.lastElementChild.tagName !== 'IMG' ? td.lastElementChild : td).appendChild(marca);
+    }
+
+    function procesarTarjeta(el, limite) {
+        el.dataset.kpRevisado = '1';
+        const completo = textoVisible(el);
+        if (completo.length <= limite) return;
+        if (!recortar(el, limite)) return;
+        el.dataset.textoCompleto = completo;
+        el.classList.add('texto-largo-tarjeta');
+        el.style.cursor = 'pointer';
+        el.title = 'Ver información completa';
+        const marca = document.createElement('span');
+        marca.className = 'kp-ver-mas';
+        marca.textContent = 'ver más';
+        marca.style.cssText = 'margin-left:6px; padding:1px 7px; border-radius:6px; font-size:11px; font-weight:700; color:#fff; background:#2473f5;';
+        el.appendChild(marca);
+    }
+
+    function revisar() {
+        document.querySelectorAll('table tbody td:not([data-kp-revisado])').forEach(procesarCelda);
+        TARJETAS.forEach(([sel]) => document.querySelectorAll(`${sel}:not([data-kp-revisado])`).forEach(el => procesarTarjeta(el, LIMITE_TARJETA)));
+    }
+
+    // ── modal ─────────────────────────────────────────────────────
+    let modal = null;
+    function crearModal() {
+        if (modal) return modal;
+        modal = document.createElement('div');
+        modal.id = 'kp-modal-texto-completo';
+        modal.className = 'panel-capa';
+        modal.innerHTML = `
+            <div class="panel-card" role="dialog" aria-modal="true" aria-labelledby="kp-modal-texto-titulo" style="max-width:520px;">
+                <div class="panel-encabezado">
+                    <div class="panel-encabezado-icono"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+                    <div class="panel-encabezado-texto">
+                        <h3 id="kp-modal-texto-titulo">Información completa</h3>
+                        <p>Detalle del registro seleccionado</p>
+                    </div>
+                    <button class="panel-cerrar" type="button" data-kp-cerrar aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                </div>
+                <dl class="kp-detalle-lista"></dl>
+                <div class="panel-actions" style="justify-content:flex-end;">
+                    <button type="button" class="btn-guardar" data-kp-cerrar>Cerrar</button>
+                </div>
+            </div>`;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('[data-kp-cerrar]')) cerrar(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('activo')) cerrar(); });
+        return modal;
+    }
+    function cerrar() { if (modal) modal.classList.remove('activo'); }
+
+    function abrir(filas) {
+        const m = crearModal();
+        m.querySelector('.kp-detalle-lista').innerHTML = filas.map(([etiqueta, valor]) => `
+            <div class="kp-detalle-fila"><dt>${escapeHtml(etiqueta)}</dt><dd>${escapeHtml(valor)}</dd></div>`).join('');
+        m.classList.add('activo');
+        m.querySelector('.btn-guardar')?.focus();
+    }
+
+    function datosDeFila(tr) {
+        const tabla = tr.closest('table');
+        const encabezados = tabla ? Array.from(tabla.querySelectorAll('thead th')).map(th => th.textContent.trim()) : [];
+        const filas = [];
+        Array.from(tr.children).forEach((td, i) => {
+            if (td.tagName !== 'TD' || td.classList.contains('col-acciones')) return;
+            if (td.querySelector('button, a, input, select') && !td.dataset.textoCompleto) return;
+            let valor = td.dataset.textoCompleto || textoVisible(td);
+            valor = valor.replace(/\s*ver más$/, '').trim();
+            if (!valor) return;
+            filas.push([encabezados[i] || `Dato ${i + 1}`, valor]);
+        });
+        return filas;
+    }
+
+    document.addEventListener('click', e => {
+        const td = e.target.closest('td.celda-texto-largo');
+        if (td && !e.target.closest('button, a, input, select')) {
+            abrir(datosDeFila(td.parentElement));
+            return;
+        }
+        const tarjeta = e.target.closest('.texto-largo-tarjeta');
+        if (tarjeta) {
+            e.stopPropagation();
+            const conf = TARJETAS.find(([sel]) => tarjeta.matches(sel));
+            const contenedor = conf ? tarjeta.closest(conf[1]) : null;
+            const titulo = contenedor?.querySelector(conf[2]);
+            const filas = [];
+            if (titulo) filas.push(['Título', textoVisible(titulo)]);
+            filas.push(['Descripción', tarjeta.dataset.textoCompleto]);
+            abrir(filas);
+        }
+    }, true);
+
+    let pendiente = false;
+    function programar() {
+        if (pendiente) return;
+        pendiente = true;
+        requestAnimationFrame(() => { pendiente = false; revisar(); });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        revisar();
+        new MutationObserver(cambios => {
+            if (cambios.some(c => c.addedNodes.length)) programar();
+        }).observe(document.body, { childList: true, subtree: true });
+    });
+    window.kpMostrarInformacionCompleta = abrir;
+})();
+
+/* ==========================================================================
+   Contador de caracteres: aparece al escribir, sin mover el formulario
+   ========================================================================== */
+(function contadorCaracteres() {
+    let caja = null;
+    let campoActual = null;
+
+    function aplica(el) {
+        if (!el || !el.matches || !el.matches('input, textarea')) return false;
+        if (el.readOnly || el.disabled) return false;
+        const tipo = (el.getAttribute('type') || 'text').toLowerCase();
+        if (!['text', 'email', 'search', 'tel', 'url', 'password'].includes(tipo) && el.tagName !== 'TEXTAREA') return false;
+        if (/busc|busqueda|filtro/i.test(el.id || '') || el.classList.contains('selector-busqueda-campo')) return false;
+        const max = Number(el.getAttribute('maxlength')) || 0;
+        return max >= 20;
+    }
+
+    function actualizar() {
+        if (!campoActual || !caja) return;
+        const max = Number(campoActual.getAttribute('maxlength')) || 0;
+        const largo = campoActual.value.length;
+        caja.textContent = `${largo}/${max}`;
+        caja.classList.toggle('lleno', largo >= max);
+        caja.classList.toggle('cerca', largo < max && largo >= max * 0.9);
+        const r = campoActual.getBoundingClientRect();
+        if (r.width === 0 || r.bottom < 0 || r.top > innerHeight) { caja.classList.remove('visible'); return; }
+        caja.classList.add('visible');
+        const anchoCaja = caja.offsetWidth;
+        caja.style.left = `${Math.max(4, r.right - anchoCaja - 6)}px`;
+        caja.style.top = `${Math.min(innerHeight - 24, r.bottom + 4)}px`;
+    }
+
+    document.addEventListener('focusin', e => {
+        if (!aplica(e.target)) return;
+        if (!caja) {
+            caja = document.createElement('div');
+            caja.className = 'kp-contador';
+            caja.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(caja);
+        }
+        campoActual = e.target;
+        actualizar();
+    });
+    document.addEventListener('focusout', e => {
+        if (e.target === campoActual) { campoActual = null; caja?.classList.remove('visible'); }
+    });
+    document.addEventListener('input', e => { if (e.target === campoActual) actualizar(); });
+    window.addEventListener('scroll', () => { if (campoActual) actualizar(); }, true);
+    window.addEventListener('resize', () => { if (campoActual) actualizar(); });
+})();

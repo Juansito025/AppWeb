@@ -169,12 +169,16 @@ function renderizarTabla() {
     }
 
     if (listaFiltrada.length === 0) {
+        const NOMBRE_ESTADO = { programado: 'Programado', 'en-curso': 'En curso', finalizado: 'Finalizado' };
+        let mensajeVacio = 'Aún no hay turnos configurados. Usa “Agregar turno” para crear el primero.';
+        if (turnos.length && filtroEstado !== 'all') mensajeVacio = `No hay turnos en estado “${NOMBRE_ESTADO[filtroEstado] || filtroEstado}”${busqueda.trim() ? ' que coincidan con la búsqueda' : ''}.`;
+        else if (turnos.length && busqueda.trim()) mensajeVacio = 'Ningún turno coincide con la búsqueda.';
         tablaCuerpo.innerHTML = `
-            <tr>
-                <td colspan="5" style="text-align: center; padding: 48px 16px; color: #94a3b8;">
+            <tr class="fila-turno-vacia">
+                <td colspan="5">
                     <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <span>No se encontraron turnos configurados</span>
+                        <span>${escapeHtml(mensajeVacio)}</span>
                     </div>
                 </td>
             </tr>
@@ -223,15 +227,15 @@ function renderizarTabla() {
                         <td style="padding: 8px 12px; color: #ffffff; font-weight: 500;">
                             <div style="display:inline-flex; align-items:center; gap:8px;">
                                 <div style="width:24px; height:24px; border-radius:50%; background:#2473F5; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">
-                                    ${nomEmp.charAt(0)}
+                                    ${escapeHtml(nomEmp.charAt(0))}
                                 </div>
-                                <span>${nomEmp}</span>
+                                <span>${escapeHtml(nomEmp)}</span>
                             </div>
                         </td>
                         <td style="padding: 8px 12px; color: #94a3b8; font-size: 12px;">
                             <span style="display:inline-flex; align-items:center; gap:5px;">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#2473F5" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                                ${nomCas}
+                                ${escapeHtml(nomCas)}
                             </span>
                         </td>
                         <td style="padding: 8px 12px;">
@@ -258,7 +262,7 @@ function renderizarTabla() {
                 <td>
                     <div style="display:flex; align-items:center; gap:8px;">
                         <span style="width:8px; height:8px; border-radius:50%; background:#2473F5; display:inline-block;"></span>
-                        <strong style="color:var(--text-primary, #ffffff); font-size:14px;">${nombre}</strong>
+                        <strong style="color:var(--text-primary, #ffffff); font-size:14px;">${escapeHtml(nombre)}</strong>
                     </div>
                 </td>
                 <td><span style="color:#cbd5e1; font-size:13px; font-weight:500;">${horaInicio} - ${horaFin}</span></td>
@@ -272,7 +276,7 @@ function renderizarTabla() {
                 </td>
                 <td class="col-acciones">
                     <div style="display:inline-flex; gap:6px;">
-                        <button type="button" class="btn-asignar-guardia" data-id="${id}" data-nombre="${nombre}" title="Asignar Personal" style="background:#1146D0; color:#ffffff; border:none; border-radius:8px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; ">
+                        <button type="button" class="btn-asignar-guardia" data-id="${id}" data-nombre="${escapeHtml(nombre)}" title="Asignar Personal" style="background:#1146D0; color:#ffffff; border:none; border-radius:8px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; ">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             <span>Asignar Personal</span>
                         </button>
@@ -322,7 +326,7 @@ function renderizarTabla() {
 
 function renderizarPaginacion(totalPaginas) {
     if (!paginacionContenedor) return;
-    if (totalPaginas === 0) {
+    if (totalPaginas <= 1) {
         paginacionContenedor.innerHTML = '';
         return;
     }

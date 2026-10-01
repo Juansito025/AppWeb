@@ -137,11 +137,16 @@
 </div>
 
 <div id="modal-motivo-rechazo" class="capa-modal">
-    <div class="tarjeta-modal motivo-modal-card">
-        <div class="icono-modal">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="modal-icono-img" style="color:#ef4444;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+    <div class="tarjeta-modal motivo-modal-card" role="dialog" aria-modal="true" aria-labelledby="motivo-titulo">
+        <div class="motivo-encabezado">
+            <span class="motivo-icono" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            </span>
+            <div>
+                <p class="motivo-titulo" id="motivo-titulo">Denegar acceso</p>
+                <p class="motivo-subtitulo">Selecciona el motivo. La visita quedará marcada como desaprobada.</p>
+            </div>
         </div>
-        <p class="texto-modal">Motivo del rechazo</p>
 
         <div class="motivo-lista" id="motivo-lista">
             <label class="motivo-opcion">
@@ -169,7 +174,7 @@
         <textarea id="motivo-otro-texto" class="motivo-otro-texto qr-oculto"
                   placeholder="Escribe el motivo del rechazo..."></textarea>
 
-        <div class="acciones-modal">
+        <div class="acciones-modal motivo-acciones">
             <button id="btn-cancelar-rechazo" class="boton-cancelar" type="button">Cancelar</button>
             <button id="btn-confirmar-rechazo" class="boton-aceptar btn-confirmar-rechazo" type="button" disabled>
                 Confirmar rechazo

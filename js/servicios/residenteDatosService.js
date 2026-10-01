@@ -64,14 +64,13 @@ export function infraccionesDe(idPersona, base) {
         .filter(inf => incidentesPersona.has(String(inf.fkIncidente)))
         .map(inf => {
             const inc = incidentesPersona.get(String(inf.fkIncidente));
-            const grav = base.gravedades.find(g => mismoId(g.idGravedadInfraccion, inf.fkTipoInfraccion));
             return {
                 ...inf,
                 fecha: inc.fechaHoraIncidente || null,
                 motivo: inc.descripcionIncidente || 'Sin descripción',
                 lugar: inc.lugarIncidente || '',
                 tipoIncidente: inc.tipoIncidente || '',
-                gravedad: grav?.nombreGravedadInfraccion || '',
+                gravedad: window.gravedadDeInfraccion(inf, base.gravedades),
                 evidenciaUrl: inc.evidenciaUrl || '',
                 monto: Number(inf.monto || 0),
                 estado: inf.estado || 'Pendiente'

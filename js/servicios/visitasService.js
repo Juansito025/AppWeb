@@ -53,7 +53,7 @@ function normalizarVisita(v, visitantesMap = {}, personasMap = {}) {
 export async function getVisitas() {
     try {
         const [visitasRes, visitantesRes, personasRes] = await Promise.all([
-           apiFetch('/visitas/paginado?page=0&size=100').catch(() => []),
+            obtenerTodasLasVisitas().catch(() => []),
             apiFetch('/visitantes').catch(() => []),
             apiFetch('/personas').catch(() => [])
         ]);
@@ -181,6 +181,19 @@ export async function actualizarVisita(id, visita) {
     return await apiFetch(`/visitas/${id}`, {
         method: "PATCH",
         body: payload
+    });
+}
+
+/** cambia solo el estado de la visita (Aprobada / Desaprobada) conservando el resto de datos */
+export async function marcarEstadoVisita(id, estado) {
+    const actual = await apiFetch(`/visitas/${id}`, { silencioso: true });
+    const v = actual?.data || actual || {};
+    return await actualizarVisita(id, {
+        fkPersona: v.fkPersona?.idPersona || v.fkPersona,
+        fkVisitante: v.fkVisitante?.idVisitante || v.fkVisitante,
+        fechaVisita: v.fechaVisita,
+        fkVehiculos: v.fkVehiculos?.idVehiculo || v.fkVehiculos || null,
+        estado
     });
 }
 

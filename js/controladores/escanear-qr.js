@@ -1,6 +1,6 @@
 /** escaner de qr */
 
-import { getVisitas } from '../servicios/visitasService.js';
+import { getVisitas, marcarEstadoVisita } from '../servicios/visitasService.js';
 import { validarPaseQR, registrarAcceso } from '../servicios/pasesQRService.js';
 import { getDetalleTurnos } from '../servicios/turnosService.js';
 import { getInfraccionesDetalladas } from '../servicios/infraccionesService.js';
@@ -354,16 +354,26 @@ async function permitirAcceso() {
             fkPasesAcceso: personaActual.paseId,
             fkDetalleTurno: miTurno.idDetalleTurno || miTurno.id
         });
-        // el pase de visita es de un solo uso
+
+        // la visita queda aprobada para que el dashboard la muestre
+        let avisoVisita = '';
+        if (personaActual.tipoOrigen === 'paseQR' && personaActual.id) {
+            try {
+                await marcarEstadoVisita(personaActual.id, 'Aprobada');
+            } catch (eVis) {
+                console.warn('No se pudo marcar la visita como aprobada:', eVis.message);
+                avisoVisita = `<br><small style="color:#f59e0b;">El acceso quedó registrado, pero la visita no se pudo marcar como aprobada: ${escapeHtml(eVis.message)}</small>`;
+            }
+        }
 
         await Swal.fire({
             toast: false,
             position: 'center',
             icon: 'success',
             title: '¡Acceso Permitido!',
-            html: `Se autorizó el ingreso de <strong>${escapeHtml(personaActual.nombre)}</strong> correctamente.<br><small style="color:#94a3b8;">${escapeHtml(personaActual.casa)}</small>`,
-            timer: 2600,
-            showConfirmButton: false,
+            html: `Se autorizó el ingreso de <strong>${escapeHtml(personaActual.nombre)}</strong> correctamente.<br><small style="color:#94a3b8;">${escapeHtml(personaActual.casa)}</small>${avisoVisita}`,
+            timer: avisoVisita ? undefined : 2600,
+            showConfirmButton: !!avisoVisita,
             background: '#0a0f1c',
             color: '#fff'
         });
@@ -445,6 +455,18 @@ async function confirmarRechazo() {
 
     // rechazar entrada
     cerrarModalMotivo();
+    const persona = personaActual;
+
+    // la visita queda desaprobada para que el dashboard la muestre en rechazados
+    let avisoVisita = '';
+    if (persona.tipoOrigen === 'paseQR' && persona.id) {
+        try {
+            await marcarEstadoVisita(persona.id, 'Desaprobada');
+        } catch (eVis) {
+            console.warn('No se pudo marcar la visita como desaprobada:', eVis.message);
+            avisoVisita = ` (No se pudo actualizar la visita: ${eVis.message})`;
+        }
+    }
 
     const motivoEl = document.getElementById('qr-motivo-mostrado');
     if (motivoEl) motivoEl.textContent = 'Motivo: ' + motivoFinal;
@@ -458,14 +480,14 @@ async function confirmarRechazo() {
         position: 'center',
         icon: 'error',
         title: 'Acceso Denegado',
-        text: `Motivo: ${motivoFinal}`,
-        timer: 2500,
-        showConfirmButton: false,
+        text: `Motivo: ${motivoFinal}${avisoVisita}`,
+        timer: avisoVisita ? undefined : 2500,
+        showConfirmButton: !!avisoVisita,
         background: '#0a0f1c',
         color: '#fff'
     });
 
-    window.setTimeout(volverAEscanear, 2200);
+    volverAEscanear();
 }
 
 const GRAVEDAD_TEXTO = { leve: 'Leve', moderada: 'Moderada', grave: 'Grave' };
@@ -499,8 +521,7 @@ async function verInfracciones() {
                 .filter(inf => incVisitante.some(i => String(i.idIncidente) === String(inf.fkIncidente)))
                 .map(inf => {
                     const inc = incVisitante.find(i => String(i.idIncidente) === String(inf.fkIncidente));
-                    const g = gravedades.find(x => String(x.idGravedadInfraccion) === String(inf.fkTipoInfraccion));
-                    return { ...inf, motivo: inc.descripcionIncidente, fecha: inc.fechaHoraIncidente, lugar: inc.lugarIncidente, gravedad: g?.nombreGravedadInfraccion || '' };
+                    return { ...inf, motivo: inc.descripcionIncidente, fecha: inc.fechaHoraIncidente, lugar: inc.lugarIncidente, gravedad: window.gravedadDeInfraccion(inf, gravedades) };
                 });
         }
         const fechaCorta = (f) => f ? new Date(String(f).length <= 10 ? `${f}T12:00:00` : f).toLocaleDateString('es-SV', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Sin fecha';
@@ -511,7 +532,7 @@ async function verInfracciones() {
             contenedor.innerHTML = infracciones.map(function (inf) {
                 const id = inf.idInfraccion || inf.id;
                 const causante = personaActual?.nombre || 'Incidente';
-                const grav = (inf.gravedad || 'leve').toLowerCase();
+                const grav = window.claveGravedad(inf.gravedad) || 'sin-dato';
                 const desc = inf.motivo || 'Sin descripción';
                 const fecha = `${fechaCorta(inf.fecha)} · $${Number(inf.monto || 0).toFixed(2)} · ${inf.estado || 'Pendiente'}`;
                 const residente = inf.lugar || 'Sin lugar';
@@ -520,7 +541,7 @@ async function verInfracciones() {
                     <button type="button" class="infp-item" data-id="${escapeHtml(id)}">
                         <span class="infp-item-punto infp-punto-${escapeHtml(grav)}"></span>
                         <span class="infp-item-cuerpo">
-                            <span class="infp-item-titulo">${escapeHtml(causante)} — ${escapeHtml(GRAVEDAD_TEXTO[grav] || grav)}</span>
+                            <span class="infp-item-titulo">${escapeHtml(causante)} — ${escapeHtml(GRAVEDAD_TEXTO[grav] || inf.gravedad || 'Sin gravedad')}</span>
                             <span class="infp-item-desc">${escapeHtml(desc)}</span>
                             <span class="infp-item-meta">${escapeHtml(fecha)} · Lugar: ${escapeHtml(residente)}</span>
                         </span>

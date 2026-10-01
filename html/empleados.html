@@ -248,23 +248,23 @@
             <div class="dos-col">
                 <div>
                     <label class="panel-etiqueta" for="agregar-nombre">Nombre *</label>
-                    <input class="panel-entrada" type="text" id="agregar-nombre" placeholder="Ej. Carlos" required>
+                    <input class="panel-entrada" type="text" id="agregar-nombre" maxlength="50" placeholder="Ej. Carlos" required>
                 </div>
                 <div>
                     <label class="panel-etiqueta" for="agregar-apellido">Apellido *</label>
-                    <input class="panel-entrada" type="text" id="agregar-apellido" placeholder="Ej. Ramírez" required>
+                    <input class="panel-entrada" type="text" id="agregar-apellido" maxlength="50" placeholder="Ej. Ramírez" required>
                 </div>
             </div>
 
             <div class="dos-col">
                 <div>
                     <label class="panel-etiqueta" for="agregar-correo">Correo electrónico *</label>
-                    <input class="panel-entrada" type="email" id="agregar-correo" placeholder="carlos@keeper.com" required>
+                    <input class="panel-entrada" type="email" id="agregar-correo" maxlength="100" placeholder="carlos@keeper.com" required>
                 </div>
                 <div>
                     <label class="panel-etiqueta" for="agregar-contrasena">Contraseña *</label>
                     <div class="panel-entrada-icono-envoltura">
-                        <input class="panel-entrada" type="password" id="agregar-contrasena" placeholder="Contraseña" required>
+                        <input class="panel-entrada" type="password" id="agregar-contrasena" placeholder="Mínimo 8 caracteres (letras y números)" minlength="8" maxlength="100" required>
                         <button type="button" class="panel-entrada-icono-btn btn-toggle-pass" data-target="agregar-contrasena" aria-label="Mostrar contraseña">
                             <svg class="icono-ojo-abierto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>
@@ -304,12 +304,19 @@
                     </select>
                 </div>
                 <div>
-                    <label class="panel-etiqueta" for="agregar-de-turno">Estado</label>
-                    <select class="seleccion-formulario" id="agregar-de-turno">
-                        <option value="true">Activo</option>
-                        <option value="false">Inactivo</option>
+                    <label class="panel-etiqueta" for="agregar-turno">Turno en la caseta</label>
+                    <select class="seleccion-formulario" id="agregar-turno">
+                        <option value="">Seleccionar turno...</option>
                     </select>
                 </div>
+            </div>
+
+            <div>
+                <label class="panel-etiqueta" for="agregar-de-turno">Estado</label>
+                <select class="seleccion-formulario" id="agregar-de-turno">
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                </select>
             </div>
 
             <div class="panel-actions">
@@ -347,23 +354,23 @@
             <div class="dos-col">
                 <div>
                     <label class="panel-etiqueta" for="detalle-nombre">Nombre *</label>
-                    <input class="panel-entrada" type="text" id="detalle-nombre" disabled required>
+                    <input class="panel-entrada" type="text" id="detalle-nombre" maxlength="50" disabled required>
                 </div>
                 <div>
                     <label class="panel-etiqueta" for="detalle-apellido">Apellido *</label>
-                    <input class="panel-entrada" type="text" id="detalle-apellido" disabled required>
+                    <input class="panel-entrada" type="text" id="detalle-apellido" maxlength="50" disabled required>
                 </div>
             </div>
 
             <div class="dos-col">
                 <div>
                     <label class="panel-etiqueta" for="detalle-correo">Correo electrónico *</label>
-                    <input class="panel-entrada" type="email" id="detalle-correo" disabled required>
+                    <input class="panel-entrada" type="email" id="detalle-correo" maxlength="100" disabled required>
                 </div>
                 <div>
                     <label class="panel-etiqueta" for="detalle-contrasena">Nueva contraseña (Opcional)</label>
                     <div class="panel-entrada-icono-envoltura">
-                        <input class="panel-entrada" type="password" id="detalle-contrasena" placeholder="Déjalo en blanco para no cambiar" disabled>
+                        <input class="panel-entrada" type="password" id="detalle-contrasena" placeholder="Déjalo en blanco para no cambiar (mín. 8)" minlength="8" maxlength="100" disabled>
                         <button type="button" class="panel-entrada-icono-btn btn-toggle-pass" data-target="detalle-contrasena" aria-label="Mostrar contraseña">
                             <svg class="icono-ojo-abierto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         </button>
@@ -403,12 +410,19 @@
                     </select>
                 </div>
                 <div>
-                    <label class="panel-etiqueta" for="detalle-de-turno">Estado</label>
-                    <select class="seleccion-formulario" id="detalle-de-turno" disabled>
-                        <option value="true">Activo</option>
-                        <option value="false">Inactivo</option>
+                    <label class="panel-etiqueta" for="detalle-turno">Turno en la caseta</label>
+                    <select class="seleccion-formulario" id="detalle-turno" disabled>
+                        <option value="">Seleccionar turno...</option>
                     </select>
                 </div>
+            </div>
+
+            <div>
+                <label class="panel-etiqueta" for="detalle-de-turno">Estado</label>
+                <select class="seleccion-formulario" id="detalle-de-turno" disabled>
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                </select>
             </div>
 
             <div class="panel-actions panel-actions-detalle">
@@ -432,7 +446,7 @@
 
         <form id="form-credencial" class="panel-cuerpo">
             <label class="panel-etiqueta" for="cred-correo">Correo</label>
-            <input class="panel-entrada" type="email" id="cred-correo" placeholder="correo@keeper.com" required>
+            <input class="panel-entrada" type="email" id="cred-correo" maxlength="100" placeholder="correo@keeper.com" required>
 
             <label class="panel-etiqueta" for="cred-rol">Rol</label>
             <select class="seleccion-formulario" id="cred-rol">
@@ -444,14 +458,14 @@
                 <div>
                     <label class="panel-etiqueta" for="cred-contrasena">Contraseña</label>
                     <div class="panel-entrada-icono-envoltura">
-                        <input class="panel-entrada" type="password" id="cred-contrasena" placeholder="Contraseña">
+                        <input class="panel-entrada" type="password" id="cred-contrasena" placeholder="Mínimo 8 caracteres" minlength="8" maxlength="100">
                         <button type="button" class="panel-entrada-icono-btn" data-target="cred-contrasena" aria-label="Mostrar contraseña"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                     </div>
                 </div>
                 <div>
                     <label class="panel-etiqueta" for="cred-contrasena-confirmar">Confirmar contraseña</label>
                     <div class="panel-entrada-icono-envoltura">
-                        <input class="panel-entrada" type="password" id="cred-contrasena-confirmar" placeholder="Confirmar contraseña">
+                        <input class="panel-entrada" type="password" id="cred-contrasena-confirmar" placeholder="Confirmar contraseña" minlength="8" maxlength="100">
                         <button type="button" class="panel-entrada-icono-btn" data-target="cred-contrasena-confirmar" aria-label="Mostrar contraseña"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                     </div>
                 </div>

@@ -404,3 +404,27 @@
 .btn-aplicar-hora-custom:hover {
     background: #1d4ed8;
 }
+
+
+/* ── Tabla de turnos: mismas columnas con o sin resultados ── */
+.tabla-turnos {
+    table-layout: fixed;
+    width: 100%;
+    min-width: 860px;
+}
+.tabla-turnos .col-turno-nombre   { width: 17%; }
+.tabla-turnos .col-turno-horario  { width: 12%; }
+.tabla-turnos .col-turno-dias     { width: 16%; }
+.tabla-turnos .col-turno-guardias { width: 19%; }
+.tabla-turnos .col-turno-acciones { width: 36%; }
+.tabla-turnos thead th,
+.tabla-turnos thead th .celda-cabecera { white-space: normal !important; vertical-align: middle; line-height: 1.3; }
+.tabla-turnos .btn-toggle-subtabla { white-space: nowrap; }
+.tabla-turnos > tbody > tr > td { overflow-wrap: anywhere; }
+.tabla-turnos .col-acciones > div { flex-wrap: wrap; }
+.tabla-turnos .fila-turno-vacia td {
+    height: 132px;
+    text-align: center;
+    color: #94a3b8;
+}
+#paginacion-turnos { min-height: 56px; }

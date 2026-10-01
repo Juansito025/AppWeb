@@ -23,7 +23,6 @@
 }
 
 .data-table tbody tr,
-.tabla-visitas tbody tr,
 .empleado-cuadricula > *,
 .filas-en-cascada > * {
     animation: fila-entrada 0.25s ease both;
@@ -31,33 +30,22 @@
 }
 
 /* ── Transiciones Hover de Elementos y Tarjetas ── */
+/* los hovers no desplazan elementos: mover la tarjeta bajo el cursor la hacia parpadear */
 .data-table tbody tr,
 .tabla-visitas tbody tr,
 .tarjeta-empleado,
-.tarjeta-estadistica,
 .tarjeta-gravedad-registro-infraccion,
 .tarjeta-opcion-registro-infraccion,
 .menu-seleccion li {
-    transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    transition: background-color 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
 .data-table tbody tr:hover,
 .tabla-visitas tbody tr:hover {
-    transform: translateX(2px);
+    background-color: #2473f50d;
 }
 
-.tarjeta-empleado:hover,
-.tarjeta-estadistica:hover {
-    transform: translateY(-4px);
-}
 
-.menu-seleccion li:hover {
-    transform: translateX(3px);
-}
-
-.menu-seleccion li.estado-a:hover {
-    transform: translateX(0);
-}
 
 /* ── Efecto Onda (Ripple) en Botones ── */
 .onda {

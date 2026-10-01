@@ -73,7 +73,19 @@
         'pass-confirmar': 'pass-nueva'
     };
 
+    // limite de caracteres para todo campo que no tenga uno propio
+    var LIMITE_TEXTO = 100, LIMITE_AREA = 500;
+    function limiteBase(el) {
+        if (el._kvLimite) return;
+        el._kvLimite = true;
+        if (el.hasAttribute('maxlength')) return;
+        var tipo = (el.getAttribute('type') || 'text').toLowerCase();
+        if (el.tagName === 'TEXTAREA') el.setAttribute('maxlength', String(LIMITE_AREA));
+        else if (['text', 'email', 'search', 'tel', 'url', 'password'].indexOf(tipo) >= 0) el.setAttribute('maxlength', String(LIMITE_TEXTO));
+    }
+
     function preparar(el) {
+        limiteBase(el);
         if (el._kv) return;
         var t = tipoCampo(el);
         if (!t) return;
@@ -84,7 +96,7 @@
         if (t === 'placa') { el.setAttribute('maxlength', '9'); el.setAttribute('autocapitalize', 'characters'); poner('placeholder', 'P123-456'); el.removeAttribute('pattern'); }
         if (t === 'codigo') { el.setAttribute('maxlength', '6'); el.setAttribute('inputmode', 'numeric'); }
         if (t === 'correo') poner('maxlength', '100');
-        if (t === 'clave' || t === 'confirmar') { poner('maxlength', '100'); }
+        if (t === 'clave' || t === 'confirmar') { poner('maxlength', '100'); el.setAttribute('minlength', '8'); }
         if (t === 'persona') { var max = Number(el.getAttribute('maxlength')) || 0; if (!max || max > 80) el.setAttribute('maxlength', /input-edit/.test(el.id) ? '101' : '50'); }
         if (t === 'vehiculo') poner('maxlength', '20');
         if (t === 'nacimiento') { el.setAttribute('max', hoyISO(0)); poner('min', '1900-01-01'); }
@@ -112,9 +124,7 @@
             case 'correo':
                 return CORREO.test(v) ? '' : 'Escribe un correo válido, por ejemplo nombre@correo.com';
             case 'clave':
-                if (v.length < 8) return 'La contraseña debe tener al menos 8 caracteres';
-                if (!/[A-Za-z]/.test(v) || !/\d/.test(v)) return 'La contraseña debe tener letras y números';
-                return '';
+                return errorContrasena(v);
             case 'confirmar':
                 var otra = document.getElementById(CONFIRMA[el.id] || '');
                 return otra && otra.value !== el.value ? 'Las contraseñas no coinciden' : '';
@@ -301,6 +311,9 @@
     function prepararTodo(raiz) {
         Array.prototype.forEach.call((raiz || document).querySelectorAll('input, textarea'), preparar);
     }
+    document.addEventListener('focusin', function (e) {
+        if (e.target.matches && e.target.matches('input, textarea')) preparar(e.target);
+    }, true);
     document.addEventListener('DOMContentLoaded', function () {
         prepararTodo(document);
         new MutationObserver(function (cambios) {
@@ -311,6 +324,15 @@
     });
 
     // para formularios que guardan sin <form>
+    /** regla unica de contrasena: minimo 8 caracteres, con letras y numeros ('' si es valida) */
+    function errorContrasena(v) {
+        v = String(v || '');
+        if (v.length < 8) return 'La contraseña debe tener al menos 8 caracteres';
+        if (!/[A-Za-z]/.test(v) || !/\d/.test(v)) return 'La contraseña debe tener letras y números';
+        return '';
+    }
+    window.errorContrasena = errorContrasena;
+
     window.KeeperValida = {
         campo: revisarCampo,
         mensaje: function (el) { preparar(el); return mensaje(el); },

@@ -194,6 +194,60 @@ async function apiFetch(endpoint, options = {}) {
     return (resData && typeof resData === 'object' && 'data' in resData) ? resData.data : resData;
 }
 
+/** todas las visitas (lista completa o pagina por pagina, sin pedir paginas grandes) */
+async function obtenerTodasLasVisitas() {
+    const ordenar = (lista) => lista.slice().sort((a, b) => Number(b.idVisitas ?? b.idVisita ?? 0) - Number(a.idVisitas ?? a.idVisita ?? 0));
+    try {
+        const r = await apiFetch('/visitas', { silencioso: true });
+        const lista = Array.isArray(r) ? r : (Array.isArray(r?.content) ? r.content : null);
+        if (lista && lista.length) return ordenar(lista);
+    } catch (_) { /* se intenta con el paginado */ }
+
+    const TAM = 10; // tamano que la api acepta
+    const todas = [];
+    for (let pagina = 0; pagina < 500; pagina++) {
+        const r = await apiFetch(`/visitas/paginado?page=${pagina}&size=${TAM}`, { silencioso: true });
+        const contenido = Array.isArray(r) ? r : (Array.isArray(r?.content) ? r.content : []);
+        todas.push(...contenido);
+        const meta = (r && typeof r.page === 'object') ? r.page : (r || {});
+        const totalPaginas = Number(meta.totalPages ?? 0);
+        if (!contenido.length || contenido.length < TAM || (totalPaginas && pagina + 1 >= totalPaginas)) break;
+    }
+    return ordenar(todas);
+}
+
+/** gravedades de infraccion: id y nombre sin importar como los nombre la api */
+function idGravedad(g) {
+    if (!g) return null;
+    return g.idGravedadInfraccion ?? g.idGravedad ?? g.idTipoInfraccion ?? g.idGravedadInfracciones ?? g.id ?? null;
+}
+function nombreGravedad(g) {
+    if (!g) return '';
+    return String(g.nombreGravedadInfraccion ?? g.nombreGravedad ?? g.nombreTipoInfraccion ?? g.nombre ?? '').trim();
+}
+/** id de la gravedad guardada en una infraccion (acepta id plano u objeto) */
+function fkGravedadDe(inf) {
+    if (!inf) return null;
+    const v = inf.fkTipoInfraccion ?? inf.fkGravedadInfraccion ?? inf.fkGravedad ?? inf.gravedadInfraccion ?? inf.tipoInfraccion ?? null;
+    return (v && typeof v === 'object') ? idGravedad(v) : v;
+}
+/** nombre de la gravedad de una infraccion buscando en el catalogo */
+function gravedadDeInfraccion(inf, gravedades = []) {
+    const v = inf?.fkTipoInfraccion ?? inf?.fkGravedadInfraccion ?? inf?.gravedadInfraccion ?? null;
+    if (v && typeof v === 'object' && nombreGravedad(v)) return nombreGravedad(v);
+    const id = fkGravedadDe(inf);
+    const g = (gravedades || []).find(x => id != null && String(idGravedad(x)).toLowerCase() === String(id).toLowerCase());
+    return nombreGravedad(g);
+}
+/** clave normalizada: leve | moderada | grave */
+function claveGravedad(nombre) {
+    const n = String(nombre || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    if (/^(lev|baj|men)/.test(n)) return 'leve';
+    if (/^(mod|med)/.test(n)) return 'moderada';
+    if (/^(grav|alt|may|sev)/.test(n)) return 'grave';
+    return n;
+}
+
 /** sesion */
 const CredentialsStore = {
     async validateLogin(email, password) {
@@ -462,9 +516,15 @@ if (typeof window !== 'undefined') {
     window.CredentialsStore = CredentialsStore;
     window.limpiarSesionLocal = limpiarSesionLocal;
     window.AuthService = AuthService;
+    window.obtenerTodasLasVisitas = obtenerTodasLasVisitas;
+    window.idGravedad = idGravedad;
+    window.nombreGravedad = nombreGravedad;
+    window.claveGravedad = claveGravedad;
+    window.fkGravedadDe = fkGravedadDe;
+    window.gravedadDeInfraccion = gravedadDeInfraccion;
 
     // Accesos directos convenientes para componentes reactivos
-    window.getVisitas = async () => await apiFetch('/visitas/paginado?page=0&size=10');
+    window.getVisitas = obtenerTodasLasVisitas;
     window.getPersonas = async () => await apiFetch('/personas');
     window.getPropiedades = async () => await apiFetch('/propiedades');
     window.getPasesQR = async () => await apiFetch('/paseAccesoQR');

@@ -148,17 +148,20 @@ async function cargarDatosDashboard() {
 function animarContador(el, objetivo) {
     if (!el) return;
     const target = Number(objetivo) || 0;
-    if (target === 0) {
-        el.textContent = '0';
+    if (target === 0 || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.textContent = String(target);
         return;
     }
-    let actual = 0;
-    const paso = Math.max(1, Math.ceil(target / 20));
-    const temporizador = setInterval(() => {
-        actual = Math.min(actual + paso, target);
-        el.textContent = actual;
-        if (actual >= target) clearInterval(temporizador);
-    }, 25);
+    // una sola animacion por cuadro (antes: un intervalo cada 25 ms por tarjeta)
+    const inicio = performance.now();
+    const duracion = 500;
+    const paso = (ahora) => {
+        const t = Math.min(1, (ahora - inicio) / duracion);
+        const valor = Math.round(target * (1 - Math.pow(1 - t, 3)));
+        if (el.textContent !== String(valor)) el.textContent = String(valor);
+        if (t < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
 }
 
 function esAceptado(v) {
@@ -223,11 +226,9 @@ function aplicarFiltroCard(filtro) {
     if (filtro === 'rechazados') cardRechazados?.classList.add('activo');
     if (filtro === 'vehiculos') cardVehiculos?.classList.add('activo');
 
-    // Mostrar / Ocultar secciones de tablas según el card seleccionado
-    if (secProgramadas) secProgramadas.classList.toggle('oculto-card', filtro === 'aceptados' || filtro === 'rechazados');
-    if (secNoProgramadas) secNoProgramadas.classList.toggle('oculto-card', filtro === 'aceptados' || filtro === 'rechazados');
-    if (secRechazados) secRechazados.classList.toggle('oculto-card', filtro === 'aceptados');
-    if (secAceptados) secAceptados.classList.toggle('oculto-card', filtro === 'rechazados');
+    // las secciones se quedan en su lugar; la tarjeta solo filtra las filas
+    [cardTotales, cardAceptados, cardRechazados, cardVehiculos].forEach(c => c?.setAttribute('aria-pressed', 'false'));
+    ({ totales: cardTotales, aceptados: cardAceptados, rechazados: cardRechazados, vehiculos: cardVehiculos })[filtro]?.setAttribute('aria-pressed', 'true');
 
     renderizarTablasVisitas();
 }
@@ -306,10 +307,11 @@ function renderizarTablasVisitas() {
         return !termino || nom.includes(termino) || resi.includes(termino) || est.includes(termino);
     });
 
-    // Si el card seleccionado es vehículos, filtramos solo los vehiculares
-    if (filtroCardActual === 'vehiculos') {
-        filtradas = filtradas.filter(esVehicular);
-    }
+    // filtro de la tarjeta seleccionada
+    if (filtroCardActual === 'vehiculos') filtradas = filtradas.filter(esVehicular);
+    if (filtroCardActual === 'aceptados') filtradas = filtradas.filter(esAceptado);
+    if (filtroCardActual === 'rechazados') filtradas = filtradas.filter(esRechazado);
+    const sufijoFiltro = { totales: '', aceptados: ' aceptadas', rechazados: ' rechazadas', vehiculos: ' vehiculares' }[filtroCardActual] || '';
 
     // visitas programadas y no programadas
     const hoyISO = fechaLocalISO();
@@ -322,7 +324,7 @@ function renderizarTablasVisitas() {
     // 1. Tabla: Visitas Programadas (5 columnas uniformes con paginación)
     if (cuerpoProgramadas) {
         if (programadas.length === 0) {
-            cuerpoProgramadas.innerHTML = `<tr><td colspan="5" class="tabla-vacia" style="text-align:center; padding:24px;">No hay visitas programadas ${escapeHtml(filtroCardActual === 'vehiculos' ? 'vehiculares' : '')}.</td></tr>`;
+            cuerpoProgramadas.innerHTML = `<tr><td colspan="5" class="tabla-vacia" style="text-align:center; padding:24px;">No hay visitas programadas${escapeHtml(sufijoFiltro)}.</td></tr>`;
             renderizarPaginacionVisitas('paginacion-programadas', 1, 0, () => {});
         } else {
             const totalPaginasProg = Math.ceil(programadas.length / ITEMS_POR_PAGINA_VISITAS) || 1;
@@ -358,7 +360,7 @@ function renderizarTablasVisitas() {
     // 2. Tabla: Visitas No Programadas (5 columnas con paginación)
     if (cuerpoNoProgramadas) {
         if (noProgramadas.length === 0) {
-            cuerpoNoProgramadas.innerHTML = `<tr><td colspan="5" class="tabla-vacia" style="text-align:center; padding:24px;">No se registran visitas no programadas ${escapeHtml(filtroCardActual === 'vehiculos' ? 'vehiculares' : '')}.</td></tr>`;
+            cuerpoNoProgramadas.innerHTML = `<tr><td colspan="5" class="tabla-vacia" style="text-align:center; padding:24px;">No se registran visitas no programadas${escapeHtml(sufijoFiltro)}.</td></tr>`;
             renderizarPaginacionVisitas('paginacion-noprogramadas', 1, 0, () => {});
         } else {
             const totalPaginasNoProg = Math.ceil(noProgramadas.length / ITEMS_POR_PAGINA_VISITAS) || 1;
@@ -393,7 +395,7 @@ function renderizarTablasVisitas() {
     // 3 accesos rechazados
     if (cuerpoRechazados) {
         if (rechazados.length === 0) {
-            cuerpoRechazados.innerHTML = `<tr><td colspan="4" class="tabla-vacia" style="text-align:center; padding:24px;">No hay accesos rechazados registrados.</td></tr>`;
+            cuerpoRechazados.innerHTML = `<tr><td colspan="4" class="tabla-vacia" style="text-align:center; padding:24px;">${filtroCardActual === 'aceptados' ? 'El filtro actual solo muestra accesos aceptados.' : 'No hay accesos rechazados registrados.'}</td></tr>`;
             renderizarPaginacionVisitas('paginacion-rechazados', 1, 0, () => {});
         } else {
             const totalPaginasRech = Math.ceil(rechazados.length / ITEMS_POR_PAGINA_VISITAS) || 1;
@@ -450,7 +452,7 @@ function renderizarTablasVisitas() {
     // 4. Tabla: Accesos Programados Aceptados (5 columnas uniformes y paginación)
     if (cuerpoAceptados) {
         if (aceptados.length === 0) {
-            cuerpoAceptados.innerHTML = `<tr><td colspan="5" class="tabla-vacia" style="text-align:center; padding:24px;">No hay accesos programados aceptados ${escapeHtml(filtroCardActual === 'vehiculos' ? 'vehiculares' : '')}.</td></tr>`;
+            cuerpoAceptados.innerHTML = `<tr><td colspan="5" class="tabla-vacia" style="text-align:center; padding:24px;">${filtroCardActual === 'rechazados' ? 'El filtro actual solo muestra accesos rechazados.' : `No hay accesos programados aceptados${escapeHtml(sufijoFiltro)}.`}</td></tr>`;
             renderizarPaginacionVisitas('paginacion-aceptados', 1, 0, () => {});
         } else {
             const totalPaginasAcept = Math.ceil(aceptados.length / ITEMS_POR_PAGINA_VISITAS) || 1;

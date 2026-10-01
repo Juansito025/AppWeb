@@ -545,9 +545,13 @@ async function guardarResidente() {
         return;
     }
 
-    if (!id && (!password || password.length < 8)) {
-        if (window.Swal) Swal.fire('Contraseña requerida', 'La contraseña debe tener al menos 8 caracteres.', 'warning');
-        return;
+    // al crear es obligatoria; al editar solo se valida si se escribio una nueva
+    if (!id || password) {
+        const errorPass = window.errorContrasena ? window.errorContrasena(password) : (String(password || '').length < 8 ? 'La contraseña debe tener al menos 8 caracteres.' : '');
+        if (errorPass) {
+            if (window.Swal) Swal.fire(!id && !password ? 'Contraseña requerida' : 'Contraseña no válida', errorPass + '.', 'warning');
+            return;
+        }
     }
 
     if (tipo !== 'Propietario' && !idResponsable) {

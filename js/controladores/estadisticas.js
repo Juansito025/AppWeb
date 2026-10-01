@@ -164,8 +164,7 @@ function pintar() {
 
     // infracciones por gravedad
     const orden = ['leve', 'moderada', 'grave'];
-    const nombreGravedad = new Map(datos.gravedades.map(g => [String(g.idGravedadInfraccion), String(g.nombreGravedadInfraccion || '').toLowerCase()]));
-    const cg = contar(datos.infracciones, i => nombreGravedad.get(String(i.fkTipoInfraccion)) || 'sin dato');
+    const cg = contar(datos.infracciones, i => window.claveGravedad(window.gravedadDeInfraccion(i, datos.gravedades)) || 'sin dato');
     const etiquetasGrav = orden.map(g => g.charAt(0).toUpperCase() + g.slice(1));
     dibujar('graf-infr-gravedad', 'barras', {
         etiquetas: etiquetasGrav, valores: orden.map(g => cg.get(g) || 0), colores: COLOR.ordinal
