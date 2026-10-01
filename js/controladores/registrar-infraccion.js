@@ -367,9 +367,10 @@ async function confirmarInfraccion() {
 
         // gravedad
         const gravedades = await InfraccionesService.obtenerGravedades();
-        const gravedad = gravedades.find(g => String(g.nombreGravedadInfraccion || '').toLowerCase() === String(gravedadActual).toLowerCase());
+        const gravedad = gravedades.find(g => window.claveGravedad(window.nombreGravedad(g)) === gravedadActual);
         if (!gravedad) throw new Error(`La gravedad "${gravedadActual}" no existe en la base de datos.`);
-        const idGravedad = gravedad.idGravedadInfraccion;
+        const idGravedad = window.idGravedad(gravedad);
+        if (idGravedad == null) throw new Error('La gravedad seleccionada no tiene un identificador válido en la API.');
 
         // 1 empleado que registra
         const yo = await window.CredentialsStore.verificarSesion();

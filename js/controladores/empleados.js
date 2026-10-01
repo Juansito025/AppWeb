@@ -10,6 +10,7 @@ import {
 } from '../servicios/empleadosService.js';
 
 import { getLugaresTrabajo } from '../servicios/lugarTrabajoService.js';
+import { getTurnos, getDetalleTurnos, createDetalleTurno, actualizarDetalleTurno, deleteDetalleTurno } from '../servicios/turnosService.js';
 import { getRoles } from '../servicios/rolesService.js';
 import { createTarea } from '../servicios/tareasService.js';
 import { createNotificacion } from '../servicios/notificacionesService.js';
@@ -20,6 +21,8 @@ function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({ '&':'&amp
 let empleados = [];
 let roles = [];
 let casetas = [];
+let turnos = [];
+let detallesTurnos = [];
 let busqueda = '';
 let filtroEstado = 'all';
 let paginaActual = 1;
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await Promise.all([
         cargarRoles(),
         cargarCasetas(),
+        cargarTurnos(),
         cargarEmpleados()
     ]);
 
@@ -95,6 +99,97 @@ async function cargarCasetas() {
         casetas = [];
     }
     poblarSelectsCasetas();
+}
+
+async function cargarTurnos() {
+    try {
+        const [resTurnos, resDetalles] = await Promise.all([
+            getTurnos().catch(() => []),
+            getDetalleTurnos().catch(() => [])
+        ]);
+        turnos = Array.isArray(resTurnos) ? resTurnos : [];
+        detallesTurnos = Array.isArray(resDetalles) ? resDetalles : [];
+    } catch (e) {
+        turnos = [];
+        detallesTurnos = [];
+    }
+    poblarSelectsTurnos();
+}
+
+async function recargarDetallesTurnos() {
+    detallesTurnos = await getDetalleTurnos().catch(() => detallesTurnos);
+}
+
+function poblarSelectsTurnos() {
+    ['agregar-turno', 'detalle-turno'].forEach(idSel => {
+        const sel = document.getElementById(idSel);
+        if (!sel) return;
+        sel.innerHTML = '<option value="">Seleccionar turno...</option>';
+        turnos.forEach(t => {
+            const id = t.idTurno || t.id;
+            const opt = document.createElement('option');
+            opt.value = id;
+            opt.textContent = `${t.nombreTurno || t.nombre || `Turno #${id}`} (${t.horaInicio || ''} - ${t.horaSalida || ''})`;
+            sel.appendChild(opt);
+        });
+        if (window.sincronizarSelectCustom) window.sincronizarSelectCustom(sel);
+    });
+}
+
+/** asignacion actual del empleado (detalle de turno con caseta) */
+function asignacionDe(idEmpleado) {
+    return detallesTurnos.find(d => String(d.fkEmpleado).toLowerCase() === String(idEmpleado).toLowerCase() && d.fkLugar != null) || null;
+}
+
+function nombreCasetaDe(idCaseta) {
+    const c = casetas.find(x => String(x.idLugarTrabajo || x.idCasetas || x.id) === String(idCaseta));
+    return c ? (c.nombreLugar || c.nombreCaseta || `Caseta #${idCaseta}`) : '';
+}
+
+/** lee caseta y turno de un formulario; si hay un solo turno se usa ese */
+function leerAsignacion(prefijo) {
+    const caseta = document.getElementById(`${prefijo}-caseta`)?.value || '';
+    let turno = document.getElementById(`${prefijo}-turno`)?.value || '';
+    if (caseta && !turno && turnos.length === 1) turno = String(turnos[0].idTurno || turnos[0].id);
+    return { caseta, turno };
+}
+
+function validarAsignacion({ caseta, turno }) {
+    if (caseta && !turno) {
+        if (window.Swal) Swal.fire('Turno requerido', turnos.length
+            ? 'Para asignar al empleado a una caseta selecciona también el turno.'
+            : 'No hay turnos registrados. Crea un turno en la sección Turnos para poder asignar la caseta.', 'warning');
+        return false;
+    }
+    return true;
+}
+
+/** crea, cambia o quita la asignacion del empleado a una caseta */
+async function guardarAsignacion(idEmpleado, { caseta, turno }, activo) {
+    const actual = asignacionDe(idEmpleado);
+    const estadoturno = activo ? 's' : 'n';
+    if (!caseta) {
+        if (actual) await deleteDetalleTurno(actual.idDetalleTurno || actual.id);
+        return;
+    }
+    const datos = { fkEmpleado: idEmpleado, fkTurno: Number(turno), fkLugar: Number(caseta), estadoturno };
+    if (!actual) {
+        await createDetalleTurno(datos);
+        return;
+    }
+    const cambio = String(actual.fkLugar) !== String(caseta)
+        || String(actual.fkTurno) !== String(turno)
+        || String(actual.estadoturno || 's').toLowerCase() !== estadoturno;
+    if (cambio) await actualizarDetalleTurno(actual.idDetalleTurno || actual.id, datos);
+}
+
+/** id del empleado recien creado (si la api no lo devuelve se busca por correo) */
+async function idEmpleadoCreado(creado, correo) {
+    const directo = creado?.idEmpleado || creado?.id || creado?.data?.idEmpleado;
+    if (directo) return directo;
+    const lista = await getEmpleados().catch(() => []);
+    const emp = lista.find(e => String(e.correoEmpleado || '').toLowerCase() === String(correo).toLowerCase());
+    return emp ? (emp.idEmpleado || emp.id) : null;
 }
 
 async function cargarEmpleados() {
@@ -525,6 +620,12 @@ function configurarModales() {
     if (btnAbrirAgregar) {
         btnAbrirAgregar.onclick = () => {
             if (formAgregar) formAgregar.reset();
+            ['agregar-rol', 'agregar-caseta', 'agregar-turno', 'agregar-de-turno'].forEach(idSel => {
+                const sel = document.getElementById(idSel);
+                if (!sel) return;
+                if (idSel === 'agregar-turno' && turnos.length === 1) sel.value = String(turnos[0].idTurno || turnos[0].id);
+                if (window.sincronizarSelectCustom) window.sincronizarSelectCustom(sel);
+            });
             const fotoPrevia = document.getElementById('agregar-foto-vista-previa-img');
             if (fotoPrevia) { fotoPrevia.src = '../img/logo-Global.png'; fotoPrevia.style.display = 'none'; }
             panelAgregar.classList.add('activo');
@@ -656,6 +757,10 @@ async function guardarNuevoEmpleado() {
 
     if (!fotoSeleccionadaValida('agregar-foto')) return;
 
+    const asignacion = leerAsignacion('agregar');
+    if (!validarAsignacion(asignacion)) return;
+    const activo = (document.getElementById('agregar-de-turno')?.value || 'true') !== 'false';
+
     const rolObj = roles.find(r => String(r.idRol || r.id) === String(idRol)) || { idRol: Number(idRol), nombreRol: 'Vigilante' };
 
     const nuevo = {
@@ -667,6 +772,7 @@ async function guardarNuevoEmpleado() {
         telefonoEmpleado: telefono,
         fechaNacimientoEmpleado: fechaNac,
         fechaInicioContrato: fechaLocalISO(),
+        fechaSalida: activo ? null : fechaLocalISO(),
         fotoUrlEmpleado: null,
         fkRol: { idRol: Number(idRol), nombreRol: rolObj.nombreRol || 'Vigilante' },
         idRol: Number(idRol)
@@ -675,11 +781,29 @@ async function guardarNuevoEmpleado() {
     try {
         if (window.Swal) Swal.showLoading();
         const creado = await createEmpleado(nuevo);
-        const avisoFoto = await subirFotoSiHay('agregar-foto', creado?.idEmpleado || creado?.id);
+        const idNuevo = await idEmpleadoCreado(creado, correo);
+        const avisoFoto = await subirFotoSiHay('agregar-foto', idNuevo);
+
+        // asignar a la caseta elegida para que aparezca en Casetas
+        let avisoCaseta = '';
+        let textoCaseta = '';
+        if (asignacion.caseta) {
+            try {
+                if (!idNuevo) throw new Error('la API no devolvió el id del empleado');
+                await guardarAsignacion(idNuevo, asignacion, activo);
+                textoCaseta = ` Asignado a ${nombreCasetaDe(asignacion.caseta) || 'la caseta seleccionada'}.`;
+            } catch (eAsig) {
+                avisoCaseta = ' Pero no se pudo asignar a la caseta: ' + eAsig.message;
+            }
+        }
+        await recargarDetallesTurnos();
+
+        const aviso = avisoFoto + avisoCaseta;
         panelAgregar.classList.remove('activo');
-        if (window.Swal) Swal.fire(avisoFoto ? 'Guardado con aviso' : '¡Éxito!', 'Empleado registrado correctamente.' + avisoFoto, avisoFoto ? 'warning' : 'success');
+        if (window.Swal) Swal.fire(aviso ? 'Guardado con aviso' : '¡Éxito!', 'Empleado registrado correctamente.' + textoCaseta + aviso, aviso ? 'warning' : 'success');
         await cargarEmpleados();
         poblarSelectsCasetas();
+        poblarSelectsTurnos();
     } catch (err) {
         if (window.Swal) Swal.fire('Error', 'No se pudo registrar el empleado: ' + err.message, 'error');
     }
@@ -720,6 +844,16 @@ async function abrirModalDetalle(id) {
     if (elRol) elRol.value = idRol;
     if (elPass) elPass.value = '';
 
+    // caseta, turno y estado actuales
+    const asig = asignacionDe(empleadoSeleccionado.idEmpleado || empleadoSeleccionado.id);
+    const elCaseta = document.getElementById('detalle-caseta');
+    const elTurno = document.getElementById('detalle-turno');
+    const elEstado = document.getElementById('detalle-de-turno');
+    if (elCaseta) elCaseta.value = asig ? String(asig.fkLugar) : '';
+    if (elTurno) elTurno.value = asig ? String(asig.fkTurno) : '';
+    if (elEstado) elEstado.value = empleadoSeleccionado.fechaSalida ? 'false' : 'true';
+    [elRol, elCaseta, elTurno, elEstado].forEach(sel => { if (sel && window.sincronizarSelectCustom) window.sincronizarSelectCustom(sel); });
+
     const fotoImg = document.getElementById('detalle-foto-vista-previa-img');
     if (fotoImg) {
         fotoImg.src = empleadoSeleccionado.fotoUrlEmpleado || window.AVATAR_DEFECTO;
@@ -743,6 +877,11 @@ async function guardarEdicionEmpleado() {
 
     if (!fotoSeleccionadaValida('detalle-foto')) return;
 
+    const asignacion = leerAsignacion('detalle');
+    if (!validarAsignacion(asignacion)) return;
+    const activo = (document.getElementById('detalle-de-turno')?.value || 'true') !== 'false';
+    const fechaSalida = activo ? null : (empleadoSeleccionado.fechaSalida || fechaLocalISO());
+
     const rolObj = roles.find(r => String(r.idRol || r.id) === String(idRol)) || { idRol: Number(idRol), nombreRol: 'Vigilante' };
 
     const payload = {
@@ -755,7 +894,7 @@ async function guardarEdicionEmpleado() {
         telefonoEmpleado: telefono,
         fechaNacimientoEmpleado: fechaNac,
         fechaInicioContrato: empleadoSeleccionado.fechaInicioContrato || fechaLocalISO(),
-        fechaSalida: empleadoSeleccionado.fechaSalida || null,
+        fechaSalida,
         fotoUrlEmpleado: empleadoSeleccionado.fotoUrlEmpleado,
         fkRol: { idRol: Number(idRol), nombreRol: rolObj.nombreRol || 'Vigilante' },
         idRol: Number(idRol)
@@ -765,8 +904,18 @@ async function guardarEdicionEmpleado() {
         if (window.Swal) Swal.showLoading();
         await actualizarEmpleado(id, payload);
         const avisoFoto = await subirFotoSiHay('detalle-foto', id);
+
+        let avisoCaseta = '';
+        try {
+            await guardarAsignacion(id, asignacion, activo);
+        } catch (eAsig) {
+            avisoCaseta = ' Pero no se pudo actualizar la caseta: ' + eAsig.message;
+        }
+        await recargarDetallesTurnos();
+
+        const aviso = avisoFoto + avisoCaseta;
         panelDetalle.classList.remove('activo');
-        if (window.Swal) Swal.fire(avisoFoto ? 'Actualizado con aviso' : '¡Actualizado!', 'Empleado actualizado correctamente.' + avisoFoto, avisoFoto ? 'warning' : 'success');
+        if (window.Swal) Swal.fire(aviso ? 'Actualizado con aviso' : '¡Actualizado!', 'Empleado actualizado correctamente.' + aviso, aviso ? 'warning' : 'success');
         await cargarEmpleados();
     } catch (err) {
         if (window.Swal) Swal.fire('Error', 'No se pudo actualizar: ' + err.message, 'error');

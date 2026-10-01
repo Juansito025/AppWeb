@@ -230,6 +230,100 @@ function generarCodigoPaseUnico() {
     return `KP-VIS-${timestamp}-${entropy}`;
 }
 
+// ── Pase QR: generar imagen, mostrar y descargar ─────────────────
+/** contenido corto y solo ascii: el escaner solo necesita el id del pase */
+function textoPaseQR(paseId) {
+    return JSON.stringify({ keeper: 'pase-acceso-qr', paseId: String(paseId) });
+}
+
+/** genera el qr en un canvas fuera de pantalla y devuelve un png (data url) */
+function generarImagenQR(texto) {
+    if (typeof QRCode === 'undefined') throw new Error('No se cargó la librería de códigos QR. Revisa tu conexión y recarga la página.');
+    const temporal = document.createElement('div');
+    temporal.style.cssText = 'position:fixed; left:-9999px; top:0;';
+    document.body.appendChild(temporal);
+    try {
+        new QRCode(temporal, {
+            text: texto,
+            width: 320,
+            height: 320,
+            colorDark: '#0a0f1c',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M
+        });
+        const canvas = temporal.querySelector('canvas');
+        if (canvas) {
+            // margen blanco alrededor para que cualquier lector lo detecte
+            const margen = 32;
+            const final = document.createElement('canvas');
+            final.width = canvas.width + margen * 2;
+            final.height = canvas.height + margen * 2;
+            const ctx = final.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, final.width, final.height);
+            ctx.drawImage(canvas, margen, margen);
+            return final.toDataURL('image/png');
+        }
+        const img = temporal.querySelector('img');
+        if (img && img.src) return img.src;
+        throw new Error('El navegador no pudo dibujar el código QR.');
+    } finally {
+        temporal.remove();
+    }
+}
+
+function nombreArchivoSeguro(texto) {
+    return String(texto || 'pase').replace(/[^A-Za-z0-9_-]+/g, '-');
+}
+
+/** muestra el pase con la imagen del qr y un boton de descarga que no cierra el modal */
+async function mostrarPaseQR({ titulo, mensaje, paseId, codigo, archivo, notaPie }) {
+    let imagen = '';
+    let errorQR = '';
+    try {
+        imagen = generarImagenQR(textoPaseQR(paseId));
+    } catch (e) {
+        console.error('Error al generar el QR:', e);
+        errorQR = e.message;
+    }
+    const nombreArchivo = `${nombreArchivoSeguro(archivo)}.png`;
+
+    await Swal.fire({
+        title: titulo,
+        html: `
+            <div style="font-family: inherit; text-align: center;">
+                <p style="color: #94a3b8; font-size: 14px; margin: 0 0 8px;">${mensaje}</p>
+                ${imagen
+                    ? `<div style="display:flex; justify-content:center; align-items:center; margin: 14px auto; padding: 12px; background: #ffffff; border-radius: 14px; width: 204px; height: 204px; box-sizing: border-box;">
+                           <img src="${imagen}" alt="Código QR del pase" width="180" height="180" style="display:block; width:180px; height:180px; image-rendering: pixelated;">
+                       </div>`
+                    : `<p style="color:#f87171; font-size:13px; margin: 14px 0;">No se pudo generar la imagen del QR: ${escapeHtml(errorQR)}</p>`}
+                <div style="font-family: monospace; font-size: 14px; font-weight: bold; color: #60a5fa; letter-spacing: 1px; margin-bottom: 10px; word-break: break-all;">
+                    ${escapeHtml(codigo)}
+                </div>
+                ${imagen
+                    ? `<a href="${imagen}" download="${escapeHtml(nombreArchivo)}" id="swal-descargar-qr"
+                          style="display:inline-flex; align-items:center; gap:8px; padding:9px 16px; border-radius:10px; background:#1a2238; color:#ffffff; font-size:13px; font-weight:600; text-decoration:none; border:1px solid #2473f566; margin-bottom: 12px;">
+                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                           Descargar QR (PNG)
+                       </a>`
+                    : ''}
+                <div>
+                    <span style="display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #f59e0b; color: #1a1300; margin-bottom: 10px;">
+                        PENDIENTE · el residente debe aprobarla en su app
+                    </span>
+                </div>
+                <p style="font-size: 12.5px; color: #64748b; margin: 4px 0 0;">${notaPie}</p>
+            </div>
+        `,
+        confirmButtonText: 'Listo',
+        confirmButtonColor: '#2473F5',
+        background: '#0a0f1c',
+        color: '#ffffff',
+        customClass: { popup: 'swal-keeper', confirmButton: 'btn-guardar' }
+    });
+}
+
 // guardar visita
 async function confirmarRegistro() {
     const select       = document.getElementById('seleccionar-residente');
@@ -299,75 +393,13 @@ async function confirmarRegistro() {
         const capa = document.getElementById('capa');
         if (capa) capa.classList.remove('activo');
         cancelarFormulario();
-        // Crear contenedor temporal para renderizar el QR en SweetAlert
-        const tempDiv = document.createElement('div');
-        tempDiv.id = 'swal-qr-code';
-        tempDiv.style.cssText = 'display:flex; justify-content:center; margin: 15px 0; padding:10px; background:#fff; border-radius:12px;';
-
-        setTimeout(() => {
-            if (typeof QRCode !== 'undefined') {
-                new QRCode(document.getElementById('swal-qr-box'), {
-                    text: JSON.stringify({
-                        keeper: 'pase-acceso-qr',
-                        paseId: paseIdFinal,
-                        Código: codigoGenerado,
-                        visitante: nombre,
-                        dui: dui,
-                        residente: nombreResidente,
-                        transporte: transporte,
-                        Matrícula: Matrícula || '',
-                        Teléfono: Teléfono
-                    }),
-                    width: 140,
-                    height: 140,
-                    colorDark: '#0a0f1c',
-                    colorLight: '#ffffff'
-                });
-            }
-        }, 100);
-
-        await Swal.fire({
-            title: '¡Pase QR Creado!',
-            html: `
-                <div style="font-family: inherit; text-align: center;">
-                    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 8px;">
-                        El pase ha sido enviado al residente <strong>${escapeHtml(nombreResidente)}</strong>.
-                    </p>
-                    <div id="swal-qr-box" style="display:flex; justify-content:center; align-items:center; margin: 16px auto; padding: 12px; background: #ffffff; border-radius: 14px; width: 164px; height: 164px; "></div>
-                    <div style="font-family: monospace; font-size: 15px; font-weight: bold; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px;">
-                        ${escapeHtml(codigoGenerado)}
-                    </div>
-                    <div style="display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #f59e0b; color: #1a1300; margin-bottom: 12px;">
-                        PENDIENTE · el residente debe aprobarla en su app
-                    </div>
-                    <p style="font-size: 12.5px; color: #64748b; margin-top: 4px;">
-                        El residente recibirá la notificación en su celular y al activarlo, el visitante podrá usar este código en caseta.
-                    </p>
-                </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Listo',
-            cancelButtonText: '📥 Descargar QR (PNG)',
-            confirmButtonColor: '#2473F5',
-            cancelButtonColor: '#1a2238',
-            background: '#0a0f1c',
-            color: '#ffffff',
-            customClass: {
-                popup: 'swal-keeper',
-                confirmButton: 'btn-guardar',
-                cancelButton: 'btn-cancelar'
-            }
-        }).then((result) => {
-            if (result.dismiss === Swal.DismissReason.cancel) {
-                // Descargar PNG
-                const img = document.querySelector('#swal-qr-box img');
-                if (img && img.src) {
-                    const a = document.createElement('a');
-                    a.href = img.src;
-                    a.download = `KEEPER-PASE-${codigoGenerado}.png`;
-                    a.click();
-                }
-            }
+        await mostrarPaseQR({
+            titulo: '¡Pase QR Creado!',
+            mensaje: `El pase ha sido enviado al residente <strong>${escapeHtml(nombreResidente)}</strong>.`,
+            paseId: paseIdFinal,
+            codigo: codigoGenerado,
+            archivo: `KEEPER-PASE-${codigoGenerado}`,
+            notaPie: 'El residente recibirá la notificación en su celular y al activarlo, el visitante podrá usar este código en caseta.'
         });
 
     } catch (err) {
@@ -583,72 +615,13 @@ document.addEventListener('DOMContentLoaded', async function () {
                 cerrarEditarRenovar();
                 await cargarVisitas();
 
-                setTimeout(() => {
-                    if (typeof QRCode !== 'undefined') {
-                        const box = document.getElementById('swal-qr-renovar-box');
-                        if (box) {
-                            box.innerHTML = '';
-                            new QRCode(box, {
-                                text: JSON.stringify({
-                                    keeper: 'pase-acceso-qr',
-                                    paseId: paseRenovadoId,
-                                    Código: codigoQrExistente,
-                                    visitante: nombreVal,
-                                    dui: duiVal,
-                                    transporte: transVal,
-                                    Matrícula: matVal,
-                                    Teléfono: telVal
-                                }),
-                                width: 140,
-                                height: 140,
-                                colorDark: '#0a0f1c',
-                                colorLight: '#ffffff'
-                            });
-                        }
-                    }
-                }, 100);
-
-                await Swal.fire({
-                    title: '¡Visita Renovada con Éxito!',
-                    html: `
-                        <div style="font-family: inherit; text-align: center;">
-                            <p style="color: #94a3b8; font-size: 14px; margin-bottom: 8px;">
-                                Se actualizaron los datos del visitante manteniendo su <strong>Código QR Único</strong>.
-                            </p>
-                            <div id="swal-qr-renovar-box" style="display:flex; justify-content:center; align-items:center; margin: 16px auto; padding: 12px; background: #ffffff; border-radius: 14px; width: 164px; height: 164px; "></div>
-                            <div style="font-family: monospace; font-size: 15px; font-weight: bold; color: #60a5fa; letter-spacing: 2px; margin-bottom: 10px;">
-                                ${escapeHtml(codigoQrExistente)}
-                            </div>
-                            <div style="display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; background: #f59e0b; color: #1a1300; margin-bottom: 12px;">
-                                PENDIENTE · el residente debe aprobarla en su app
-                            </div>
-                            <p style="font-size: 12.5px; color: #64748b;">
-                                Los datos fueron sincronizados en el pase. El residente podrá activarlo desde su app móvil.
-                            </p>
-                        </div>
-                    `,
-                    showCancelButton: true,
-                    confirmButtonText: 'Listo',
-                    cancelButtonText: '📥 Descargar QR (PNG)',
-                    confirmButtonColor: '#2473F5',
-                    cancelButtonColor: '#1a2238',
-                    background: '#0a0f1c',
-                    color: '#ffffff',
-                    customClass: {
-                        popup: 'swal-keeper',
-                        confirmButton: 'btn-guardar',
-                        cancelButton: 'btn-cancelar'
-                    }
-                }).then((result) => {
-                    if (result.dismiss === Swal.DismissReason.cancel) {
-                        const img = document.querySelector('#swal-qr-renovar-box img');
-                        if (img && img.src) {
-                            const a = document.createElement('a');
-                            a.href = img.src;
-                            a.download = `KEEPER-PASE-RENOVADO-${escapeHtml(codigoQrExistente)}.png`;
-                            a.click();
-                        }
-                    }
+                await mostrarPaseQR({
+                    titulo: '¡Visita Renovada con Éxito!',
+                    mensaje: 'Se actualizaron los datos del visitante y se generó un nuevo pase QR.',
+                    paseId: paseRenovadoId,
+                    codigo: codigoQrExistente,
+                    archivo: `KEEPER-PASE-RENOVADO-${codigoQrExistente}`,
+                    notaPie: 'Los datos fueron sincronizados en el pase. El residente podrá activarlo desde su app móvil.'
                 });
 
             } catch (err) {

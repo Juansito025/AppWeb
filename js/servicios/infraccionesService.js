@@ -19,8 +19,7 @@ export const InfraccionesService = {
      */
     async obtenerVisitas() {
         try {
-            const data = await apiFetch('/visitas/paginado?page=0&size=10');
-            return Array.isArray(data) ? data : (data?.data || []);
+            return await obtenerTodasLasVisitas();
         } catch (error) {
             console.warn('[InfraccionesService] Error cargando visitas:', error.message);
             return [];
@@ -87,10 +86,14 @@ export const InfraccionesService = {
 
     /** aplicar infraccion */
     async registrarInfraccion(datosInfraccion) {
+        // sin gravedad valida no se guarda (antes caia siempre en 1 = leve)
+        const crudo = datosInfraccion.fkTipoInfraccion;
+        const fkGravedad = /^\d+$/.test(String(crudo ?? '')) ? Number(crudo) : crudo;
+        if (fkGravedad == null || fkGravedad === '') throw new Error('No se pudo identificar la gravedad seleccionada.');
         return await apiFetch('/infracciones', {
             method: 'POST',
             body: {
-                fkTipoInfraccion: datosInfraccion.fkTipoInfraccion || 1,
+                fkTipoInfraccion: fkGravedad,
                 fkIncidente: datosInfraccion.fkIncidente,
                 monto: parseFloat(datosInfraccion.monto || 10.00),
                 estado: datosInfraccion.estado || 'Pendiente'

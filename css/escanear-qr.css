@@ -353,18 +353,82 @@
 
 /* ── Modal de Motivo de Rechazo ── */
 .motivo-modal-card {
-    max-width: 480px;
+    max-width: 460px !important;
     text-align: left;
     align-items: stretch;
-    padding: 34px 30px;
+    gap: 18px !important;
+    padding: 28px 26px !important;
+}
+
+.motivo-encabezado {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.motivo-icono {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ef44441f;
+    border: 1px solid #ef444459;
+    color: #ef4444;
+}
+
+.motivo-titulo {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.25;
+}
+
+.motivo-subtitulo {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--text-secondary, #94a3b8);
+    line-height: 1.45;
 }
 
 .motivo-lista {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 16px;
+    margin: 0;
 }
+
+.motivo-acciones {
+    max-width: none !important;
+    margin: 4px 0 0 !important;
+    gap: 12px !important;
+}
+
+.motivo-acciones button {
+    min-width: 0 !important;
+}
+
+.motivo-acciones .btn-confirmar-rechazo {
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    box-shadow: 0 6px 18px #ef444440 !important;
+}
+
+.motivo-acciones .btn-confirmar-rechazo:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .motivo-titulo { color: #0f172a; }
+[data-theme="light"] .motivo-subtitulo { color: #475569; }
+[data-theme="light"] .motivo-opcion { background: #f8fafc; color: #334155; border-color: #cbd5e1; }
+[data-theme="light"] .motivo-opcion.motivo-seleccionada { background: #fef2f2; color: #0f172a; border-color: #ef4444; }
+[data-theme="light"] .motivo-otro-texto { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
 
 .motivo-opcion {
     display: flex;
@@ -407,7 +471,8 @@
     color: #ffffff;
     font-family: var(--font-primary);
     font-size: 14px;
-    margin-bottom: 20px;
+    margin: 0;
+    box-sizing: border-box;
     outline: none;
 }
 
