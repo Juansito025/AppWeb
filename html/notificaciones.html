@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Keeper</title>
+    <link rel="stylesheet" href="../css/comun.css">
+    <link rel="stylesheet" href="../css/notificaciones.css">
+    <link rel="stylesheet" href="../css/animaciones.css">
+    <link rel="stylesheet" href="../css/tema-claro.css">
+    <link rel="icon" href="../img/logo-Global.png">
+</head>
+<body>
+    
+    <!-- boton de menu -->
+<button class="movil-menu-btn" id="movil-menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="app-barra-lateral">
+    <svg class="movil-menu-icono" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="barra barra-superior"    d="M3 6h18"  stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-medio"    d="M3 12h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-inferior" d="M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+    </svg>
+</button>
+<div class="movil-capa" id="movil-capa"></div>
+ <aside class="barra-lateral" id="app-barra-lateral">
+
+    
+    <div class="contenedor-logotipo">
+        <div class="caja-icono-logotipo">
+            <img src="../img/logo-blanco.png" alt="Keeper" class="logo">
+        </div>
+        <span class="texto-logotipo">keeper</span>
+    </div>
+
+    
+    <div class="carta-usuario">
+        <div class="cabecera-usuario">
+            <svg class="avatar avatar-icono" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="metadatos-usuario">
+                <span class="nombre-usuario"><span class="skeleton"></span></span>
+                <div class="conmutador-modo">
+                    <button class="boton-conmutador activo" id="btn-oscuro" aria-label="Modo oscuro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="boton-conmutador" id="btn-claro" aria-label="Modo claro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h3 class="bienvenido"><span class="skeleton"></span></h3>
+    </div>
+
+    
+    <nav class="menu-seleccion">
+        <ul>
+            <li>
+                <a href="./dashboard.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    Panel Principal
+                </a>
+            </li>
+            <li>
+                <a href="./escanear-qr.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    Escanear entrada QR
+                </a>
+            </li>
+            <li>
+                <a href="./registrar-incidente.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Reportar incidente
+                </a>
+            </li>
+            <li >
+                <a href="./registrar-visita.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    Registrar visita
+                </a>
+            </li>
+            <li class="estado-a">
+                <a href="./notificaciones.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notificaciones</span>
+                    <span class="insignia-notificaciones-menu oculto" id="insignia-notificaciones-menu" style="display:none;">0</span>
+                </a>
+            </li>
+            <li>
+                <a href="./propiedades.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Propiedades
+                </a>
+            </li>
+            <li>
+                <a href="./casetas.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22V12h6v10"/><path d="M4 8h16"/><circle cx="12" cy="5" r="1"/></svg>
+                    Casetas
+                </a>
+            </li>
+            <li>
+                <a href="./empleados.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Empleados
+                </a>
+            </li>
+            <li>
+                <a href="./residentes.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Residentes
+                </a>
+            </li>
+            <li>
+                <a href="./turnos.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Turnos
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    
+    <button class="btn-secondary" id="btn-cerrar-sesion">
+        <div class="cerrar-sesion-icono-contenedor">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <span>Cerrar sesión</span>
+    </button>
+</aside>
+
+<div id="modal-cerrar-sesion" class="capa-modal">
+    <div class="tarjeta-modal">
+        <div class="icono-modal">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <p class="texto-modal">¿Desea cerrar sesión?</p>
+        <div class="acciones-modal">
+            <button id="boton-cancelar" class="boton-cancelar" type="button">Cancelar</button>
+            <button id="boton-aceptar" class="boton-aceptar" type="button">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<main class="contenido-principal">
+    <div class="contenido-envoltura">
+
+        <div class="page-encabezado" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="page-encabezado-icono" style="color:#2473F5; flex-shrink: 0;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <div>
+                    <h1 class="page-titulo" style="margin:0;">Centro de Comunicación</h1>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="btn-primary" id="btn-abrir-redactar-notif" type="button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Redactar Notificación
+                </button>
+            </div>
+        </div>
+        
+        <div class="notif-filtro-barra">
+
+            <div class="caja-busqueda">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-busqueda"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="notif-busqueda" placeholder="Buscar notificaciones...">
+            </div>
+
+            
+            <div class="notif-tabs">
+
+                
+                <button class="notif-tab activo" data-tab="todas">
+                    Todas
+                    <span class="etiqueta-pestana activo-insignia" id="insignia-todas">0</span>
+                </button>
+
+                <button class="notif-tab" data-tab="mis-notificaciones" id="tab-mis-notificaciones">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Solo para mí
+                    <span class="etiqueta-pestana" id="insignia-mis-notificaciones">0</span>
+                </button>
+
+                <button class="notif-tab" data-tab="sin-leer">
+                    Sin leer
+                    <span class="etiqueta-pestana" id="insignia-sin-leer">0</span>
+                </button>
+
+                
+                <button class="notif-tab" data-tab="alertas">
+                    Alertas
+                    <span class="etiqueta-pestana alerta-insignia" id="insignia-alertas">0</span>
+                </button>
+
+                
+                <button class="notif-tab" data-tab="informativas">
+                    Informativas
+                    <span class="etiqueta-pestana" id="insignia-informativas">0</span>
+                </button>
+
+            </div>
+
+            
+            <button class="btn-secondary btn-marcar-todo" id="btn-marcar-todo" type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><polyline points="20 6 9 17 4 12"/></svg>
+                Marcar todo leído
+            </button>
+        </div>
+        
+
+        <div class="notif-lista" id="notif-lista"></div>
+        <div class="paginacion-contenedor" id="paginacion-notificaciones"></div>
+
+        
+
+    </div>
+</main>
+
+<footer class="pie-pagina">
+    <img src="../img/logo-blanco.png" alt="Keeper" class="logotipo-pie-pagina">
+    <span class="texto-pie-pagina">© 2026 <strong>keeper</strong>. Todos los derechos reservados.</span>
+</footer>
+
+<!-- MODAL REDACTAR NOTIFICACIÓN -->
+<div id="panel-redactar-notif" class="panel-capa modal-notif-backdrop">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="modal-icono-badge" style="background:#2563eb; border:none; box-shadow: 0 4px 14px rgba(37,99,235,0.4);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+            <div class="panel-encabezado-texto">
+                <h3>Redactar Notificación</h3>
+                <p>Enviar un mensaje o alerta a usuarios del sistema</p>
+            </div>
+            <button class="panel-cerrar btn-cerrar-modal" id="btn-cerrar-redactar-notif" type="button" aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-redactar-notif" class="panel-cuerpo">
+            <label class="panel-etiqueta">Destinatario *</label>
+            <div class="selector-desplegable" id="desplegable-destino">
+                <div class="gatillo-desplegable" id="gatillo-destino">
+                    <span class="texto-gatillo" id="texto-destino">Todos los usuarios (Difusión general)</span>
+                    <svg class="flecha-gatillo" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="panel-desplegable" id="panel-destino">
+                    <div class="buscador-desplegable">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="input-buscar-destinatario" placeholder="Buscar empleado..." autocomplete="off">
+                    </div>
+                    <div class="opciones-lista-scroll" id="lista-opciones-destino">
+                        <!-- Generado dinámicamente: Máximo 5 visibles -->
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="redactar-destino" value="todos">
+
+            <div class="dos-col" style="margin-top: 16px;">
+                <div>
+                    <label class="panel-etiqueta" for="redactar-tipo">Tipo de Notificación *</label>
+                    <select class="seleccion-formulario" id="redactar-tipo" required>
+                        <option value="informativa">Informativa</option>
+                        <option value="alerta">Alerta</option>
+                        <option value="urgente">Urgente</option>
+                        <option value="resuelta">Resuelta</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="redactar-titulo">Asunto / Título *</label>
+                    <input class="panel-entrada" type="text" id="redactar-titulo" maxlength="100" placeholder="Ej. Cambio de guardia" required>
+                </div>
+            </div>
+
+            <label class="panel-etiqueta" for="redactar-mensaje">Mensaje detallado *</label>
+            <textarea class="panel-entrada" id="redactar-mensaje" maxlength="500" rows="4" placeholder="Escribe el contenido del mensaje o alerta aquí..." required></textarea>
+
+            <div class="panel-actions">
+                <button type="button" class="btn-cancelar" id="btn-cancelar-redactar-notif">Cancelar</button>
+                <button type="submit" class="btn-guardar">Enviar Notificación</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL DETALLE DE NOTIFICACIÓN -->
+<div id="panel-detalle-notif" class="panel-capa modal-notif-backdrop">
+    <div class="panel-card modal-detalle-card">
+        <div class="modal-detalle-header">
+            <div class="modal-icono-badge" id="detalle-notif-icono" style="background: #2563eb; border: none;">
+                <svg id="detalle-notif-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+            </div>
+            <div class="modal-header-info">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <h3 id="detalle-notif-titulo">Detalle de Notificación</h3>
+                    <span id="detalle-notif-tipo-badge" class="modal-tipo-pill" style="background:#2563eb; color:#ffffff; border:none;">Informativa</span>
+                </div>
+                <span style="font-size: 11.5px; color: #94a3b8; display: block; margin-top: 2px;">Centro de Notificaciones Keeper</span>
+            </div>
+            <button class="panel-cerrar btn-cerrar-modal" id="btn-cerrar-detalle-notif" type="button" aria-label="Cerrar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+
+        <div class="modal-detalle-body">
+            <!-- Mensaje -->
+            <div class="modal-seccion-mensaje">
+                <div class="modal-seccion-titulo">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>Mensaje Completo</span>
+                </div>
+                <p id="detalle-notif-mensaje" class="modal-mensaje-texto"></p>
+            </div>
+
+            <!-- Metadatos Destinatario / Fecha -->
+            <div class="modal-grid-metas">
+                <div class="modal-meta-card">
+                    <div class="modal-meta-header">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span>Destinatario</span>
+                    </div>
+                    <div id="detalle-notif-destinatario" class="modal-meta-valor destacado-azul">—</div>
+                </div>
+                <div class="modal-meta-card">
+                    <div class="modal-meta-header">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>Fecha y Hora</span>
+                    </div>
+                    <div id="detalle-notif-fecha" class="modal-meta-valor">—</div>
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div class="modal-estado-card">
+                <span style="font-size: 13px; color: #cbd5e1; font-weight: 500;">Estado de lectura:</span>
+                <span id="detalle-notif-estado-badge" class="modal-estado-pill">—</span>
+            </div>
+
+            <!-- Botón Entendido -->
+            <div style="margin-top: 4px;">
+                <button type="button" class="btn-modal-cerrar-principal" id="btn-entendido-detalle-notif">Entendido</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/Recursos/comun.js"></script>
+    <script src="../js/Recursos/animaciones.js"></script><script src="../js/Recursos/validaciones.js?v=2"></script>
+    <script src="../js/servicios/api-config.js"></script>
+    <script type="module" src="../js/controladores/notificaciones.js"></script>
+</body>
+</html>
+
+
+

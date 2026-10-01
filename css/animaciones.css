@@ -1,0 +1,78 @@
+/* animaciones */
+
+/* ── Accesibilidad: Reducción de movimiento ── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* contenido */
+
+/* ── Entrada de Vistas y Elementos ── */
+@keyframes aparecer-arriba {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fila-entrada {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.data-table tbody tr,
+.tabla-visitas tbody tr,
+.empleado-cuadricula > *,
+.filas-en-cascada > * {
+    animation: fila-entrada 0.25s ease both;
+    animation-delay: calc(var(--i, 0) * 30ms);
+}
+
+/* ── Transiciones Hover de Elementos y Tarjetas ── */
+.data-table tbody tr,
+.tabla-visitas tbody tr,
+.tarjeta-empleado,
+.tarjeta-estadistica,
+.tarjeta-gravedad-registro-infraccion,
+.tarjeta-opcion-registro-infraccion,
+.menu-seleccion li {
+    transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.data-table tbody tr:hover,
+.tabla-visitas tbody tr:hover {
+    transform: translateX(2px);
+}
+
+.tarjeta-empleado:hover,
+.tarjeta-estadistica:hover {
+    transform: translateY(-4px);
+}
+
+.menu-seleccion li:hover {
+    transform: translateX(3px);
+}
+
+.menu-seleccion li.estado-a:hover {
+    transform: translateX(0);
+}
+
+/* ── Efecto Onda (Ripple) en Botones ── */
+.onda {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: efecto-onda 0.45s ease-out;
+    background: #ffffff38;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes efecto-onda {
+    to {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}

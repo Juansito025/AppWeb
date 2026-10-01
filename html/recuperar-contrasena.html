@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEEPER | Recuperar Contraseña</title>
+    <link rel="stylesheet" href="../css/comun.css">
+    <link rel="stylesheet" href="../css/registrarse.css?v=20260927-1">
+    <link rel="stylesheet" href="../css/animaciones.css">
+    <link rel="stylesheet" href="../css/tema-claro.css">
+    <link rel="icon" href="../img/logo-Global.png">
+</head>
+<body>
+    <!-- Conmutador de Modo Fijo -->
+    <div class="conmutador-modo">
+        <button class="boton-conmutador" id="btn-oscuro" aria-label="Modo oscuro">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/></svg>
+        </button>
+        <button class="boton-conmutador" id="btn-claro" aria-label="Modo claro">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5" fill="currentColor"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+    </div>
+
+    <!-- Logo Superior KEEPER Fijo -->
+    <header class="superior-logo">
+        <img src="../img/logo-blanco.png" alt="Logo" class="logo">
+        <span>keeper</span>
+    </header>
+
+    <!-- Fondo de Cuadrícula Cyber -->
+    <div class="bg-cuadricula" aria-hidden="true"></div>
+
+    <!-- Gran Tarjeta Split-Screen Flotante -->
+    <div class="tarjeta-auth-split">
+        <!-- Columna Izquierda: Formulario de Recuperación -->
+        <div class="auth-panel-formulario">
+            <form class="formulario-registro" id="recuperar-form" autocomplete="off">
+                <div class="card-encabezado">
+                    <div class="card-encabezado-resplandor" aria-hidden="true"></div>
+                    <img src="../img/logo-blanco.png" alt="Keeper" class="logotipo-registro">
+                    <h2 class="titulo-registro">Recuperación</h2>
+                    <p class="subtitulo-registro" id="subtitulo-paso">Ingresa tu correo para buscar tu cuenta</p>
+                </div>
+
+                <!-- Paso 1: Correo electrónico -->
+                <div class="seccion-formulario" id="paso-1">
+                    <div class="fila-formulario">
+                        <label class="etiqueta-input" for="recuperar-correo">Correo electrónico</label>
+                        <div class="envoltura-icono-entrada">
+                            <span class="icono-principal-entrada" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </span>
+                            <input class="control-formulario" type="email" id="recuperar-correo" placeholder="ejemplo@correo.com" maxlength="100" required>
+                        </div>
+                    </div>
+                    <button class="boton-enviar" type="button" id="btn-siguiente-1">
+                        <span class="texto-boton-enviar">Enviar código</span>
+                        <svg class="flecha-boton-enviar" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </div>
+
+                <!-- Paso 2: Código de 6 dígitos -->
+                <div class="seccion-formulario" id="paso-2" style="display: none;">
+                    <div class="etiqueta-seccion">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>Código de Seguridad</span>
+                    </div>
+                    <div class="fila-formulario">
+                        <div class="envoltura-icono-entrada">
+                            <span class="icono-principal-entrada" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <input class="control-formulario" type="text" id="recuperar-Codigo" placeholder="Código de 6 dígitos" maxlength="6" pattern="\d{6}" style="letter-spacing: 4px; font-size: 1.1rem; text-align: center;" required>
+                        </div>
+                    </div>
+                    <button class="boton-enviar" type="button" id="btn-siguiente-2">
+                        <span class="texto-boton-enviar">Verificar código</span>
+                        <svg class="flecha-boton-enviar" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                    <div style="text-align: center; margin-top: 8px;">
+                        <button type="button" id="btn-reenviar-Codigo" style="background: none; border: none; color: #2473F5; font-size: 13.5px; cursor: pointer; text-decoration: none; padding: 6px 12px; font-weight: 600;">
+                            ¿No te llegó el código? <span style="text-decoration: underline;">Reenviar código</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 3: Nueva contraseña -->
+                <div class="seccion-formulario" id="paso-3" style="display: none;">
+                    <div class="etiqueta-seccion">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span>Nueva Contraseña</span>
+                    </div>
+                    <div class="fila-formulario">
+                        <div class="envoltura-icono-entrada">
+                            <span class="icono-principal-entrada" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <input class="control-formulario" type="password" id="nuevo-contrasena" placeholder="Nueva contraseña (mín. 8)" minlength="8" maxlength="100" required>
+                            <button type="button" class="icono-boton" id="alternar-nuevo-contrasena" aria-label="Mostrar contraseña" data-target="nuevo-contrasena">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8892a8" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="fila-formulario">
+                        <div class="envoltura-icono-entrada">
+                            <span class="icono-principal-entrada" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </span>
+                            <input class="control-formulario" type="password" id="confirmar-nuevo-contrasena" placeholder="Confirmar contraseña" minlength="8" maxlength="100" required>
+                            <button type="button" class="icono-boton" id="alternar-confirmar-contrasena" aria-label="Mostrar contraseña" data-target="confirmar-nuevo-contrasena">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8892a8" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="boton-enviar" type="submit" id="btn-finalizar">
+                        <span class="texto-boton-enviar">Actualizar contraseña</span>
+                        <svg class="flecha-boton-enviar" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </div>
+
+                <div class="divisor-formulario">
+                    <span>o</span>
+                </div>
+
+                <div class="opciones-formulario">
+                    <a href="../Index.html">Volver al <strong>Inicio de sesión</strong></a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Columna Derecha: Showcase Ilustrado -->
+        <div class="auth-panel-showcase">
+            <div class="auth-showcase-contenido">
+                <img src="../img/ilustracion claro.svg" alt="Keeper Ilustración" class="auth-ilustracion ilustracion-claro">
+                <img src="../img/ilustracion oscuro.svg" alt="Keeper Ilustración" class="auth-ilustracion ilustracion-oscuro">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/Recursos/animaciones.js"></script><script src="../js/Recursos/validaciones.js?v=2"></script>
+    <script src="../js/Recursos/comun.js"></script>
+    <script src="../js/servicios/api-config.js"></script>
+    <script src="../js/controladores/recuperar-contrasena.js"></script>
+</body>
+</html>

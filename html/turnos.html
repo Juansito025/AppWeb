@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turnos | Keeper</title>
+    <link rel="stylesheet" href="../css/comun.css">
+    <link rel="stylesheet" href="../css/turnos.css">
+    <link rel="stylesheet" href="../css/animaciones.css">
+    <link rel="stylesheet" href="../css/tema-claro.css">
+    <link rel="icon" href="../img/logo-Global.png">
+
+</head>
+<body>
+    
+    <div class="bg-cuadricula" aria-hidden="true"></div>
+
+    
+    <!-- boton de menu -->
+<button class="movil-menu-btn" id="movil-menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="app-barra-lateral">
+    <svg class="movil-menu-icono" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="barra barra-superior"    d="M3 6h18"  stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-medio"    d="M3 12h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-inferior" d="M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+    </svg>
+</button>
+<div class="movil-capa" id="movil-capa"></div>
+   <aside class="barra-lateral" id="app-barra-lateral">
+
+    <div class="contenedor-logotipo">
+        <div class="caja-icono-logotipo">
+            <img src="../img/logo-blanco.png" alt="Keeper" class="logo">
+        </div>
+        <span class="texto-logotipo">keeper</span>
+    </div>
+
+    <div class="carta-usuario">
+        <div class="cabecera-usuario">
+            <svg class="avatar avatar-icono" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="metadatos-usuario">
+                <span class="nombre-usuario"><span class="skeleton"></span></span>
+                <div class="conmutador-modo">
+                    <button class="boton-conmutador activo" id="btn-oscuro" aria-label="Modo oscuro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="boton-conmutador" id="btn-claro" aria-label="Modo claro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h3 class="bienvenido"><span class="skeleton"></span></h3>
+    </div>
+
+    <nav class="menu-seleccion">
+        <ul>
+            <li>
+                <a href="./dashboard.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    Panel Principal
+                </a>
+            </li>
+            <li>
+                <a href="./escanear-qr.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    Escanear entrada QR
+                </a>
+            </li>
+            <li>
+                <a href="./registrar-incidente.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Reportar incidente
+                </a>
+            </li>
+            <li>
+                <a href="./registrar-visita.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    Registrar visita
+                </a>
+            </li>
+            <li>
+                <a href="./notificaciones.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notificaciones</span>
+                    <span class="insignia-notificaciones-menu oculto" id="insignia-notificaciones-menu" style="display:none;">0</span>
+                </a>
+            </li>
+            <li>
+                <a href="./propiedades.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Propiedades
+                </a>
+            </li>
+            <li>
+                <a href="./casetas.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22V12h6v10"/><path d="M4 8h16"/><circle cx="12" cy="5" r="1"/></svg>
+                    Casetas
+                </a>
+            </li>
+            <li>
+                <a href="./empleados.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Empleados
+                </a>
+            </li>
+            <li>
+                <a href="./residentes.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Residentes
+                </a>
+            </li>
+            <li class="estado-a">
+                <a href="./turnos.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Turnos
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    
+    <button class="btn-secondary" id="btn-cerrar-sesion">
+        <div class="cerrar-sesion-icono-contenedor">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <span>Cerrar sesión</span>
+    </button>
+</aside>
+
+<div id="modal-cerrar-sesion" class="capa-modal">
+    <div class="tarjeta-modal">
+        <div class="icono-modal">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <p class="texto-modal">¿Desea cerrar sesión?</p>
+        <div class="acciones-modal">
+            <button id="boton-cancelar" class="boton-cancelar" type="button">Cancelar</button>
+            <button id="boton-aceptar" class="boton-aceptar" type="button">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<main class="contenido-principal">
+    <div class="contenido-envoltura">
+
+        
+        <div class="page-encabezado">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2473F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="page-encabezado-icono"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div>
+                <h1 class="page-titulo">Turnos</h1>
+            </div>
+        </div>
+
+        <div class="barra-herramientas">
+            <div class="caja-busqueda">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-busqueda"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="entrada-busqueda" placeholder="Buscar por guardia o caseta...">
+            </div>
+
+            <div class="campo-desplegable selector-desplegable" id="filtro-estado-desplegable">
+                <button type="button" class="campo-activador selector-activador" id="filtro-estado-activador">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2473F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="selector-icono" style="margin-right:6px;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                    <span class="campo-activador-texto" id="filtro-estado-activador-texto">Estado: Todos</span>
+                    <svg class="campo-flecha" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:8px;"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="campo-panel selector-panel" id="filtro-estado-panel">
+                    <div class="selector-opcion seleccionado" data-value="all" data-label="estado: Todos">Estado: Todos</div>
+                    <div class="selector-opcion" data-value="programado" data-label="Programado">Programado</div>
+                    <div class="selector-opcion" data-value="en-curso" data-label="en curso">En curso</div>
+                    <div class="selector-opcion" data-value="finalizado" data-label="Finalizado">Finalizado</div>
+                </div>
+            </div>
+
+            <div class="barra-herramientas-derecha">
+                <span class="etiqueta-total" id="etiqueta-total">Turnos Totales: 0</span>
+                <button class="btn-primary" id="btn-abrir-agregar" type="button">
+                    <span class="btn-agregar-mas">+</span> Agregar turno
+                </button>
+            </div>
+        </div>
+
+        <div class="table-wrapper" id="contenedor-tabla-admin-turnos">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th><span class="celda-cabecera"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Nombre del Turno</span></th>
+                        <th><span class="celda-cabecera"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Horario</span></th>
+                        <th><span class="celda-cabecera"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Días de Servicio</span></th>
+                        <th><span class="celda-cabecera"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Guardías Asignados</span></th>
+                        <th class="col-acciones"><span class="celda-cabecera"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Acciones</span></th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-cuerpo">
+                    <tr><td colspan="5" class="tabla-vacia">Cargando turnos maestros...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="paginacion-contenedor" id="paginacion-turnos"></div>
+
+        <!-- Vista dedicada para Guardias / Empleados -->
+        <div id="vista-guardia-mi-turno" style="display: none; margin-top: 15px;"></div>
+
+    </div>
+</main>
+
+<footer class="pie-pagina">
+    <img src="../img/logo-blanco.png" alt="Keeper" class="logotipo-pie-pagina">
+    <span class="texto-pie-pagina">© 2026 <strong>keeper</strong>. Todos los derechos reservados.</span>
+</footer>
+
+<div id="panel-agregar-turno" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="panel-encabezado-texto">
+                <h3 id="panel-turno-titulo">Crear nuevo turno maestro</h3>
+                <p>Define los horarios y días del turno de seguridad</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-agregar-turno" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-agregar-turno" class="panel-cuerpo">
+            <label class="panel-etiqueta" for="turno-nombre">Nombre del Turno *</label>
+            <input class="panel-entrada" type="text" id="turno-nombre" maxlength="20" placeholder="Ej. Turno Matutino" required>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="turno-hora-inicio">Hora de inicio *</label>
+                    <div class="selector-hora-desplegable-envoltura" id="envoltura-hora-inicio">
+                        <button type="button" class="campo-activador selector-activador selector-hora-activador" id="btn-activador-hora-inicio">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2473F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                <span class="campo-activador-texto" id="texto-hora-inicio">06:00 (Mañana)</span>
+                            </div>
+                            <svg class="campo-flecha" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <input type="hidden" id="turno-hora-inicio" value="06:00" required>
+                        <div class="campo-panel selector-panel selector-hora-panel" id="panel-hora-inicio">
+                            <div class="selector-hora-seccion-titulo">Preajustes de Turno</div>
+                            <div class="selector-hora-preajustes">
+                                <button type="button" class="selector-hora-chip seleccionado" data-hora="06:00" data-label="06:00 (Manana)">06:00 (Mañana)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="07:00" data-label="07:00 (entrada)">07:00 (Entrada)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="08:00" data-label="08:00 (Diurno)">08:00 (Diurno)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="14:00" data-label="14:00 (Vespertino)">14:00 (Vespertino)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="18:00" data-label="18:00 (Relevo)">18:00 (Relevo)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="22:00" data-label="22:00 (Nocturno)">22:00 (Nocturno)</button>
+                            </div>
+                            <div class="selector-hora-divisor"></div>
+                            <div class="selector-hora-personalizado">
+                                <div class="selector-hora-col">
+                                    <label>Hora</label>
+                                    <select class="selector-hora-select-h" id="select-h-inicio"></select>
+                                </div>
+                                <span class="selector-hora-dos-puntos">:</span>
+                                <div class="selector-hora-col">
+                                    <label>Min</label>
+                                    <select class="selector-hora-select-m" id="select-m-inicio">
+                                        <option value="00">00</option>
+                                        <option value="15">15</option>
+                                        <option value="30">30</option>
+                                        <option value="45">45</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn-aplicar-hora-custom" id="btn-aplicar-hora-inicio">Fijar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="turno-hora-salida">Hora de salida *</label>
+                    <div class="selector-hora-desplegable-envoltura" id="envoltura-hora-salida">
+                        <button type="button" class="campo-activador selector-activador selector-hora-activador" id="btn-activador-hora-salida">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2473F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                <span class="campo-activador-texto" id="texto-hora-salida">18:00 (Salida)</span>
+                            </div>
+                            <svg class="campo-flecha" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </button>
+                        <input type="hidden" id="turno-hora-salida" value="18:00" required>
+                        <div class="campo-panel selector-panel selector-hora-panel" id="panel-hora-salida">
+                            <div class="selector-hora-seccion-titulo">Preajustes de Turno</div>
+                            <div class="selector-hora-preajustes">
+                                <button type="button" class="selector-hora-chip" data-hora="14:00" data-label="14:00 (Salida Diurna)">14:00 (Salida Diurna)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="16:00" data-label="16:00 (Fin Jornada)">16:00 (Fin Jornada)</button>
+                                <button type="button" class="selector-hora-chip seleccionado" data-hora="18:00" data-label="18:00 (Salida)">18:00 (Salida)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="22:00" data-label="22:00 (Fin Tarde)">22:00 (Fin Tarde)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="06:00" data-label="06:00 (Salida Noche)">06:00 (Salida Noche)</button>
+                                <button type="button" class="selector-hora-chip" data-hora="00:00" data-label="00:00 (Medianoche)">00:00 (Medíanoche)</button>
+                            </div>
+                            <div class="selector-hora-divisor"></div>
+                            <div class="selector-hora-personalizado">
+                                <div class="selector-hora-col">
+                                    <label>Hora</label>
+                                    <select class="selector-hora-select-h" id="select-h-salida"></select>
+                                </div>
+                                <span class="selector-hora-dos-puntos">:</span>
+                                <div class="selector-hora-col">
+                                    <label>Min</label>
+                                    <select class="selector-hora-select-m" id="select-m-salida">
+                                        <option value="00">00</option>
+                                        <option value="15">15</option>
+                                        <option value="30">30</option>
+                                        <option value="45">45</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn-aplicar-hora-custom" id="btn-aplicar-hora-salida">Fijar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="turno-dia-inicio">Día de inicio *</label>
+                    <select class="seleccion-formulario" id="turno-dia-inicio" required>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                        <option value="Sábado">Sábado</option>
+                        <option value="Domingo">Domingo</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="turno-dia-salida">Día de finalización *</label>
+                    <select class="seleccion-formulario" id="turno-dia-salida" required>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                        <option value="Sábado">Sábado</option>
+                        <option value="Domingo">Domingo</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SECCIÓN: Asignar Guardias Activos (Buscador y Chips) -->
+            <div class="seccion-guardias-turno">
+                <label class="panel-etiqueta" style="margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+                    <span>Asignar Guardías al Turno (Opcional)</span>
+                    <span style="font-size: 11px; color: #8892a8;">Solo guardías activos con caseta</span>
+                </label>
+                
+                <div class="buscador-desplegable-contenedor" id="buscador-guardias-contenedor">
+                    <div class="buscador-desplegable-input-envoltura">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" class="buscador-desplegable-input" id="buscador-guardias-input" placeholder="Escribe para buscar y añadir guardia..." autocomplete="off">
+                    </div>
+                    <div class="buscador-desplegable-menu" id="buscador-guardias-menu"></div>
+                </div>
+
+                <div class="contenedor-chips-guardias" id="contenedor-chips-guardias"></div>
+            </div>
+
+            <div class="panel-actions">
+                <button type="button" class="btn-cancelar" id="btn-cancelar-agregar-turno">Cancelar</button>
+                <button type="submit" class="btn-guardar" id="btn-guardar-turno">Guardar Turno</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL ASIGNAR GUARDIA Y CASETA A TURNO -->
+<div id="panel-asignar-guardia" class="panel-capa">
+    <div class="panel-card" style="max-width: 580px;">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="panel-encabezado-texto">
+                <h3>Asignar Personal al Turno</h3>
+                <p id="subtitulo-asignar-guardia">Selecciona la caseta y los guardías a incorporar</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-asignar-guardia" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-asignar-guardia" class="panel-cuerpo">
+            <input type="hidden" id="asig-fk-turno">
+
+            <div class="dos-col" style="margin-bottom: 14px;">
+                <div>
+                    <label class="panel-etiqueta" for="asig-turno-nombre">Turno Activo</label>
+                    <input class="panel-entrada" type="text" id="asig-turno-nombre" readonly style="opacity:0.9; font-weight:700; color:#60a5fa;">
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="asig-fk-caseta">Caseta de Asignación *</label>
+                    <select class="seleccion-formulario" id="asig-fk-caseta" required>
+                        <option value="">Seleccionar caseta...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <label class="panel-etiqueta" style="margin:0;">Guardías Disponibles (Selección Múltiple)</label>
+                <button type="button" id="btn-seleccionar-todos-guardias" style="background:none; border:none; color:#2473F5; font-size:12px; font-weight:600; cursor:pointer;">Seleccionar todos disponibles</button>
+            </div>
+
+            <!-- Buscador y lista de guardias con checkbox -->
+            <div style="margin-bottom:8px;">
+                <input type="text" id="input-buscar-guardias-modal" class="panel-entrada" placeholder="Filtrar guardías por nombre o DUI..." style="font-size:12px; padding:6px 10px;">
+            </div>
+
+            <div id="contenedor-lista-guardias-disponibles" style="max-height: 180px; overflow-y: auto; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 6px;">
+                <!-- Se llena dinámicamente con checkboxes -->
+            </div>
+
+            <div class="panel-actions" style="margin-top: 14px; margin-bottom: 20px;">
+                <button type="button" class="btn-cancelar" id="btn-cancelar-asignar-guardia">Cerrar</button>
+                <button type="submit" class="btn-guardar" id="btn-guardar-asignacion-lote">+ Asignar Guardías Seleccionados</button>
+            </div>
+
+            <!-- Sección: Guardias Asignados Actualmente a este Turno -->
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <strong style="font-size:13px; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px;">Guardías Actuales en este Turno</strong>
+                    <span id="badge-total-guardias-turno" style="background:#2473f526; color:#60a5fa; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:700;">0 guardías</span>
+                </div>
+                <div id="lista-guardias-actuales-turno" style="max-height:160px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;">
+                    <!-- Se llena dinámicamente con las filas de guardias en este turno -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/Recursos/comun.js"></script>
+    <script src="../js/Recursos/animaciones.js"></script><script src="../js/Recursos/validaciones.js?v=2"></script>
+    <script src="../js/servicios/api-config.js"></script>
+    <script type="module" src="../js/controladores/turnos.js"></script>
+</body>
+</html>
+
+

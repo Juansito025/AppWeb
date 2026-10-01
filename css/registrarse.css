@@ -1,0 +1,947 @@
+@import url('https://fonts.googleapis.com/css2?family=Bakbak+One&family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Voces&display=swap');
+
+/* pantalla de registro */
+
+:root {
+    --bg-deepest:        #060a12;
+    --bg-card:           #0b1220;
+    --bg-card-top:       #111c33;
+    --card-border:       #2473f52e;
+    --border-subtle:     #ffffff14;
+    --border-medium:     #ffffff24;
+    --border-strong:     #2473F5;
+    --accent:            #2473F5;
+    --accent-hover:      #3b82f6;
+    --accent-glow:       #2473f559;
+    --text-primary:      #ffffff;
+    --text-secondary:    #94a3b8;
+    --text-muted:        #64748b;
+    --text-placeholder:  #475569;
+    --bg-input:          #0f172ab3;
+    --bg-input-hover:    #0f172ae6;
+    --bg-input-focus:    #0f172afa;
+    --icon-input-color:  #64748b;
+    --color-success:     #10b981;
+    --font-primary:      'IBM Plex Sans', sans-serif;
+    --font-title:        'Figtree', sans-serif;
+    --font-brand:        'Bakbak One', sans-serif;
+    --radius-xl:         28px;
+    --radius-lg:         20px;
+    --radius-md:         14px;
+    --radius-sm:         10px;
+    --shadow-card:       0 25px 80px #000000a6, 0 0 60px #2473f514;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font-primary);
+    color: var(--text-primary);
+    background: var(--bg-deepest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    padding: 80px 24px 40px;
+    position: relative;
+}
+
+/* ── Fondo Cuadrícula Cyber & Luces Ambientales ── */
+.bg-cuadricula {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(#2473f508 1px, transparent 1px),
+        linear-gradient(90deg, #2473f508 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 80%);
+}
+
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(140px);
+    z-index: 0;
+    pointer-events: none;
+    animation: orb-drift 16s ease-in-out infinite alternate;
+}
+
+body::before {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #2473f533 0%, transparent 70%);
+    top: -15%;
+    left: -10%;
+}
+
+body::after {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #0ea5e926 0%, transparent 70%);
+    bottom: -15%;
+    right: -10%;
+    animation-delay: -8s;
+}
+
+@keyframes orb-drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, -25px) scale(1.08); }
+}
+
+/* ── Logo Superior KEEPER Fijo ── */
+.superior-logo {
+    position: fixed;
+    top: 24px;
+    left: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-brand);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    z-index: 100;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-primary);
+    animation: fade-down 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.superior-logo img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px var(--accent-glow));
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.superior-logo:hover img {
+    filter: drop-shadow(0 0 20px #2473f599);
+    transform: rotate(-6deg) scale(1.08);
+}
+
+.superior-logo span {
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.superior-logo:hover span {
+    opacity: 1;
+}
+
+/* ── Conmutador Modo Claro/Oscuro Fijo ── */
+.conmutador-modo {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    gap: 6px;
+    background: #0f172ad9;
+    padding: 5px;
+    border-radius: 30px;
+    border: 1px solid #ffffff1a;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px #0000004d;
+}
+
+.boton-conmutador {
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    transition: all 0.25s ease;
+}
+
+.boton-conmutador svg {
+    stroke: currentColor;
+    fill: none;
+    transition: all 0.2s ease;
+}
+
+.boton-conmutador:hover {
+    background: #ffffff14;
+    color: #ffffff;
+}
+
+.boton-conmutador.activo {
+    background: linear-gradient(135deg, #2473F5 0%, #1555c7 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px #2473f573;
+    transform: scale(1.05);
+}
+
+.boton-conmutador.activo svg {
+    stroke: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* ── Gran Tarjeta Maestra Split-Screen (Vidrio Cyberpunk) ── */
+.tarjeta-auth-split {
+    width: 100%;
+    max-width: 1100px;
+    min-height: 600px;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(175deg,
+        #111c33eb 0%,
+        #0b1220f2 45%,
+        #060a12fa 100%);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(24px);
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    animation: card-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tarjeta-auth-split.ancho-registro {
+    max-width: 1200px;
+}
+
+/* Borde de Resplandor Multicolor */
+.tarjeta-auth-split::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: calc(var(--radius-xl) + 1px);
+    padding: 1px;
+    background: linear-gradient(
+        160deg,
+        #2473f566 0%,
+        transparent 30%,
+        transparent 70%,
+        #0ea5e940 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Columna Izquierda: Formulario KEEPER ── */
+.auth-panel-formulario {
+    padding: 44px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Encabezado del Formulario */
+.card-encabezado {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+    position: relative;
+    text-align: center;
+}
+
+.card-encabezado-resplandor {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 260px;
+    height: 160px;
+    background: radial-gradient(circle, #2473f538 0%, transparent 70%);
+    pointer-events: none;
+    animation: header-pulse 5s ease-in-out infinite alternate;
+}
+
+@keyframes header-pulse {
+    0%   { opacity: 0.6; transform: translateX(-50%) scale(0.9); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+.logotipo-registro {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 16px var(--accent-glow));
+    animation: pulse-logo 4s ease-in-out infinite;
+}
+
+@keyframes pulse-logo {
+    0%, 100% { filter: drop-shadow(0 0 12px var(--accent-glow)); }
+    50%      { filter: drop-shadow(0 0 24px #2473f5b3); }
+}
+
+.titulo-registro {
+    font-family: var(--font-title);
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+    margin-bottom: 6px;
+}
+
+.subtitulo-registro {
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.subtitulo-registro a,
+.auth-link {
+    color: #2473F5;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.subtitulo-registro a:hover,
+.auth-link:hover {
+    color: #3b82f6;
+    text-decoration: underline;
+    text-shadow: 0 0 10px #2473f566;
+}
+
+/* Campos del Formulario */
+.formulario-registro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.seccion-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.etiqueta-seccion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-top: 4px;
+}
+
+.etiqueta-seccion svg {
+    color: var(--accent);
+    stroke-width: 2.2;
+}
+
+.etiqueta-seccion span {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-title);
+}
+
+.fila-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.fila-input-encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.etiqueta-input {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    letter-spacing: 0.2px;
+}
+
+.enlace-olvido {
+    font-size: 0.82rem;
+    color: #2473F5;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.enlace-olvido:hover {
+    color: #3b82f6;
+    text-decoration: underline;
+    text-shadow: 0 0 10px #2473f566;
+}
+
+.envoltura-icono-entrada {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.icono-principal-entrada {
+    position: absolute;
+    left: 14px;
+    color: var(--icon-input-color);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    transition: color 0.25s ease, transform 0.25s ease;
+    z-index: 2;
+}
+
+.envoltura-icono-entrada:focus-within .icono-principal-entrada {
+    color: var(--accent);
+    transform: scale(1.1);
+}
+
+.control-formulario {
+    width: 100%;
+    height: 48px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    padding: 0 16px 0 44px;
+    outline: none;
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.control-formulario::placeholder {
+    color: var(--text-placeholder);
+}
+
+.control-formulario:hover {
+    background: var(--bg-input-hover);
+    border-color: #ffffff26;
+}
+
+.control-formulario:focus {
+    background: var(--bg-input-focus);
+    border-color: var(--border-strong);
+    box-shadow: 0 0 0 3px var(--accent-glow), 0 0 20px #2473f526;
+}
+
+.icono-boton {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-placeholder);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    transition: color 0.2s ease, transform 0.2s ease;
+    z-index: 3;
+}
+
+.icono-boton:hover {
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* Botón de Envío KEEPER con Barrido de Luz (Modo Oscuro: Azul Eléctrico Profundo) */
+.boton-enviar {
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(135deg, #2473F5 0%, #1555c7 100%);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-title);
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 20px #2473f566, 0 2px 4px #0000004d;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.boton-enviar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #ffffff33, transparent);
+    transition: left 0.6s ease;
+}
+
+.boton-enviar:hover {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d65e8 100%);
+    box-shadow: 0 8px 28px #2473f5a6;
+    transform: translateY(-2px);
+}
+
+.boton-enviar:hover::before {
+    left: 100%;
+}
+
+.boton-enviar:active {
+    transform: scale(0.98);
+}
+
+.boton-enviar:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Divisor y Opciones */
+.divisor-formulario {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 8px 0 2px;
+}
+
+.divisor-formulario::before,
+.divisor-formulario::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+}
+
+.divisor-formulario span {
+    font-size: 12px;
+    color: var(--text-placeholder);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.opciones-formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    font-size: 13.5px;
+}
+
+.opciones-formulario a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.opciones-formulario a strong {
+    color: #2473F5;
+    font-weight: 600;
+}
+
+.opciones-formulario a:hover {
+    color: #ffffff;
+}
+
+.opciones-formulario a:hover strong {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+/* ── Columna Derecha: Showcase Ilustrado ── */
+.auth-panel-showcase {
+    background: radial-gradient(circle at 40% 30%, #2473f533 0%, transparent 65%),
+                radial-gradient(circle at 80% 80%, #6366f11f 0%, transparent 60%),
+                linear-gradient(150deg, #0f172acc 0%, #030712f2 100%);
+    border-left: 1px solid #ffffff14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.auth-panel-showcase::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(#2473f508 1px, transparent 1px),
+        linear-gradient(90deg, #2473f508 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+}
+
+.auth-showcase-contenido {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 440px;
+}
+
+.auth-ilustracion {
+    width: 100%;
+    max-width: 420px;
+    max-height: 44vh;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 35px #00000080);
+    animation: floatHero 6s ease-in-out infinite alternate;
+}
+
+@keyframes floatHero {
+    0%   { transform: translateY(0px); }
+    100% { transform: translateY(-10px); }
+}
+
+
+/* ── Alternancia Automática de Ilustraciones ── */
+.ilustracion-claro {
+    display: none !important;
+}
+
+.ilustracion-oscuro {
+    display: block !important;
+}
+
+[data-theme="light"] .ilustracion-claro {
+    display: block !important;
+}
+
+[data-theme="light"] .ilustracion-oscuro {
+    display: none !important;
+}
+
+/* ── Subida de Avatar para Registro ── */
+.envoltura-foto-avatar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 8px;
+}
+
+.foto-avatar {
+    width: 96px;
+    height: 96px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50% !important;
+    border: 2px dashed #2473f573;
+    background: radial-gradient(circle, #2473f514 0%, #06091299 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.foto-avatar:hover {
+    border-color: var(--accent);
+    background: radial-gradient(circle, #2473f52e 0%, #060912cc 100%);
+    box-shadow: 0 0 24px var(--accent-glow);
+    transform: scale(1.04);
+}
+
+.foto-avatar svg {
+    color: var(--accent);
+    transition: transform 0.25s ease;
+}
+
+.foto-avatar:hover svg {
+    transform: scale(1.1);
+}
+
+.foto-avatar span {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: var(--font-title);
+}
+
+.foto-avatar input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.foto-avatar img.foto-preview {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    border-radius: 50% !important;
+}
+
+.foto-avatar.con-imagen {
+    border-style: solid;
+    border-color: var(--accent);
+}
+
+.foto-avatar.con-imagen img.foto-preview {
+    display: block;
+}
+
+.foto-avatar.con-imagen svg,
+.foto-avatar.con-imagen span {
+    display: none;
+}
+
+.grid-dos-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+}
+
+/* ── MODO CLARO KEEPER (Celeste, Blanco, Contraste Perfecto) ── */
+[data-theme="light"] body {
+    background: #f0f4f9 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .bg-cuadricula {
+    background-image:
+        linear-gradient(#0284c70d 1px, transparent 1px),
+        linear-gradient(90deg, #0284c70d 1px, transparent 1px) !important;
+}
+
+[data-theme="light"] .superior-logo {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .conmutador-modo {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 4px 16px #0f172a14 !important;
+}
+
+[data-theme="light"] .boton-conmutador {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .boton-conmutador.activo {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .tarjeta-auth-split {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 25px 60px -10px #0f172a1f, 0 10px 20px -5px #0f172a0f, 0 0 0 1px #0f172a0a !important;
+}
+
+[data-theme="light"] .tarjeta-auth-split::after {
+    display: none !important;
+}
+
+[data-theme="light"] .titulo-registro {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .subtitulo-registro {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .etiqueta-input {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .enlace-olvido,
+[data-theme="light"] .subtitulo-registro a,
+[data-theme="light"] .auth-link,
+[data-theme="light"] .opciones-formulario a strong {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .enlace-olvido:hover,
+[data-theme="light"] .subtitulo-registro a:hover,
+[data-theme="light"] .auth-link:hover,
+[data-theme="light"] .opciones-formulario a:hover strong {
+    color: #0369a1 !important;
+}
+
+[data-theme="light"] .control-formulario {
+    background-color: #E2EAF4 !important;
+    border-color: transparent !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .control-formulario::placeholder {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .control-formulario:focus {
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3px #0284c733 !important;
+}
+
+[data-theme="light"] .envoltura-icono-entrada .icono-principal-entrada {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .icono-boton {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .icono-boton:hover {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .divisor-formulario {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] .divisor-formulario::before,
+[data-theme="light"] .divisor-formulario::after {
+    background: #e2e8f0 !important;
+}
+
+[data-theme="light"] .opciones-formulario a {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .opciones-formulario a:hover {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .auth-panel-showcase {
+    background: radial-gradient(circle at 60% 30%, #0ea5e940 0%, transparent 60%),
+                linear-gradient(135deg, #e0f2fe 0%, #bae6fd 60%, #f0f9ff 100%) !important;
+    border-left-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .boton-enviar {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 20px #0ea5e959, 0 2px 4px #00000014 !important;
+}
+
+[data-theme="light"] .boton-enviar:hover {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    box-shadow: 0 8px 28px #0ea5e98c !important;
+}
+
+
+
+/* ── Animaciones Base ── */
+@keyframes card-in {
+    0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fade-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Responsive Tablet y Móvil ── */
+@media (max-width: 960px) {
+    body {
+        padding: 70px 16px 30px;
+    }
+
+    .tarjeta-auth-split {
+        grid-template-columns: 1fr;
+        max-width: 540px;
+    }
+
+    .auth-panel-showcase {
+        display: none !important;
+    }
+
+    .auth-panel-formulario {
+        padding: 36px 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 65px 12px 20px;
+    }
+
+    .superior-logo {
+        top: 18px;
+        left: 18px;
+        font-size: 1.1rem;
+    }
+
+    .conmutador-modo {
+        top: 16px;
+        right: 16px;
+    }
+
+    .auth-panel-formulario {
+        padding: 28px 18px;
+    }
+
+    .titulo-registro {
+        font-size: 22px;
+    }
+
+    .grid-dos-columnas {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* En recuperacion, la validacion conserva el acento azul del formulario. */
+.formulario-registro .control-formulario.invalido {
+    border-color: #2473f5 !important;
+    box-shadow: 0 0 0 3px rgba(36, 115, 245, 0.18) !important;
+}

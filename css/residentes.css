@@ -1,0 +1,132 @@
+/* estilos de residentes */
+
+/* ── Avatares en Celdas de la Tabla ── */
+.imagen-celda-avatar {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+    object-fit: cover; 
+    display: block;
+}
+
+.avatar-cell-inicial {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+    background: var(--accent); 
+    color: #ffffff;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-family: var(--font-display); 
+    font-size: 14px;
+}
+
+/* ── Subida de Fotografía de Residente ── */
+.empleado-foto-campo { 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 16px; 
+}
+
+.empleado-foto-etiqueta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.empleado-foto-vista-previa {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: #0f172a80;
+    border: 2px dashed #2473f580;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.empleado-foto-vista-previa:hover {
+    border-color: var(--accent, #2473F5);
+    box-shadow: 0 0 16px #2473f54d;
+}
+
+.imagen-vista-previa-foto-empleado { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    display: none; 
+}
+.empleado-foto-vista-previa.con-imagen .imagen-vista-previa-foto-empleado { display: block; }
+.empleado-foto-vista-previa.con-imagen svg,
+.empleado-foto-vista-previa.con-imagen #residente-foto-inicial { display: none; }
+.empleado-foto-texto { color: var(--text-placeholder, #A4A6B3); font-family: var(--font-primary); font-size: 13px; }
+
+.panel-foto-quitar {
+    display: none;
+    background: none;
+    border: none;
+    color: #e15b5b;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 4px;
+    text-decoration: underline;
+    padding: 0;
+}
+.panel-foto-quitar.visible { display: inline-block; }
+
+/* ── Conmutador de Tipo de Residente ── */
+.conmutador-tipo-residente {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+}
+
+.tipo-opcion {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-input);
+    border: 1.5px solid #2473f524;
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    color: #ffffff;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.tipo-opcion:hover { border-color: var(--accent); }
+.tipo-opcion input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+.condicional-block {
+    border-top: 1px dashed #202333;
+    margin-top: 18px;
+    padding-top: 6px;
+}
+
+@media (max-width: 700px) {
+    .barra-herramientas-derecha { margin-left: 0; width: 100%; justify-content: space-between; }
+    .dos-col, .conmutador-tipo-residente { flex-direction: column; gap: 12px; }
+}
+
+/* Residente que ya salió de la residencial (sigue registrado) */
+.insignia-ya-no-reside {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #505870;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+}
+#residente-entrada-colonia[readonly] { opacity: 0.75; cursor: default; }

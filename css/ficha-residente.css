@@ -1,0 +1,242 @@
+/* Ficha del residente (administración) */
+
+.ficha-barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.ficha-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-decoration: none;
+}
+.ficha-volver:hover { color: var(--text-primary); }
+
+.ficha-acciones { display: flex; gap: 10px; flex-wrap: wrap; }
+.ficha-btn { display: inline-flex; align-items: center; gap: 8px; }
+.ficha-btn:disabled { opacity: .5; cursor: not-allowed; }
+.ficha-btn.cargando { cursor: progress; }
+
+.ficha-estado {
+    padding: 48px 16px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* Perfil */
+.ficha-perfil {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 28px;
+    align-items: center;
+    padding: 26px;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(160deg, var(--bg-card-top), var(--bg-card));
+    box-shadow: 0 16px 40px #00000059;
+}
+
+.ficha-foto {
+    width: 124px;
+    height: 124px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-glow);
+}
+
+.ficha-tipo {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #2473f526;
+    color: var(--accent-light);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
+.ficha-identidad h1 {
+    margin: 8px 0 14px;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.ficha-datos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 24px;
+}
+.ficha-datos dt {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+.ficha-datos dd {
+    margin: 2px 0 0;
+    color: var(--text-primary);
+    font-size: 14.5px;
+    overflow-wrap: anywhere;
+}
+.ficha-dato-ancho { grid-column: 1 / -1; }
+
+.ficha-pase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 180px;
+    padding: 16px;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface-solid);
+    text-align: center;
+}
+.ficha-etiqueta {
+    color: var(--accent-light);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+.ficha-pase-qr img,
+.ficha-pase-vacio {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+}
+.ficha-pase-qr img { display: block; background: #fff; }
+.ficha-pase-vacio {
+    display: grid;
+    place-items: center;
+    padding: 12px;
+    border: 1px dashed var(--border-medium);
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+.ficha-pase strong { color: var(--text-primary); font-size: 14px; }
+.ficha-pase small { color: var(--text-secondary); font-size: 12px; max-width: 170px; }
+
+/* Resumen */
+.ficha-resumen {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+}
+.ficha-kpi {
+    padding: 16px 18px;
+    border: 1px solid var(--card-border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+}
+.ficha-kpi.peligro { border-left-color: var(--danger); }
+.ficha-kpi.exito { border-left-color: var(--success); }
+.ficha-kpi span {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+}
+.ficha-kpi strong {
+    display: block;
+    margin-top: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+.ficha-kpi.peligro strong { color: #f87171; }
+.ficha-kpi.exito strong { color: #34d399; }
+
+/* Pestañas */
+.ficha-pestanas {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--border-medium);
+    overflow-x: auto;
+}
+.ficha-pestanas button {
+    padding: 10px 16px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.ficha-pestanas button.activo {
+    color: var(--text-primary);
+    border-bottom-color: var(--accent);
+}
+
+.ficha-panel .data-table td { color: #cbd5e1; font-size: 13.5px; }
+.ficha-motivo { min-width: 220px; white-space: normal; }
+.ficha-capital { text-transform: capitalize; }
+.ficha-vacia { padding: 36px 16px !important; text-align: center; color: var(--text-secondary) !important; }
+
+.ficha-pildora {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: #ffffff14;
+    color: var(--text-secondary);
+}
+.ficha-pildora.estado-rojo { background: var(--danger-bg); color: #f87171; }
+.ficha-pildora.estado-verde { background: var(--success-bg); color: #34d399; }
+.ficha-pildora.estado-ambar { background: var(--warning-bg); color: #fbbf24; }
+.ficha-pildora.estado-gris { background: #94a3b826; color: #cbd5e1; }
+
+/* Botón "Ficha" en la tabla de residentes */
+.btn-accion-ficha {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid #2473f566;
+    border-radius: 8px;
+    background: #2473f51a;
+    color: #93c5fd;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-accion-ficha:hover { background: #2473f533; color: #fff; }
+
+@media (max-width: 1100px) {
+    .ficha-perfil { grid-template-columns: auto 1fr; }
+    .ficha-pase { grid-column: 1 / -1; flex-direction: row; justify-content: flex-start; text-align: left; flex-wrap: wrap; }
+    .ficha-resumen { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 680px) {
+    .ficha-perfil { grid-template-columns: 1fr; justify-items: center; text-align: center; padding: 20px; }
+    .ficha-datos { grid-template-columns: 1fr; text-align: left; width: 100%; }
+    .ficha-pase { justify-content: center; text-align: center; }
+    .ficha-resumen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ficha-acciones { width: 100%; }
+    .ficha-acciones .ficha-btn { flex: 1 1 100%; justify-content: center; }
+}
+#tabla-infracciones td:nth-child(2), #tabla-visitas td:first-child, #tabla-accesos td:first-child { white-space: nowrap; }

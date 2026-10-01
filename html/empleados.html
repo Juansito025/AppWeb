@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleados | Keeper</title>
+    <link rel="stylesheet" href="../css/comun.css">
+    <link rel="stylesheet" href="../css/empleados.css">
+    <link rel="stylesheet" href="../css/animaciones.css">
+    <link rel="stylesheet" href="../css/tema-claro.css">
+    <link rel="icon" href="../img/logo-Global.png">
+</head>
+<body>
+    
+    <!-- boton de menu -->
+<button class="movil-menu-btn" id="movil-menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="app-barra-lateral">
+    <svg class="movil-menu-icono" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="barra barra-superior"    d="M3 6h18"  stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-medio"    d="M3 12h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-inferior" d="M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+    </svg>
+</button>
+<div class="movil-capa" id="movil-capa"></div>
+   <aside class="barra-lateral" id="app-barra-lateral">
+
+    <div class="contenedor-logotipo">
+        <div class="caja-icono-logotipo">
+            <img src="../img/logo-blanco.png" alt="Keeper" class="logo">
+        </div>
+        <span class="texto-logotipo">keeper</span>
+    </div>
+
+    <div class="carta-usuario">
+        <div class="cabecera-usuario">
+            <svg class="avatar avatar-icono" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="metadatos-usuario">
+                <span class="nombre-usuario"><span class="skeleton"></span></span>
+                <div class="conmutador-modo">
+                    <button class="boton-conmutador activo" id="btn-oscuro" aria-label="Modo oscuro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="boton-conmutador" id="btn-claro" aria-label="Modo claro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h3 class="bienvenido"><span class="skeleton"></span></h3>
+    </div>
+
+    <nav class="menu-seleccion">
+        <ul>
+            <li>
+                <a href="./dashboard.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    Panel Principal
+                </a>
+            </li>
+            <li>
+                <a href="./escanear-qr.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    Escanear entrada QR
+                </a>
+            </li>
+            <li>
+                <a href="./registrar-incidente.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Reportar incidente
+                </a>
+            </li>
+            <li >
+                <a href="./registrar-visita.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    Registrar visita
+                </a>
+            </li>
+            <li>
+                <a href="./notificaciones.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notificaciones</span>
+                    <span class="insignia-notificaciones-menu oculto" id="insignia-notificaciones-menu" style="display:none;">0</span>
+                </a>
+            </li>
+            <li>
+                <a href="./propiedades.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Propiedades
+                </a>
+            </li>
+            <li>
+                <a href="./casetas.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22V12h6v10"/><path d="M4 8h16"/><circle cx="12" cy="5" r="1"/></svg>
+                    Casetas
+                </a>
+            </li>
+            <li class="estado-a">
+                <a href="./empleados.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Empleados
+                </a>
+            </li>
+            <li>
+                <a href="./residentes.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Residentes
+                </a>
+            </li>
+            <li>
+                <a href="./turnos.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Turnos
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <button class="btn-secondary" id="btn-cerrar-sesion">
+        <div class="cerrar-sesion-icono-contenedor">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <span>Cerrar sesión</span>
+    </button>
+</aside>
+
+<div id="modal-cerrar-sesion" class="capa-modal">
+    <div class="tarjeta-modal">
+        <div class="icono-modal">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <p class="texto-modal">¿Desea cerrar sesión?</p>
+        <div class="acciones-modal">
+            <button id="boton-cancelar" class="boton-cancelar" type="button">Cancelar</button>
+            <button id="boton-aceptar" class="boton-aceptar" type="button">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<main class="contenido-principal">
+    <div class="contenido-envoltura">
+
+        
+        <div class="page-encabezado" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="page-encabezado-icono" style="color:#2473F5;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <div>
+                    <h1 class="page-titulo">Empleados</h1>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div id="contenedor-seccion-tabla">
+            <div class="barra-herramientas">
+                <div class="caja-busqueda">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-busqueda"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="entrada-busqueda" placeholder="Buscar empleado...">
+                </div>
+
+                <div class="campo-desplegable selector-desplegable" id="filtro-estado-desplegable">
+                    <button type="button" class="campo-activador selector-activador" id="filtro-estado-activador">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2473F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="selector-icono" style="margin-right:6px;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        <span class="campo-activador-texto" id="filtro-estado-activador-texto">Estado: Todos</span>
+                        <svg class="campo-flecha" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:8px;"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="campo-panel selector-panel" id="filtro-estado-panel">
+                        <div class="selector-opcion seleccionado" data-value="all" data-label="estado: Todos">Estado: Todos</div>
+                        <div class="selector-opcion" data-value="on" data-label="Activos">Activos</div>
+                        <div class="selector-opcion" data-value="off" data-label="Inactivos">Inactivos</div>
+                    </div>
+                </div>
+
+                <div class="barra-herramientas-derecha">
+                    <span class="etiqueta-total" id="etiqueta-total">Empleados Totales: 0</span>
+                    <button class="btn-primary" id="btn-abrir-agregar" type="button">
+                        <span class="btn-agregar-mas">+</span> Agregar empleado
+                    </button>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px;">
+                <div class="notif-caja" id="btn-abrir-notificar-empleado" role="button" tabindex="0" style="flex: 1; min-width: 280px; margin-bottom: 0;">
+                    <div class="notif-caja-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+                    <div class="notif-caja-texto">
+                        <strong>Añadir notificación</strong>
+                        <span>Enviar un aviso a un empleado específico (o a todos)</span>
+                    </div>
+                </div>
+
+                <div class="notif-caja" id="btn-abrir-asignar-tarea" role="button" tabindex="0" style="flex: 1; min-width: 280px; margin-bottom: 0; border-color: #2473f54d;">
+                    <div class="notif-caja-icono" style="background: #2473f526; color: #2473F5;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+                    <div class="notif-caja-texto">
+                        <strong>Asignar tarea</strong>
+                        <span>Crear y asignar una nueva tarea operativa al personal</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Empleado</div></th>
+                            <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Correo</div></th>
+                            <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Rol</div></th>
+                            <th class="col-acciones"><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Acciones</div></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-cuerpo"></tbody>
+                </table>
+            </div>
+
+            <div class="paginacion-contenedor" id="paginacion-empleados"></div>
+        </div>
+
+    </div>
+</main>
+
+<footer class="pie-pagina">
+    <img src="../img/logo-blanco.png" alt="Keeper" class="logotipo-pie-pagina">
+    <span class="texto-pie-pagina">© 2026 <strong>keeper</strong>. Todos los derechos reservados.</span>
+</footer>
+
+<div id="panel-agregar" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div>
+            <div class="panel-encabezado-texto">
+                <h3>Agregar nuevo empleado</h3>
+                <p>Completar la información del personal o guardía</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-agregar" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-agregar" class="panel-cuerpo">
+
+            <div class="empleado-foto-campo">
+                <label for="agregar-foto" class="empleado-foto-etiqueta">
+                    <span class="empleado-foto-vista-previa" id="agregar-foto-vista-previa">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A4A6B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-marcador-foto"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <img src="../img/logo-Global.png" alt="Vista previa foto del empleado" id="agregar-foto-vista-previa-img" class="imagen-vista-previa-foto-empleado" style="display:none;">
+                    </span>
+                    <span class="empleado-foto-texto">Subir foto (Opcional)</span>
+                </label>
+                <input type="file" id="agregar-foto" accept="image/*" hidden>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="agregar-nombre">Nombre *</label>
+                    <input class="panel-entrada" type="text" id="agregar-nombre" placeholder="Ej. Carlos" required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="agregar-apellido">Apellido *</label>
+                    <input class="panel-entrada" type="text" id="agregar-apellido" placeholder="Ej. Ramírez" required>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="agregar-correo">Correo electrónico *</label>
+                    <input class="panel-entrada" type="email" id="agregar-correo" placeholder="carlos@keeper.com" required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="agregar-contrasena">Contraseña *</label>
+                    <div class="panel-entrada-icono-envoltura">
+                        <input class="panel-entrada" type="password" id="agregar-contrasena" placeholder="Contraseña" required>
+                        <button type="button" class="panel-entrada-icono-btn btn-toggle-pass" data-target="agregar-contrasena" aria-label="Mostrar contraseña">
+                            <svg class="icono-ojo-abierto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="agregar-dui">DUI *</label>
+                    <input class="panel-entrada" type="text" id="agregar-dui" placeholder="00000000-0" maxlength="10" pattern="^[0-9]{8}-[0-9]$" title="Formato DUI: 00000000-0" required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="agregar-telefono">Teléfono *</label>
+                    <input class="panel-entrada" type="text" id="agregar-telefono" placeholder="7000-0000" maxlength="9" pattern="^[0-9]{4}-[0-9]{4}$" title="Formato teléfono: 0000-0000" required>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="agregar-fecha-nacimiento">Fecha de nacimiento *</label>
+                    <input class="panel-entrada" type="date" id="agregar-fecha-nacimiento" required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="agregar-rol">Rol del empleado *</label>
+                    <select class="seleccion-formulario" id="agregar-rol" required>
+                        <option value="">Seleccionar rol...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="agregar-caseta">Caseta asignada</label>
+                    <select class="seleccion-formulario" id="agregar-caseta">
+                        <option value="">Ninguna / Sin asignación</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="agregar-de-turno">Estado</label>
+                    <select class="seleccion-formulario" id="agregar-de-turno">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-actions">
+                <button type="button" class="btn-cancelar" id="btn-cancelar-agregar">Cancelar</button>
+                <button type="submit" class="btn-guardar">Guardar Empleado</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="panel-detalle" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="panel-encabezado-texto">
+                <h3 id="detalle-titulo">Empleado</h3>
+                <p>Información y asignación del empleado</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-detalle" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-detalle" class="panel-cuerpo">
+
+            <div class="empleado-foto-campo">
+                <label for="detalle-foto" class="empleado-foto-etiqueta">
+                    <span class="empleado-foto-vista-previa" id="detalle-foto-vista-previa">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A4A6B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-marcador-foto"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <img src="../img/logo-Global.png" alt="Vista previa foto del empleado" id="detalle-foto-vista-previa-img" class="imagen-vista-previa-foto-empleado" style="display:none;">
+                    </span>
+                    <span class="empleado-foto-texto">Cambiar foto</span>
+                </label>
+                <input type="file" id="detalle-foto" accept="image/*" hidden disabled>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="detalle-nombre">Nombre *</label>
+                    <input class="panel-entrada" type="text" id="detalle-nombre" disabled required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="detalle-apellido">Apellido *</label>
+                    <input class="panel-entrada" type="text" id="detalle-apellido" disabled required>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="detalle-correo">Correo electrónico *</label>
+                    <input class="panel-entrada" type="email" id="detalle-correo" disabled required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="detalle-contrasena">Nueva contraseña (Opcional)</label>
+                    <div class="panel-entrada-icono-envoltura">
+                        <input class="panel-entrada" type="password" id="detalle-contrasena" placeholder="Déjalo en blanco para no cambiar" disabled>
+                        <button type="button" class="panel-entrada-icono-btn btn-toggle-pass" data-target="detalle-contrasena" aria-label="Mostrar contraseña">
+                            <svg class="icono-ojo-abierto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="detalle-dui">DUI *</label>
+                    <input class="panel-entrada" type="text" id="detalle-dui" placeholder="00000000-0" maxlength="10" pattern="^[0-9]{8}-[0-9]$" title="Formato DUI: 00000000-0" disabled required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="detalle-telefono">Teléfono *</label>
+                    <input class="panel-entrada" type="text" id="detalle-telefono" placeholder="0000-0000" maxlength="9" pattern="^[0-9]{4}-[0-9]{4}$" title="Formato teléfono: 0000-0000" disabled required>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="detalle-fecha-nacimiento">Fecha de nacimiento *</label>
+                    <input class="panel-entrada" type="date" id="detalle-fecha-nacimiento" disabled required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="detalle-rol">Rol del empleado *</label>
+                    <select class="seleccion-formulario" id="detalle-rol" disabled required>
+                        <option value="">Seleccionar rol...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="detalle-caseta">Caseta asignada</label>
+                    <select class="seleccion-formulario" id="detalle-caseta" disabled>
+                        <option value="">Ninguna / Sin asignación</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="detalle-de-turno">Estado</label>
+                    <select class="seleccion-formulario" id="detalle-de-turno" disabled>
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-actions panel-actions-detalle">
+                <button type="button" class="btn-cancelar btn-secondary" id="btn-cancelar-detalle">Cancelar</button>
+                <button type="submit" class="btn-guardar btn-primary" id="btn-guardar-editar">Guardar cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="panel-credencial" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="panel-encabezado-texto">
+                <h3>Credencial de acceso</h3>
+                <p>Datos para que el empleado inicie sesión en Keeper</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-credencial" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-credencial" class="panel-cuerpo">
+            <label class="panel-etiqueta" for="cred-correo">Correo</label>
+            <input class="panel-entrada" type="email" id="cred-correo" placeholder="correo@keeper.com" required>
+
+            <label class="panel-etiqueta" for="cred-rol">Rol</label>
+            <select class="seleccion-formulario" id="cred-rol">
+                <option value="administrador">Administrador</option>
+                <option value="vigilante">Vigilante</option>
+            </select>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="cred-contrasena">Contraseña</label>
+                    <div class="panel-entrada-icono-envoltura">
+                        <input class="panel-entrada" type="password" id="cred-contrasena" placeholder="Contraseña">
+                        <button type="button" class="panel-entrada-icono-btn" data-target="cred-contrasena" aria-label="Mostrar contraseña"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    </div>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="cred-contrasena-confirmar">Confirmar contraseña</label>
+                    <div class="panel-entrada-icono-envoltura">
+                        <input class="panel-entrada" type="password" id="cred-contrasena-confirmar" placeholder="Confirmar contraseña">
+                        <button type="button" class="panel-entrada-icono-btn" data-target="cred-contrasena-confirmar" aria-label="Mostrar contraseña"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                    </div>
+                </div>
+            </div>
+            <p class="panel-ayuda" id="cred-contrasena-ayuda">Déjalo en blanco para no cambiar la contraseña actual.</p>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="cred-dui">DUI</label>
+                    <input class="panel-entrada" type="text" id="cred-dui" placeholder="00000000-0" maxlength="10" pattern="^[0-9]{8}-[0-9]$" title="Formato DUI: 00000000-0" required>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="cred-fecha-nacimiento">Fecha de nacimiento</label>
+                    <input class="panel-entrada" type="date" id="cred-fecha-nacimiento" required>
+                </div>
+            </div>
+
+            <div class="panel-actions">
+                <button type="button" class="btn-cancelar" id="btn-cancelar-credencial">Cancelar</button>
+                <button type="submit" class="btn-guardar">Guardar credencial</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="panel-notificar-empleado" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono"><span class="panel-encabezado-emoji"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span></div>
+            <div class="panel-encabezado-texto">
+                <h3>Añadir notificación</h3>
+                <p>Se enviará al empleado elegido (o a todos)</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-notificar-empleado" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-notificar-empleado" class="panel-cuerpo">
+            <label class="panel-etiqueta" for="notif-empleado-destino">Empleado</label>
+            <select class="seleccion-formulario" id="notif-empleado-destino">
+                <option value="todos">Todos los empleados</option>
+            </select>
+
+            <label class="panel-etiqueta" for="notif-empleado-tipo">Tipo</label>
+            <select class="seleccion-formulario" id="notif-empleado-tipo">
+                <option value="informativa">Informativa</option>
+                <option value="alerta">Alerta</option>
+                <option value="urgente">Urgente</option>
+                <option value="resuelta">Resuelta</option>
+            </select>
+
+            <label class="panel-etiqueta" for="notif-empleado-titulo">Título</label>
+            <input class="panel-entrada" type="text" id="notif-empleado-titulo" maxlength="100" placeholder="Ej. Cambio de turno" required>
+
+            <label class="panel-etiqueta" for="notif-empleado-mensaje">Mensaje</label>
+            <textarea class="panel-entrada" id="notif-empleado-mensaje" maxlength="500" rows="3" placeholder="Escribe el mensaje..." required></textarea>
+
+            <div class="panel-actions">
+                <button type="button" class="btn-cancelar" id="btn-cancelar-notificar-empleado">Cancelar</button>
+                <button type="submit" class="btn-guardar">Enviar notificación</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="panel-asignar-tarea" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+            <div class="panel-encabezado-texto">
+                <h3>Asignar nueva tarea</h3>
+                <p>Asignar una tarea operativa o guardía a un empleado</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-asignar-tarea" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+
+        <form id="form-asignar-tarea" class="panel-cuerpo">
+            <label class="panel-etiqueta" for="tarea-empleado-destino">Empleado asignado *</label>
+            <select class="seleccion-formulario" id="tarea-empleado-destino" required>
+                <option value="">Seleccionar empleado...</option>
+            </select>
+
+            <label class="panel-etiqueta" for="tarea-titulo">Título de la tarea *</label>
+            <input class="panel-entrada" type="text" id="tarea-titulo" maxlength="100" placeholder="Ej. Ronda perimetral nocturna" required>
+
+            <label class="panel-etiqueta" for="tarea-descripcion">Descripción detallada</label>
+            <textarea class="panel-entrada" id="tarea-descripcion" maxlength="500" rows="3" placeholder="Instrucciones o detalles de la tarea..."></textarea>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="tarea-fecha-limite">Fecha límite</label>
+                    <input class="panel-entrada" type="date" id="tarea-fecha-limite">
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="tarea-estado">Estado inicial</label>
+                    <select class="seleccion-formulario" id="tarea-estado">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En progreso" selected>En progreso</option>
+                        <option value="Completada">Completada</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-actions">
+                <button type="button" class="btn-cancelar" id="btn-cancelar-asignar-tarea">Cancelar</button>
+                <button type="submit" class="btn-guardar">Asignar tarea</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/Recursos/comun.js"></script>
+    <script src="../js/Recursos/animaciones.js"></script><script src="../js/Recursos/validaciones.js?v=2"></script>
+    <script src="../js/servicios/api-config.js"></script>
+    <script type="module" src="../js/servicios/cloudinaryService.js"></script>
+    <script type="module" src="../js/controladores/empleados.js"></script>
+</body>
+</html>
+
+
+

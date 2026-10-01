@@ -1,0 +1,2235 @@
+/* Tamaños, tipografía y distribución se heredan de los estilos compartidos. */
+/* modo claro */
+
+/* ── 0. Variables CSS Globales para Modo Claro ────────────────────────────────────────── */
+body[data-theme="light"] {
+    --bg-deepest: #e2e8f0;
+    --bg-card: #ffffff;
+    --bg-card-top: #ffffff;
+    --bg-surface-solid: #ffffff;
+    --bg-input: #ffffff;
+    --border-subtle: transparent;
+    --border-medium: transparent;
+    --card-border: transparent;
+    --section-border: transparent;
+    --accent: #0284c7;
+    --accent-hover: #0369a1;
+    --accent-light: #38bdf8;
+    --accent-glow: #0284c726;
+    --accent-glow-strong: #0284c740;
+    --text-primary: #000000;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --text-placeholder: #94a3b8;
+}
+
+/* ── 1. Estructura General y Fondo ────────────────────────────────────────── */
+body[data-theme="light"] {
+    background: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .bg-cuadricula {
+    background-image:
+        linear-gradient(#0284c70d 1px, transparent 1px),
+        linear-gradient(90deg, #0284c70d 1px, transparent 1px);
+}
+
+body[data-theme="light"]::before,
+body[data-theme="light"]::after {
+    display: none !important;
+}
+
+[data-theme="light"] .contenido-principal {
+    background: #e2e8f0;
+    color: #000000;
+}
+
+/* ── Scrollbar Modo Claro ──────────────────────────────────────────────── */
+[data-theme="light"] ::-webkit-scrollbar {
+    
+    
+}
+[data-theme="light"] ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    
+    border-color: #f1f5f9;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+[data-theme="light"] ::-webkit-scrollbar-corner {
+    background: #f1f5f9;
+}
+[data-theme="light"] {
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+[data-theme="light"] .contenido-envoltura {
+    background: #e2e8f0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="light"] .contenido-envoltura::before,
+[data-theme="light"] .contenido-envoltura::after {
+    display: none !important;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────── */
+[data-theme="light"] .pie-pagina {
+    background: transparent !important;
+    border-top-color: transparent !important;
+}
+
+[data-theme="light"] .logotipo-pie-pagina {
+    content: url("../img/logo-keeper.png") !important;
+}
+
+/* ── Login / Auth ───────────────────────────────────────────────────────── */
+[data-theme="light"] .superior-logo img,
+[data-theme="light"] .logotipo-registro,
+[data-theme="light"] .logotipo-completo {
+    content: url("../img/logo-keeper.png") !important;
+}
+
+[data-theme="light"] .superior-logo span,
+[data-theme="light"] .nombre-marca {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .texto-carga {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .subtexto {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .spinner {
+    border-color: #e2e8f0 !important;
+    border-top-color: #0284c7 !important;
+    border-right-color: #38bdf8 !important;
+    box-shadow: 0 0 25px #0284c740 !important;
+}
+
+[data-theme="light"] .orbe {
+    background: #0284c71a !important;
+}
+
+[data-theme="light"] .auth-ilustracion.ilustracion-claro {
+    display: block !important;
+}
+
+[data-theme="light"] .auth-ilustracion.ilustracion-oscuro {
+    display: none !important;
+}
+
+[data-theme="light"] .tarjeta-auth-split {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 40px #0f172a14 !important;
+}
+
+[data-theme="light"] .tarjeta-auth-split::after {
+    display: none !important;
+}
+
+[data-theme="light"] .auth-panel-showcase {
+    background: #f1f5f9 !important;
+    border-left-color: transparent !important;
+}
+
+[data-theme="light"] .card-encabezado-resplandor {
+    background: radial-gradient(circle, #0284c71a 0%, transparent 70%) !important;
+}
+
+
+/* ── 2. Barra Lateral de Navegación ────────────────────────────────────────── */
+[data-theme="light"] .barra-lateral {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    border-right-color: transparent !important;
+    box-shadow: 4px 0 20px #0f172a0a !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .texto-logotipo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .carta-usuario {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .nombre-usuario,
+[data-theme="light"] .bienvenido {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .avatar-icono {
+    color: #0284c7 !important;
+    background: #e0f2fe !important;
+    border-color: transparent !important;
+}
+
+/* Conmutador de modo claro/oscuro (cápsula redondeada y botones circulares, CERO cuadrados) */
+[data-theme="light"] .conmutador-modo {
+    background: #e2e8f0 !important;
+    border-color: transparent !important;
+    
+    
+    box-shadow: none !important;
+    
+    
+    
+}
+
+[data-theme="light"] .boton-conmutador {
+    
+    
+    
+    border-color: transparent !important;
+    background: transparent !important;
+    color: #64748b !important;
+    box-shadow: none !important;
+    
+    
+    
+    
+    
+    cursor: pointer !important;
+}
+
+[data-theme="light"] .boton-conmutador svg,
+[data-theme="light"] .boton-conmutador .alternar-img {
+    stroke: #64748b !important;
+    fill: none !important;
+    
+    
+}
+
+/* Solo el botón conmutador ACTIVO tiene fondo celeste circular con icono blanco */
+[data-theme="light"] .boton-conmutador.activo {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    
+    border-color: transparent !important;
+    box-shadow: 0 2px 8px #0284c740 !important;
+    
+}
+
+[data-theme="light"] .boton-conmutador.activo svg,
+[data-theme="light"] .boton-conmutador.activo .alternar-img {
+    stroke: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* ── Menú de Selección Lateral ── */
+/* boton inactivo */
+[data-theme="light"] .menu-seleccion li {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    
+    color: #000000 !important;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+[data-theme="light"] .menu-seleccion li a {
+    background: transparent !important;
+    color: #000000 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    
+}
+
+[data-theme="light"] .menu-seleccion li svg,
+[data-theme="light"] .menu-seleccion li .icono-menu {
+    stroke: #0284c7 !important;
+    color: #0284c7 !important;
+    opacity: 1 !important;
+}
+
+/* boton activo */
+[data-theme="light"] .menu-seleccion li:hover,
+[data-theme="light"] .menu-seleccion li.estado-a {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .menu-seleccion li:hover a,
+[data-theme="light"] .menu-seleccion li.estado-a a {
+    background: transparent !important;
+    color: #ffffff !important;
+    
+}
+
+[data-theme="light"] .menu-seleccion li:hover svg,
+[data-theme="light"] .menu-seleccion li:hover .icono-menu,
+[data-theme="light"] .menu-seleccion li.estado-a svg,
+[data-theme="light"] .menu-seleccion li.estado-a .icono-menu {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+/* Insignia en el menú */
+[data-theme="light"] .insignia-notificaciones-menu {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+/* Botón cerrar sesión lateral */
+[data-theme="light"] .boton-cerrar-sesion,
+[data-theme="light"] #btn-cerrar-sesion {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .boton-cerrar-sesion:hover,
+[data-theme="light"] #btn-cerrar-sesion:hover {
+    background: #0369a1 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .cerrar-sesion-icono-contenedor {
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] #btn-cerrar-sesion svg,
+[data-theme="light"] .cerrar-sesion-icono-contenedor svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .movil-menu-btn {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+/* ── 3. Cabecera Principal y Filtros del Dashboard ─────────────────────────── */
+[data-theme="light"] .cabecera-principal {
+    color: #000000;
+}
+
+[data-theme="light"] .fecha-picker {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 16px #0f172a0a !important;
+}
+
+[data-theme="light"] .fecha-picker svg {
+    color: #0284c7 !important;
+    stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .fecha-picker span {
+    color: #000000 !important;
+    
+}
+
+[data-theme="light"] .cabecera-principal .contenedor-busqueda {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 16px #0f172a0a !important;
+}
+
+[data-theme="light"] .cabecera-principal .entrada-busqueda {
+    color: #000000 !important;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .cabecera-principal .entrada-busqueda::placeholder {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .cabecera-principal .icono-busqueda {
+    color: #0284c7 !important;
+    stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .btn-tareas-widget {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .btn-tareas-widget:hover {
+    background: #0369a1 !important;
+}
+
+[data-theme="light"] .btn-tareas-widget svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .btn-tareas-widget #contador-tareas-badge {
+    background: #ffffff !important;
+    color: #0284c7 !important;
+    
+    border-color: transparent !important;
+}
+/* ── Notificaciones ─────────────────────────────────────────────────────── */
+[data-theme="light"] .notif-tab {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] .notif-tab:hover {
+    background: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .notif-tab.activo {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .etiqueta-pestana {
+    background: #cbd5e1 !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] .notif-tab.activo .etiqueta-pestana {
+    background: #ffffff !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .caja-busqueda {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .caja-busqueda input {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .caja-busqueda input::placeholder {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] .notif-card {
+    background: #ffffff !important;
+    border-color: #f1f5f9 !important;
+    box-shadow: 0 4px 15px #0f172a0a !important;
+}
+
+[data-theme="light"] .notif-card:hover {
+    background: #f8fafc !important;
+    border-color: #0284c7 !important;
+}
+
+[data-theme="light"] .notif-card.urgente {
+    background: #fef2f2 !important;
+    border-color: #fecaca !important;
+}
+
+[data-theme="light"] .notif-nombre {
+    color: #000000 !important;
+}
+
+/* ── 3. Dashboard Componentes ────────────────────────────────────────────── */
+[data-theme="light"] .fecha-picker {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .cabecera-principal .contenedor-busqueda:focus-within {
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px #0284c72e !important;
+}
+
+[data-theme="light"] .cabecera-principal .entrada-busqueda {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .cabecera-principal .entrada-busqueda::placeholder {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] .btn-tareas-widget {
+    background: #0284c7 !important;
+    box-shadow: 0 4px 14px #0284c740 !important;
+}
+
+/* ── Registrar Incidente ─────────────────────────────────────────────────── */
+[data-theme="light"] .tarjeta-gravedad-registro-infraccion,
+[data-theme="light"] .tarjeta-opcion-registro-infraccion {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad-registro-infraccion:hover,
+[data-theme="light"] .tarjeta-opcion-registro-infraccion:hover {
+    background: #f8fafc !important;
+    border-color: #0284c7 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad-registro-infraccion.seleccionada,
+[data-theme="light"] .tarjeta-opcion-registro-infraccion.seleccionada {
+    background: #f0f9ff !important;
+    border-color: #0284c7 !important;
+}
+
+[data-theme="light"] .area-texto-registro-infraccion,
+[data-theme="light"] .seleccion-registro-infraccion,
+[data-theme="light"] .entrada-registro-infraccion {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .area-texto-registro-infraccion:focus,
+[data-theme="light"] .seleccion-registro-infraccion:focus,
+[data-theme="light"] .entrada-registro-infraccion:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 3px #0284c72e !important;
+}
+
+[data-theme="light"] .btn-primary-registro-infraccion {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px #0284c740 !important;
+}
+
+[data-theme="light"] .nombre-opcion-registro-infraccion {
+    color: #000000 !important;
+}
+
+/* ── 4. Tarjetas de Estadísticas ───────────────────────────────────────────── */
+/* tarjeta inactiva */
+[data-theme="light"] .tarjeta-estadistica {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 20px #0f172a0a !important;
+    color: #000000 !important;
+    transition: all 0.25s ease !important;
+}
+
+[data-theme="light"] .tarjeta-estadistica .informacion-estadistica p {
+    color: #000000 !important;
+    
+}
+
+[data-theme="light"] .tarjeta-estadistica .informacion-estadistica span {
+    color: #000000 !important;
+    
+}
+
+[data-theme="light"] .tarjeta-estadistica .circulo-icono-estadistica {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .tarjeta-estadistica .circulo-icono-estadistica svg {
+    stroke: #0284c7 !important;
+    color: #0284c7 !important;
+}
+
+/* tarjeta seleccionada */
+[data-theme="light"] .tarjeta-estadistica:hover,
+[data-theme="light"] .tarjeta-estadistica.activo {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    box-shadow: 0 6px 22px #0284c740 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .tarjeta-estadistica:hover .informacion-estadistica p,
+[data-theme="light"] .tarjeta-estadistica:hover .informacion-estadistica span,
+[data-theme="light"] .tarjeta-estadistica.activo .informacion-estadistica p,
+[data-theme="light"] .tarjeta-estadistica.activo .informacion-estadistica span {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .tarjeta-estadistica:hover .circulo-icono-estadistica,
+[data-theme="light"] .tarjeta-estadistica.activo .circulo-icono-estadistica {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .tarjeta-estadistica:hover .circulo-icono-estadistica svg,
+[data-theme="light"] .tarjeta-estadistica.activo .circulo-icono-estadistica svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* ── 5. Secciones y Tablas de Visitas / Datos (Sin bordes) ─────────────────── */
+[data-theme="light"] .seccion-visitas,
+[data-theme="light"] .tarjeta,
+[data-theme="light"] .tarjeta-formulario,
+[data-theme="light"] .tarjeta-dashboard,
+[data-theme="light"] .casetas-tarjeta,
+[data-theme="light"] .empleados-tarjeta,
+[data-theme="light"] .residentes-tarjeta,
+[data-theme="light"] .propiedades-tarjeta,
+[data-theme="light"] .turnos-tarjeta,
+[data-theme="light"] .tarjeta-seccion-infraccion,
+[data-theme="light"] .tarjeta-formulario-visita,
+[data-theme="light"] .tarjeta-formulario-infraccion,
+[data-theme="light"] .tarjeta-resumen-infraccion {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 20px #0f172a0a !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .cabecera-tabla h3,
+[data-theme="light"] .titulo-seccion,
+[data-theme="light"] .titulo-registro,
+[data-theme="light"] .page-titulo,
+[data-theme="light"] .seccion-titulo,
+[data-theme="light"] .resumen-titulo,
+[data-theme="light"] .gravedad-nombre {
+    color: #000000 !important;
+    
+}
+
+[data-theme="light"] .cabecera-tabla svg {
+    color: #0284c7 !important;
+    stroke: #0284c7 !important;
+}
+
+/* Tablas completamente sin bordes */
+[data-theme="light"] .tabla-visitas,
+[data-theme="light"] .tabla-datos,
+[data-theme="light"] table {
+    border-color: transparent !important;
+    border-collapse: collapse !important;
+}
+
+[data-theme="light"] .tabla-visitas th,
+[data-theme="light"] .tabla-datos th,
+[data-theme="light"] .data-table th,
+[data-theme="light"] table th,
+[data-theme="light"] thead th {
+    background: #f1f5f9 !important;
+    color: #000000 !important;
+    
+    border-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .tabla-visitas td,
+[data-theme="light"] .tabla-datos td,
+[data-theme="light"] .data-table td,
+[data-theme="light"] table td,
+[data-theme="light"] tbody td {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .tabla-visitas td strong,
+[data-theme="light"] .tabla-datos td strong {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .tabla-visitas tbody tr:hover td,
+[data-theme="light"] .tabla-datos tbody tr:hover td,
+[data-theme="light"] table tbody tr:hover td {
+    background: #f8fafc !important;
+}
+
+[data-theme="light"] .acceso-etiqueta {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .btn-ojo-motivo {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .btn-ojo-motivo svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .visita-transporte-item {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .visita-transporte-item svg {
+    stroke: #0284c7 !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .item-tarea-guardia {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 2px 10px #0f172a0a !important;
+}
+
+[data-theme="light"] .titulo-tarea-guardia {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .desc-tarea-guardia {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .subtitulo-registro,
+[data-theme="light"] .etiqueta-input,
+[data-theme="light"] .form-etiqueta,
+[data-theme="light"] .campo-etiqueta,
+[data-theme="light"] .seccion-subtitulo,
+[data-theme="light"] .gravedad-monto,
+[data-theme="light"] .resumen-item-label {
+    color: #000000 !important;
+    
+}
+
+/* Gráficas del Dashboard */
+[data-theme="light"] .tarjeta-grafica {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 20px #0f172a0a !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .tarjeta-grafica-titulo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .tarjeta-grafica-cabecera {
+    border-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .tarjeta-grafica-titulo-wrap svg {
+    stroke: #0284c7 !important;
+    color: #0284c7 !important;
+}
+
+/* botones */
+[data-theme="light"] .btn-primary,
+[data-theme="light"] .btn-primario,
+[data-theme="light"] .btn-secondary,
+[data-theme="light"] .btn-guardar,
+[data-theme="light"] .btn-guardar-panel,
+[data-theme="light"] .btn-guardar-residente,
+[data-theme="light"] .btn-guardar-propiedad,
+[data-theme="light"] .btn-guardar-caseta,
+[data-theme="light"] .btn-guardar-empleado,
+[data-theme="light"] .btn-guardar-turno,
+[data-theme="light"] .btn-agregar,
+[data-theme="light"] .boton-enviar,
+[data-theme="light"] .boton-aceptar,
+[data-theme="light"] .btn-cancelar,
+[data-theme="light"] .btn-cancelar-panel,
+[data-theme="light"] .btn-cancelar-agregar,
+[data-theme="light"] .boton-cancelar,
+[data-theme="light"] .btn-volver,
+[data-theme="light"] .btn-peligro,
+[data-theme="light"] .btn-danger,
+[data-theme="light"] .btn-eliminar,
+[data-theme="light"] .btn-eliminar-panel,
+[data-theme="light"] .boton-cerrar-sesion,
+[data-theme="light"] #btn-cerrar-sesion,
+[data-theme="light"] .btn-tareas-widget,
+[data-theme="light"] .btn-completar-tarea,
+[data-theme="light"] .btn-cancelar-tarea,
+[data-theme="light"] .btn-marcar-todo,
+[data-theme="light"] .btn-accion-ver,
+[data-theme="light"] .btn-pag-ant,
+[data-theme="light"] .btn-pag-sig,
+[data-theme="light"] .boton-enviar-visita,
+[data-theme="light"] .boton-enviar-infraccion,
+[data-theme="light"] .boton-guardar-registro-infraccion,
+[data-theme="light"] .calendario-boton-hoy,
+[data-theme="light"] .calendario-boton-limpiar {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .btn-primary:hover,
+[data-theme="light"] .btn-primario:hover,
+[data-theme="light"] .btn-secondary:hover,
+[data-theme="light"] .btn-guardar:hover,
+[data-theme="light"] .btn-guardar-panel:hover,
+[data-theme="light"] .btn-guardar-residente:hover,
+[data-theme="light"] .btn-guardar-propiedad:hover,
+[data-theme="light"] .btn-guardar-caseta:hover,
+[data-theme="light"] .btn-guardar-empleado:hover,
+[data-theme="light"] .btn-guardar-turno:hover,
+[data-theme="light"] .btn-agregar:hover,
+[data-theme="light"] .boton-enviar:hover,
+[data-theme="light"] .boton-aceptar:hover,
+[data-theme="light"] .btn-cancelar:hover,
+[data-theme="light"] .btn-cancelar-panel:hover,
+[data-theme="light"] .btn-cancelar-agregar:hover,
+[data-theme="light"] .boton-cancelar:hover,
+[data-theme="light"] .btn-volver:hover,
+[data-theme="light"] .btn-peligro:hover,
+[data-theme="light"] .btn-danger:hover,
+[data-theme="light"] .btn-eliminar:hover,
+[data-theme="light"] .btn-eliminar-panel:hover,
+[data-theme="light"] .boton-cerrar-sesion:hover,
+[data-theme="light"] #btn-cerrar-sesion:hover,
+[data-theme="light"] .btn-tareas-widget:hover,
+[data-theme="light"] .btn-completar-tarea:hover,
+[data-theme="light"] .btn-cancelar-tarea:hover,
+[data-theme="light"] .btn-marcar-todo:hover,
+[data-theme="light"] .btn-accion-ver:hover,
+[data-theme="light"] .btn-pag-ant:hover,
+[data-theme="light"] .btn-pag-sig:hover,
+[data-theme="light"] .boton-enviar-visita:hover,
+[data-theme="light"] .boton-enviar-infraccion:hover,
+[data-theme="light"] .boton-guardar-registro-infraccion:hover,
+[data-theme="light"] .calendario-boton-hoy:hover,
+[data-theme="light"] .calendario-boton-limpiar:hover {
+    background: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .btn-primary svg,
+[data-theme="light"] .btn-primario svg,
+[data-theme="light"] .btn-secondary svg,
+[data-theme="light"] .btn-guardar svg,
+[data-theme="light"] .btn-guardar-panel svg,
+[data-theme="light"] .btn-agregar svg,
+[data-theme="light"] .boton-enviar svg,
+[data-theme="light"] .boton-aceptar svg,
+[data-theme="light"] .btn-cancelar svg,
+[data-theme="light"] .btn-cancelar-panel svg,
+[data-theme="light"] .btn-volver svg,
+[data-theme="light"] .btn-peligro svg,
+[data-theme="light"] .btn-danger svg,
+[data-theme="light"] .btn-eliminar svg,
+[data-theme="light"] .btn-eliminar-panel svg,
+[data-theme="light"] .boton-cerrar-sesion svg,
+[data-theme="light"] #btn-cerrar-sesion svg,
+[data-theme="light"] .btn-tareas-widget svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* insignias de estado */
+[data-theme="light"] .pildora-estado,
+[data-theme="light"] .estado-pill {
+    
+    border-color: transparent !important;
+    color: #ffffff !important;
+    
+    box-shadow: none !important;
+}
+
+/* Estados Aprobados / Aceptados / Activos (Verde sólido, texto blanco, sin bordes) */
+[data-theme="light"] .pildora-estado.estado-aprobada,
+[data-theme="light"] .pildora-estado.aprobada,
+[data-theme="light"] .pildora-estado.estado-aceptada,
+[data-theme="light"] .pildora-estado.aceptada,
+[data-theme="light"] .pildora-estado.activo,
+[data-theme="light"] .pildora-estado.positive,
+[data-theme="light"] .accp-badge-activo,
+[data-theme="light"] .badge-activo,
+[data-theme="light"] .badge-leve,
+[data-theme="light"] .badge-estado-tarea.completada {
+    background: #10b981 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Estados Desaprobados / Rechazados / Inactivos (Rojo sólido, texto blanco, sin bordes) */
+[data-theme="light"] .pildora-estado.estado-desaprobada,
+[data-theme="light"] .pildora-estado.desaprobada,
+[data-theme="light"] .pildora-estado.estado-rechazada,
+[data-theme="light"] .pildora-estado.rechazada,
+[data-theme="light"] .pildora-estado.rechazado,
+[data-theme="light"] .pildora-estado.no-programada,
+[data-theme="light"] .pildora-estado.inactivo,
+[data-theme="light"] .pildora-estado.negative,
+[data-theme="light"] .pildora-estado.cancelada,
+[data-theme="light"] .accp-badge-rechazado,
+[data-theme="light"] .badge-inactivo,
+[data-theme="light"] .badge-grave,
+[data-theme="light"] .badge-estado-tarea.cancelada {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Estados Pendientes / Progreso / Expirados (Ámbar sólido, texto blanco, sin bordes) */
+[data-theme="light"] .pildora-estado.pendiente,
+[data-theme="light"] .pildora-estado.estado-en-construccion,
+[data-theme="light"] .accp-badge-expirado,
+[data-theme="light"] .badge-moderada,
+[data-theme="light"] .badge-estado-tarea.progreso {
+    background: #f59e0b !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Badges de acceso general / por defecto */
+[data-theme="light"] .accp-badge-aprobado {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .accp-item-badge,
+[data-theme="light"] .badge-estado-tarea {
+    border-color: transparent !important;
+}
+
+/* ── 8. Formularios y Controles (Sin bordes) ──────────────────────────────── */
+[data-theme="light"] .control-formulario,
+[data-theme="light"] .panel-entrada,
+[data-theme="light"] .entrada-formulario,
+[data-theme="light"] .seleccion-formulario,
+[data-theme="light"] .filtro-seleccionar,
+[data-theme="light"] .area-texto-infraccion,
+[data-theme="light"] .area-texto-registro-infraccion,
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="email"],
+[data-theme="light"] input[type="password"],
+[data-theme="light"] input[type="tel"],
+[data-theme="light"] input[type="number"],
+[data-theme="light"] input[type="date"],
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+    background-color: #e2eaf4 !important;
+    color: #000000 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] input:focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] textarea:focus {
+    border-color: transparent !important;
+    box-shadow: 0 0 0 3px #0284c72e !important;
+    outline: none !important;
+    background-color: #ffffff !important;
+}
+
+[data-theme="light"] ::placeholder {
+    color: #64748b !important;
+}
+
+[data-theme="light"] select option {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* ── 9. Modales y Diálogos (Sin bordes) ────────────────────────────────────── */
+[data-theme="light"] .capa-modal,
+[data-theme="light"] .panel-capa {
+    background: #0f172a73 !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+[data-theme="light"] .tarjeta-modal,
+[data-theme="light"] .modal-contenedor,
+[data-theme="light"] .panel-card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: transparent !important;
+    box-shadow: 0 25px 50px -12px #0f172a40 !important;
+}
+
+[data-theme="light"] .texto-modal,
+[data-theme="light"] .panel-titulo {
+    color: #000000 !important;
+    
+}
+
+[data-theme="light"] .panel-subtitulo {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .icono-modal,
+[data-theme="light"] .panel-encabezado-icono,
+[data-theme="light"] .ovl-icono-envoltura {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    
+    
+    
+    
+}
+
+[data-theme="light"] .icono-modal svg,
+[data-theme="light"] .panel-encabezado-icono svg,
+[data-theme="light"] .ovl-icono-envoltura svg {
+    stroke: #0284c7 !important;
+    color: #0284c7 !important;
+    
+    
+}
+
+[data-theme="light"] .panel-cerrar,
+[data-theme="light"] .panel-cerrar-x,
+[data-theme="light"] .infp-cerrar,
+[data-theme="light"] .cerrar-renovacion,
+[data-theme="light"] .ovl-cerrar,
+[data-theme="light"] .btn-cerrar-modal-universal {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    
+    
+    
+    
+    
+    
+    
+    box-shadow: 0 2px 8px #0284c740 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-theme="light"] .panel-cerrar:hover,
+[data-theme="light"] .panel-cerrar-x:hover,
+[data-theme="light"] .infp-cerrar:hover,
+[data-theme="light"] .cerrar-renovacion:hover,
+[data-theme="light"] .ovl-cerrar:hover,
+[data-theme="light"] .btn-cerrar-modal-universal:hover {
+    background: #0369a1 !important;
+    color: #ffffff !important;
+    
+}
+
+[data-theme="light"] .panel-cerrar svg,
+[data-theme="light"] .panel-cerrar-x svg,
+[data-theme="light"] .infp-cerrar svg,
+[data-theme="light"] .cerrar-renovacion svg,
+[data-theme="light"] .ovl-cerrar svg,
+[data-theme="light"] .btn-cerrar-modal-universal svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+    
+    
+}
+
+[data-theme="light"] .panel-encabezado-texto h3,
+[data-theme="light"] .capa-encabezado h2 {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .panel-encabezado-texto p,
+[data-theme="light"] .capa-encabezado p {
+    color: #64748b !important;
+}
+
+/* ── Dropdowns y Multiselect Globales (Modales y Formularios) ──────────────── */
+[data-theme="light"] .selector-panel,
+[data-theme="light"] .panel-desplegable,
+[data-theme="light"] .buscador-desplegable-lista,
+[data-theme="light"] .multiselect-opciones {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 15px #0f172a1a !important;
+}
+
+[data-theme="light"] .buscador-desplegable,
+[data-theme="light"] .buscador-desplegable-input-envoltura input {
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .buscador-desplegable input,
+[data-theme="light"] .buscador-desplegable-input-envoltura input::placeholder {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .opcion-item,
+[data-theme="light"] .buscador-desplegable-item,
+[data-theme="light"] .multiselect-opcion,
+[data-theme="light"] .selector-opcion {
+    color: #000000 !important;
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .opcion-item:hover,
+[data-theme="light"] .opcion-item.seleccionado,
+[data-theme="light"] .buscador-desplegable-item:hover,
+[data-theme="light"] .buscador-desplegable-item.seleccionado,
+[data-theme="light"] .multiselect-opcion:hover,
+[data-theme="light"] .selector-opcion:hover,
+[data-theme="light"] .selector-opcion.seleccionado {
+    background: #f0f9ff !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .buscador-desplegable-item-info,
+[data-theme="light"] .multiselect-opcion-texto {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .buscador-desplegable-item-caseta,
+[data-theme="light"] .multiselect-opcion-sub {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .gatillo-desplegable,
+[data-theme="light"] .selector-activador,
+[data-theme="light"] .multiselect-header {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .texto-gatillo,
+[data-theme="light"] .selector-activador-texto {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .gatillo-desplegable:hover,
+[data-theme="light"] .selector-activador:hover,
+[data-theme="light"] .multiselect-header:hover {
+    border-color: #0284c7 !important;
+    background: #f8fafc !important;
+}
+
+[data-theme="light"] #asig-turno-nombre,
+[data-theme="light"] #badge-total-guardias-turno {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] #contenedor-lista-guardias-disponibles {
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* ── Tarjetas de Acceso Rápido / Notif Caja ─────────────────────────────── */
+[data-theme="light"] .notif-caja {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 15px #0f172a0a !important;
+}
+
+[data-theme="light"] .notif-caja:hover {
+    background: #f0f9ff !important;
+    box-shadow: 0 4px 15px #0284c71a !important;
+}
+
+[data-theme="light"] .notif-caja-texto strong {
+    color: #000000 !important;
+    
+}
+
+[data-theme="light"] .notif-caja-texto span {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .etiqueta-total {
+    color: #000000 !important;
+    
+}
+
+[data-theme="light"] .btn-toggle-graficas {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 15px #0f172a0a !important;
+}
+
+[data-theme="light"] .btn-toggle-graficas svg {
+    stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .btn-toggle-graficas:hover,
+[data-theme="light"] .btn-toggle-graficas.activo {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .btn-toggle-graficas:hover svg,
+[data-theme="light"] .btn-toggle-graficas.activo svg {
+    stroke: #ffffff !important;
+}
+
+/* ── Componentes de Turnos ───────────────────────────────────────────────── */
+[data-theme="light"] .cell-icono-texto,
+[data-theme="light"] .resumen-elemento-valor,
+[data-theme="light"] .seccion-turno-titulo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .dia-chip {
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+[data-theme="light"] .dia-chip:hover {
+    border-color: #0284c7 !important;
+    color: #0284c7 !important;
+    background: #e0f2fe !important;
+}
+
+[data-theme="light"] .dia-chip.seleccionado {
+    background: #0284c7 !important;
+    border-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .hora-seleccionar-grupo {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .hora-seleccionar-grupo select.panel-entrada {
+    background: #f1f5f9 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .resumen-caja {
+    background: #f0f9ff !important;
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .resumen-cabecera {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .resumen-elemento-etiqueta {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .chip-guardia {
+    background: #f0f9ff !important;
+    border-color: #bae6fd !important;
+    color: #0369a1 !important;
+}
+
+[data-theme="light"] .chip-guardia .btn-remover-chip {
+    color: #ef4444 !important;
+}
+
+[data-theme="light"] .selector-hora-chip {
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] .selector-hora-chip:hover {
+    background: #e0f2fe !important;
+    border-color: #0284c7 !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .selector-hora-chip.seleccionado {
+    background: #0284c7 !important;
+    border-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .selector-hora-divisor {
+    background: #e2e8f0 !important;
+}
+
+[data-theme="light"] .selector-hora-select-h,
+[data-theme="light"] .selector-hora-select-m {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+/* ── Panel Infracciones ────────────────────────────────────────────────── */
+[data-theme="light"] .infp-capa {
+    background: #0f172a73 !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+[data-theme="light"] .infp-card,
+[data-theme="light"] .infp-detalle-card {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 25px 50px -12px #0f172a40 !important;
+}
+
+[data-theme="light"] .infp-encabezado {
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .infp-encabezado-titulo,
+[data-theme="light"] .infp-item-titulo,
+[data-theme="light"] .infp-detalle-titulo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .infp-encabezado-subtitulo,
+[data-theme="light"] .infp-item-desc,
+[data-theme="light"] .infp-item-meta,
+[data-theme="light"] .infp-detalle-fecha,
+[data-theme="light"] .infp-dato-etiqueta,
+[data-theme="light"] .infp-vacio {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .infp-item {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+    box-shadow: 0 1px 3px #0f172a0a !important;
+}
+
+[data-theme="light"] .infp-item:hover {
+    background: #f0f9ff !important;
+    box-shadow: 0 4px 12px #0f172a14 !important;
+}
+
+[data-theme="light"] .infp-detalle-divider {
+    background: #e2e8f0 !important;
+}
+
+[data-theme="light"] .infp-detalle-label {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] .infp-detalle-valor,
+[data-theme="light"] .infp-detalle-desc,
+[data-theme="light"] .infp-detalle-gravedad-texto,
+[data-theme="light"] .infp-detalle-dato strong {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .infp-detalle-datos {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .infp-detalle-dato {
+    border-bottom-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .infp-detalle-volver {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 12px #0f172a0a !important;
+}
+
+[data-theme="light"] .infp-detalle-volver:hover {
+    background: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+/* ── Modal Redactar Notificación Específico ── */
+[data-theme="light"] #desplegable-destino .gatillo-desplegable {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] #desplegable-destino .gatillo-desplegable:hover {
+    border-color: #0284c7 !important;
+    background: #f8fafc !important;
+}
+
+[data-theme="light"] #desplegable-destino .texto-gatillo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] #desplegable-destino .panel-desplegable {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 15px #0f172a0a !important;
+}
+
+[data-theme="light"] .tab-filtro-tarea {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+    border-color: transparent !important;
+    
+    
+    box-shadow: 0 1px 4px #0f172a14 !important;
+    
+}
+
+[data-theme="light"] .tab-filtro-tarea:hover {
+    background: #cbd5e1 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .tab-filtro-tarea.activo {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 3px 10px #0284c740 !important;
+}
+
+[data-theme="light"] .btn-completar-tarea {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    
+}
+
+[data-theme="light"] .btn-cancelar-tarea {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+    border-color: transparent !important;
+    
+}
+
+[data-theme="light"] .btn-cancelar-tarea:hover {
+    background: #cbd5e1 !important;
+}
+
+/* ── 10. Calendario Flotante (Datepicker - Sin bordes) ──────────────────────── */
+[data-theme="light"] .calendario-flotante {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    
+    box-shadow: 0 20px 45px -8px #0f172a38 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .calendario-cabecera {
+    border-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .calendario-nav {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .calendario-nav:hover {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .calendario-selector-mes,
+[data-theme="light"] .calendario-selector-anio {
+    background: #f8fafc !important;
+    color: #000000 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .calendario-dias-semana {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .calendario-dia-semana {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .calendario-dia {
+    color: #000000 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .calendario-dia:hover:not(.dia-vacio):not(.dia-fuera) {
+    background: #e0f2fe !important;
+    color: #0284c7 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .calendario-dia.dia-hoy {
+    background: #f0f9ff !important;
+    color: #0284c7 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .calendario-dia.dia-seleccionado {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+/* ── 11. Avatares Circulares de Perfil ──────────────────────────────────────── */
+[data-theme="light"] .foto-avatar {
+    
+    
+    aspect-ratio: 1 / 1;
+    
+    border-color: transparent !important;
+    background: #e2eaf4;
+    overflow: hidden;
+    
+    
+    
+    
+    cursor: pointer;
+}
+
+[data-theme="light"] .foto-avatar:hover {
+    background: #e0f2fe;
+}
+
+[data-theme="light"] .foto-avatar svg {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .foto-avatar span {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .foto-avatar img.foto-preview {
+    
+    
+    
+    object-fit: cover;
+}
+
+[data-theme="light"] .empleado-foto-vista-previa {
+    background: #e2eaf4;
+    border-color: transparent !important;
+    
+    overflow: hidden;
+}
+
+[data-theme="light"] .empleado-foto-vista-previa img.imagen-vista-previa-foto-empleado {
+    
+    object-fit: cover;
+}
+
+/* ── 12. Escaneo QR (Sin bordes) ───────────────────────────────────────────── */
+[data-theme="light"] .qr-panel,
+[data-theme="light"] .panel-datos-qr {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 15px #0f172a0a !important;
+}
+
+[data-theme="light"] .texto-cargando-qr {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .qr-spinner {
+    border-color: #e2e8f0 !important;
+    border-top-color: #0284c7 !important;
+}
+
+[data-theme="light"] .titulo-qr {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .qr-corner {
+    border-color: #0284c7 !important;
+}
+
+[data-theme="light"] .fila-dato-qr {
+    border-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .etiqueta-dato-qr {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .valor-dato-qr {
+    color: #000000 !important;
+}
+
+/* ── 13. Infracciones e Incidentes (Modo Claro) ────────────────────────────── */
+[data-theme="light"] .tarjeta-formulario-infraccion,
+[data-theme="light"] .tarjeta-resumen-infraccion {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 20px #0f172a0a !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .bloque-infraccion {
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .seccion-badge {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .seccion-titulo,
+[data-theme="light"] .resumen-titulo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .seccion-subtitulo,
+[data-theme="light"] .resumen-item-label {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .campo-etiqueta {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .panel-entrada,
+[data-theme="light"] .seleccion-formulario,
+[data-theme="light"] .area-texto-infraccion {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+    color-scheme: light !important;
+    box-shadow: 0 2px 6px #0f172a08 !important;
+}
+
+[data-theme="light"] .panel-entrada::placeholder,
+[data-theme="light"] .area-texto-infraccion::placeholder {
+    color: #94a3b8 !important;
+}
+
+[data-theme="light"] .panel-entrada:focus,
+[data-theme="light"] .seleccion-formulario:focus,
+[data-theme="light"] .area-texto-infraccion:focus {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 0 2px #0284c7 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad .gravedad-nombre {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad .gravedad-monto {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad.seleccionada {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 14px #0284c740 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad.seleccionada .gravedad-nombre,
+[data-theme="light"] .tarjeta-gravedad.seleccionada .gravedad-monto {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad.seleccionada .punto-gravedad {
+    background: #ffffff !important;
+    border-color: #ffffff !important;
+}
+
+[data-theme="light"] .opcion-actor {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] .opcion-actor svg {
+    stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .opcion-actor.seleccionada {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px #0284c740 !important;
+}
+
+[data-theme="light"] .opcion-actor.seleccionada svg {
+    stroke: #ffffff !important;
+}
+
+[data-theme="light"] .boton-enviar-infraccion {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px #0284c740 !important;
+}
+
+[data-theme="light"] .boton-enviar-infraccion:hover {
+    background: #0369a1 !important;
+}
+
+[data-theme="light"] .resumen-cabecera {
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .resumen-monto-bloque {
+    background: #f0f9ff !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+[data-theme="light"] .resumen-monto-etiqueta {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .resumen-monto-valor {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .resumen-linea {
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .resumen-item-val {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .resumen-nota {
+    background: #f0f9ff !important;
+    border-color: transparent !important;
+    color: #0369a1 !important;
+}
+
+[data-theme="light"] .resumen-nota svg {
+    stroke: #0284c7 !important;
+}
+
+/* ── 14. Registrar Visita (Modo Claro) ─────────────────────────────────────── */
+[data-theme="light"] .tarjeta-formulario-visita,
+[data-theme="light"] .tarjeta-pase-vacia,
+[data-theme="light"] .tarjeta-pase-activa {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 20px #0f172a0a !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .bloque-seccion-visita {
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .opcion-transporte {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] .opcion-transporte svg {
+    stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .opcion-transporte.seleccionada {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px #0284c740 !important;
+}
+
+[data-theme="light"] .opcion-transporte.seleccionada svg {
+    stroke: #ffffff !important;
+}
+
+[data-theme="light"] .boton-enviar-visita {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px #0284c740 !important;
+}
+
+[data-theme="light"] .boton-enviar-visita:hover {
+    background: #0369a1 !important;
+}
+
+[data-theme="light"] .vacio-titulo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .vacio-descripcion {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .icono-vacio-envoltura {
+    background: #f0f9ff !important;
+    border-color: transparent !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .pase-cabecera {
+    border-bottom-color: transparent !important;
+}
+
+[data-theme="light"] .pase-brand {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .pase-detalles {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .pase-etiqueta {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .pase-valor {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .pase-codigo-texto {
+    background: #f0f9ff !important;
+    color: #0284c7 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .btn-whatsapp {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .btn-descargar {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .btn-nuevo {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: transparent !important;
+}
+
+/* Tablas, Badges y Paginación (Visitas e Infracciones) */
+[data-theme="light"] .btn-tabla-qr {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .btn-tabla-accion {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+    color: #334155 !important;
+}
+
+[data-theme="light"] .btn-tabla-accion:hover {
+    background: #e2e8f0 !important;
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .paginacion-boton {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    color: #334155 !important;
+    box-shadow: 0 2px 6px #0f172a08 !important;
+}
+
+[data-theme="light"] .paginacion-boton.activo {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .badge-tipo-visitante {
+    background: #e0f2fe !important;
+    color: #0284c7 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .badge-actor-residente {
+    background: #e0f2fe !important;
+    color: #0284c7 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .badge-actor-visitante {
+    background: #f3e8ff !important;
+    color: #7c3aed !important;
+    border-color: transparent !important;
+}
+
+/* ── 20. Consolas Operativas: Registrar Visita e Infracciones (Modo Claro) ── */
+[data-theme="light"] .visita-panel-formulario,
+[data-theme="light"] .infraccion-panel-formulario {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 20px #0f172a0d !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .terminal-seccion {
+    border-bottom-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .terminal-badge-numero {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 10px #0284c740 !important;
+}
+
+[data-theme="light"] .terminal-seccion-titulo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .terminal-seccion-desc {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .campo-etiqueta {
+    color: #000000 !important;
+}
+
+/* Chips Selectores */
+[data-theme="light"] .chip-item,
+[data-theme="light"] .chip-lugar {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+    color: #475569 !important;
+}
+
+[data-theme="light"] .chip-item:hover,
+[data-theme="light"] .chip-lugar:hover {
+    background: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .chip-item.activo {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px #0284c740 !important;
+}
+
+/* Conmutadores de Modo / Actor / Transporte */
+[data-theme="light"] .btn-transporte-toggle,
+[data-theme="light"] .btn-actor-toggle,
+[data-theme="light"] .btn-medio-toggle {
+    background: #f1f5f9 !important;
+    border-color: transparent !important;
+    color: #475569 !important;
+}
+
+[data-theme="light"] .btn-transporte-toggle svg,
+[data-theme="light"] .btn-actor-toggle svg,
+[data-theme="light"] .btn-medio-toggle svg {
+    stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .btn-transporte-toggle.activo,
+[data-theme="light"] .btn-actor-toggle.activo,
+[data-theme="light"] .btn-medio-toggle.activo {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px #0284c740 !important;
+}
+
+[data-theme="light"] .btn-transporte-toggle.activo svg,
+[data-theme="light"] .btn-actor-toggle.activo svg,
+[data-theme="light"] .btn-medio-toggle.activo svg {
+    stroke: #ffffff !important;
+}
+
+/* Tarjetas de Gravedad en Infracciones */
+[data-theme="light"] .tarjeta-gravedad-item {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+    box-shadow: 0 2px 8px #0f172a08 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad-item .gravedad-monto {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad-item .gravedad-desc {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad-item.activo {
+    background: #0284c7 !important;
+    border-color: transparent !important;
+    box-shadow: 0 6px 18px #0284c740 !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad-item.activo .gravedad-monto,
+[data-theme="light"] .tarjeta-gravedad-item.activo .gravedad-desc {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .tarjeta-gravedad-item.activo .gravedad-tag {
+    background: #ffffff33 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+/* Botones Principales de Emisión */
+[data-theme="light"] .btn-emitir-pase-principal,
+[data-theme="light"] .btn-emitir-infraccion-principal {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 6px 20px #0284c740 !important;
+}
+
+[data-theme="light"] .btn-emitir-pase-principal:hover,
+[data-theme="light"] .btn-emitir-infraccion-principal:hover {
+    background: #0369a1 !important;
+}
+
+/* Tarjetas en Tiempo Real: Credencial y Boleta */
+[data-theme="light"] .credencial-tarjeta,
+[data-theme="light"] .boleta-tarjeta {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 30px #0f172a12 !important;
+}
+
+[data-theme="light"] .credencial-header,
+[data-theme="light"] .boleta-header {
+    border-bottom-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .credencial-marca,
+[data-theme="light"] .boleta-marca {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .credencial-submarca,
+[data-theme="light"] .boleta-submarca {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .credencial-avatar-icono {
+    background: #e0f2fe !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .credencial-avatar-icono svg {
+    stroke: #0284c7 !important;
+}
+
+[data-theme="light"] .credencial-nombre {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .credencial-info-bloque,
+[data-theme="light"] .boleta-info-bloque,
+[data-theme="light"] .boleta-descripcion-bloque,
+[data-theme="light"] .boleta-monto-bloque {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .credencial-info-label,
+[data-theme="light"] .boleta-info-label,
+[data-theme="light"] .boleta-monto-label {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .credencial-info-val,
+[data-theme="light"] .boleta-info-val {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .credencial-codigo,
+[data-theme="light"] .boleta-val-destacado {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .credencial-qr-caja {
+    background: #f8fafc !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .credencial-qr-leyenda {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .boleta-folio-fila {
+    background: #e0f2fe !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .boleta-folio-label {
+    color: #0369a1 !important;
+}
+
+[data-theme="light"] .boleta-folio-val {
+    color: #0284c7 !important;
+}
+
+[data-theme="light"] .boleta-monto-cifra {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .boleta-gravedad-pill {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .boleta-desc-texto {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .boleta-pie-legal {
+    background: #f0f9ff !important;
+    color: #0369a1 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .boleta-pie-legal svg {
+    stroke: #0284c7 !important;
+}
+
+/* Acciones Post-Emisión */
+[data-theme="light"] .credencial-acciones,
+[data-theme="light"] .boleta-acciones {
+    border-top-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .btn-whatsapp,
+[data-theme="light"] .btn-descargar,
+[data-theme="light"] .btn-imprimir,
+[data-theme="light"] .btn-marcar-pagada {
+    background: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 12px #0284c740 !important;
+}
+
+[data-theme="light"] .btn-nueva-emision,
+[data-theme="light"] .btn-nueva-infraccion {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .btn-nueva-emision:hover,
+[data-theme="light"] .btn-nueva-infraccion:hover {
+    background: #e2e8f0 !important;
+    color: #000000 !important;
+}
+
+/* Infracciones Recientes */
+[data-theme="light"] .infracciones-recientes-seccion {
+    border-top-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .recientes-titulo {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .recientes-conteo {
+    background: #e0f2fe !important;
+    color: #0284c7 !important;
+    border-color: transparent !important;
+}
+
+[data-theme="light"] .reciente-card {
+    background: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 12px #0f172a0a !important;
+    color: #000000 !important;
+}
+
+[data-theme="light"] .reciente-card-infractor {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .reciente-card-monto {
+    color: #000000 !important;
+}
+
+[data-theme="light"] .reciente-card-footer {
+    border-top-color: #f1f5f9 !important;
+}
+/* alertas en modo claro */
+[data-theme="light"] .aviso {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #0284c7 !important;
+    box-shadow: 0 12px 30px #0f172a24 !important;
+}
+[data-theme="light"] .aviso.exito { border-color: #16a34a !important; }
+[data-theme="light"] .aviso.error { border-color: #dc2626 !important; }
+[data-theme="light"] .aviso.advertencia { border-color: #d97706 !important; }
+[data-theme="light"] .aviso.info { border-color: #0284c7 !important; }
+[data-theme="light"] .aviso .aviso-icono { color: #ffffff !important; }
+[data-theme="light"] .alerta-movil-tarjeta,
+[data-theme="light"] .toast,
+[data-theme="light"] .toast-mensaje {
+    background: #ffffff !important;
+    color: #0f172a !important;
+}
+
+/* textos grises */
+body[data-theme="light"] [style*="color:#cbd5e1" i],
+body[data-theme="light"] [style*="color: #cbd5e1" i],
+body[data-theme="light"] [style*="color:#e2e8f0" i],
+body[data-theme="light"] [style*="color: #e2e8f0" i],
+body[data-theme="light"] [style*="color:#94a3b8" i],
+body[data-theme="light"] [style*="color: #94a3b8" i],
+body[data-theme="light"] [style*="color: #8892a8" i] {
+    color: #475569 !important;
+}
+/* texto blanco sin fondo */
+body[data-theme="light"] [style*="color:#ffffff" i]:not([style*="background"]),
+body[data-theme="light"] [style*="color: #ffffff" i]:not([style*="background"]),
+body[data-theme="light"] [style*="color:#fff;" i]:not([style*="background"]),
+body[data-theme="light"] [style*="color: #fff;" i]:not([style*="background"]) {
+    color: #0f172a !important;
+}
+/* botones con fondo translucido */
+body[data-theme="light"] [style*="rgba(255,255,255,0.05)" i],
+body[data-theme="light"] [style*="rgba(255, 255, 255, 0.05)" i],
+body[data-theme="light"] [style*="#ffffff0f" i],
+body[data-theme="light"] [style*="#ffffff08" i] {
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+}
+body[data-theme="light"] button[style*="rgba(255,255,255,0.05)" i],
+body[data-theme="light"] button[style*="rgba(255, 255, 255, 0.05)" i] {
+    color: #0f172a !important;
+}
+/* fondos oscuros */
+body[data-theme="light"] [style*="#1e293b66" i],
+body[data-theme="light"] [style*="rgba(15,23,42,0.5)" i],
+body[data-theme="light"] [style*="#1a2238" i] {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+body[data-theme="light"] [style*="rgba(0,0,0,0.12)" i],
+body[data-theme="light"] [style*="rgba(0,0,0,0.2)" i] {
+    background: #f1f5f9 !important;
+}
+body[data-theme="light"] .notif-tarjeta {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+body[data-theme="light"] .notif-tarjeta.no-leida {
+    background: #f0f9ff !important;
+    border-color: #bae6fd !important;
+}
+body[data-theme="light"] .notif-tarjeta .notif-cuerpo,
+body[data-theme="light"] .notif-tarjeta .notif-cuerpo strong {
+    color: #0f172a;
+}
+
+/* buscadores */
+[data-theme="light"] .caja-busqueda input,
+[data-theme="light"] .caja-busqueda input:focus {
+    background: transparent !important;
+    box-shadow: none !important;
+}

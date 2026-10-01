@@ -1,0 +1,70 @@
+/*
+ * css/propiedades.css
+ * Estilos específicos de la página de propiedades
+ */
+
+/* ── Botones de Acción dentro de la Tabla ── */
+.btn-ver-propiedad,
+.btn-editar-propiedad {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.75;
+    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    margin: 0 auto;
+    color: var(--text-placeholder);
+}
+
+.btn-ver-propiedad:hover { opacity: 1; color: var(--accent); transform: scale(1.1); }
+.btn-editar-propiedad:hover { opacity: 1; color: #ffffff; transform: translateX(2px); }
+
+.icon-ojo { width: 20px; height: 20px; object-fit: contain; }
+
+.three-col {
+    display: flex;
+    gap: 16px;
+}
+.three-col > div { flex: 1; }
+
+.panel-ayuda {
+    font-family: var(--font-primary);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: -2px 0 6px;
+}
+
+/* ── Lista de Residentes Asociados a la Propiedad ── */
+.lista-miniatura-residente {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+.fila-miniatura-residente {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0f172a80;
+    border: 1px solid #1e293b;
+    border-radius: 11px;
+    padding: 10px 16px;
+    transition: all 0.2s ease;
+}
+.fila-miniatura-residente:hover {
+    border-color: #2473f54d;
+    background: #1146d014;
+}
+.nombre-miniatura-residente {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    color: #ffffff;
+}
+
+@media (max-width: 720px) {
+    .three-col { flex-direction: column; gap: 0; }
+}

@@ -1,0 +1,208 @@
+﻿ /* pantalla de carga */
+
+/* Fuentes cargadas desde comun.css */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Evita scrolls durante la animación */
+}
+
+body {
+    background-color: #02020E;
+    background:
+        radial-gradient(circle at top left, #111174a6 0%, transparent 20%),
+        radial-gradient(circle at bottom right, #111174a6 0%, transparent 20%),
+        #02020E;
+    color: #ffffff;
+    font-family: var(--font-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ── Contenedor principal ── */
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.45s ease;
+}
+
+/* salida con transicion */
+.contenedor-principal.es-salida {
+    opacity: 0;
+}
+
+/* ── Grupo central ── */
+.center-grupo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Logo --- */
+.envoltura-logotipo {
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logotipo-completo {
+    width: 92px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 18px #1d70f559);
+}
+
+.nombre-marca {
+    font-family: var(--font-primary);
+    font-size: 22px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+/* ── Grupo de texto y spinner ── */
+.texto-grupo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    opacity: 0; /* Oculto inicialmente */
+    transition: opacity 0.5s ease-in-out;
+}
+
+.contenedor-girador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.texto-carga {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    min-height: 18px;
+    text-align: center;
+}
+
+.subtexto {
+    font-size: 12px;
+    color: #8892b0;
+    animation: textPulse 2s infinite ease-in-out;
+}
+
+/* --- Spinner --- */
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #1d70f51f;
+    border-top-color: #1d70f5;
+    border-right-color: #4f8dff;
+    border-radius: 50%;
+    animation: spin 0.9s cubic-bezier(0.55, 0.05, 0.4, 0.95) infinite;
+    box-shadow: 0 0 25px #1d70f540;
+}
+
+/* anillo animado */
+
+.anillo-orbital {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.orbe {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #1d70f51a;
+    filter: blur(8px);
+    animation: orbit 20s infinite linear, pulseOrb 4s infinite ease-in-out;
+}
+
+.orbe:nth-child(even) {
+    width: 25px; height: 25px;
+    background: #ffffff1a;
+    animation-duration: 25s, 5s;
+}
+
+.orbe:nth-child(3n) {
+    width: 60px; height: 60px;
+    filter: blur(15px);
+}
+
+.orbe:nth-child(1) { top: 10%; left: 10%; }
+.orbe:nth-child(2) { top: 80%; left: 15%; animation-delay: -5s; }
+.orbe:nth-child(3) { top: 15%; right: 15%; animation-delay: -10s; }
+.orbe:nth-child(4) { bottom: 15%; right: 10%; animation-delay: -15s; }
+.orbe:nth-child(5) { top: 50%; left: 5%; animation-delay: -2s; }
+.orbe:nth-child(6) { top: 5%; right: 50%; animation-delay: -7s; }
+.orbe:nth-child(7) { bottom: 50%; right: 5%; animation-delay: -12s; }
+.orbe:nth-child(8) { bottom: 5%; left: 50%; animation-delay: -17s; }
+
+@keyframes orbit {
+    0% { transform: rotate(0deg) translateX(45vw) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(45vw) rotate(-360deg); }
+}
+
+@keyframes pulseOrb {
+    0%, 100% { opacity: 0.1; transform: scale(1); filter: blur(8px); }
+    50% { opacity: 0.6; transform: scale(1.2); filter: blur(15px); }
+}
+
+/* =========================================
+   ESTADOS DE LA ANIMACIÓN (controlados por JS)
+   ========================================= */
+
+/* ESTADO 1 (al cargar): el logo está centrado y solo */
+#aplicacion-carga:not(.es-cargando):not(.es-finalizado) .texto-grupo {
+    opacity: 0;
+}
+
+/* ESTADO 2 (cargando): aparece el spinner/texto, el logo se reduce */
+#aplicacion-carga.es-cargando .envoltura-logotipo {
+    transform: scale(0.88);
+}
+
+#aplicacion-carga.es-cargando .texto-grupo {
+    opacity: 1;
+}
+
+/* estado final */
+#aplicacion-carga.es-finalizado .center-grupo {
+    transform: scale(0.7);
+}
+
+#aplicacion-carga.es-finalizado .texto-grupo {
+    opacity: 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes textPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+@media (max-width: 480px) {
+    .logotipo-completo { width: 76px; }
+    .nombre-marca { font-size: 19px; letter-spacing: 2.5px; }
+    .spinner { width: 52px; height: 52px; }
+}
+
+

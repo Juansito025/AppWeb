@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casetas | Keeper</title>
+    <link rel="stylesheet" href="../css/comun.css">
+    <link rel="stylesheet" href="../css/casetas.css">
+    <link rel="stylesheet" href="../css/animaciones.css">
+    <link rel="stylesheet" href="../css/tema-claro.css">
+    <link rel="icon" href="../img/logo-Global.png">
+</head>
+<body>
+    
+    <div class="bg-cuadricula" aria-hidden="true"></div>
+    
+    <!-- boton de menu -->
+<button class="movil-menu-btn" id="movil-menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="app-barra-lateral">
+    <svg class="movil-menu-icono" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="barra barra-superior"    d="M3 6h18"  stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-medio"    d="M3 12h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-inferior" d="M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+    </svg>
+</button>
+<div class="movil-capa" id="movil-capa"></div>
+   <aside class="barra-lateral" id="app-barra-lateral">
+
+    
+    <div class="contenedor-logotipo">
+        <div class="caja-icono-logotipo">
+            <img src="../img/logo-blanco.png" alt="Keeper" class="logo">
+        </div>
+        <span class="texto-logotipo">keeper</span>
+    </div>
+
+    
+    <div class="carta-usuario">
+        <div class="cabecera-usuario">
+            <svg class="avatar avatar-icono" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="metadatos-usuario">
+                <span class="nombre-usuario"><span class="skeleton"></span></span>
+                <div class="conmutador-modo">
+                    <button class="boton-conmutador activo" id="btn-oscuro" aria-label="Modo oscuro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="boton-conmutador" id="btn-claro" aria-label="Modo claro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h3 class="bienvenido"><span class="skeleton"></span></h3>
+    </div>
+
+    
+    <nav class="menu-seleccion">
+        <ul>
+            <li>
+                <a href="./dashboard.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    Panel Principal
+                </a>
+            </li>
+            <li>
+                <a href="./escanear-qr.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    Escanear entrada QR
+                </a>
+            </li>
+            <li>
+                <a href="./registrar-incidente.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Reportar incidente
+                </a>
+            </li>
+            <li >
+                <a href="./registrar-visita.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    Registrar visita
+                </a>
+            </li>
+            <li>
+                <a href="./notificaciones.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notificaciones</span>
+                    <span class="insignia-notificaciones-menu oculto" id="insignia-notificaciones-menu" style="display:none;">0</span>
+                </a>
+            </li>
+            <li>
+                <a href="./propiedades.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Propiedades
+                </a>
+            </li>
+            <li class="estado-a">
+                <a href="./casetas.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22V12h6v10"/><path d="M4 8h16"/><circle cx="12" cy="5" r="1"/></svg>
+                    Casetas
+                </a>
+            </li>
+            <li>
+                <a href="./empleados.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Empleados
+                </a>
+            </li>
+            <li>
+                <a href="./residentes.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Residentes
+                </a>
+            </li>
+            <li>
+                <a href="./turnos.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Turnos
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    
+    <button class="btn-secondary" id="btn-cerrar-sesion">
+        <div class="cerrar-sesion-icono-contenedor">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <span>Cerrar sesión</span>
+    </button>
+</aside>
+
+<div id="modal-cerrar-sesion" class="capa-modal">
+    <div class="tarjeta-modal">
+        <div class="icono-modal">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <p class="texto-modal">¿Desea cerrar sesión?</p>
+        <div class="acciones-modal">
+            <button id="boton-cancelar" class="boton-cancelar" type="button">Cancelar</button>
+            <button id="boton-aceptar" class="boton-aceptar" type="button">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<main class="contenido-principal">
+    <div class="contenido-envoltura">
+
+        
+        <div class="page-encabezado">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="page-encabezado-icono" style="color:#2473F5; margin-right: 12px; flex-shrink: 0;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22V12h6v10"/><path d="M4 8h16"/><circle cx="12" cy="5" r="1"/></svg>
+            <div>
+                <h1 class="page-titulo">Casetas</h1>
+            </div>
+        </div>
+
+        <div class="barra-herramientas">
+            <div class="contenedor-busqueda">
+                <input type="text" id="casetas-entrada-buscar" class="entrada-busqueda" placeholder="Buscar caseta por nombre, dirección o teléfono...">
+                <svg class="icono-busqueda" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8892a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            
+            <div class="campo-desplegable selector-desplegable" id="casetas-filtro-estado-desplegable">
+                <button type="button" class="campo-activador selector-activador" id="casetas-filtro-estado-activador">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2473F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="selector-icono" style="margin-right:6px;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                    <span class="campo-activador-texto" id="casetas-filtro-estado-activador-texto">Tipo: Todos</span>
+                    <span class="campo-flecha" style="margin-left:8px; font-size:10px;">▼</span>
+                </button>
+                <div class="campo-panel selector-panel" id="casetas-filtro-estado-panel">
+                    <div class="selector-opcion seleccionado" data-value="Todos" data-label="Tipo: Todos">Tipo: Todos</div>
+                    <div class="selector-opcion" data-value="Caseta" data-label="Tipo: Caseta">Tipo: Caseta</div>
+                    <div class="selector-opcion" data-value="Oficina" data-label="Tipo: Oficina">Tipo: Oficina</div>
+                </div>
+            </div>
+
+            <div class="barra-herramientas-derecha">
+                <span class="etiqueta-total" id="casetas-total-etiqueta">Casetas Totales: 0</span>
+                <button class="btn-primary" id="btn-abrir-agregar-caseta" type="button">
+                    <span class="btn-agregar-mas">+</span> Agregar caseta
+                </button>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Caseta / Lugar</div></th>
+                        <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Tipo</div></th>
+                        <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.92 3.33 2 2 0 0 1 3.94 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Teléfono</div></th>
+                        <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Dirección</div></th>
+                        <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Guardías / Capacidad</div></th>
+                        <th><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Estado</div></th>
+                        <th class="col-acciones"><div class="contenido-cabecera"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Acciones</div></th>
+                    </tr>
+                </thead>
+                <tbody id="casetas-cuerpo-tabla">
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <div class="paginacion-contenedor" id="paginacion-casetas"></div>
+
+    </div>
+</main>
+
+<footer class="pie-pagina">
+    <img src="../img/logo-blanco.png" alt="Keeper" class="logotipo-pie-pagina">
+    <span class="texto-pie-pagina">© 2026 <strong>keeper</strong>. Todos los derechos reservados.</span>
+</footer>
+
+<div id="panel-agregar-caseta" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="panel-encabezado-texto">
+                <h3>Agregar nueva caseta</h3>
+                <p>Completar la información de la nueva caseta</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-agregar" type="button" aria-label="Cerrar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+
+        <form id="form-agregar-caseta" class="panel-cuerpo">
+            <label class="panel-etiqueta" for="agregar-nombre">Nombre de la caseta / Lugar</label>
+            <input class="panel-entrada" type="text" id="agregar-nombre" placeholder="Ej. Caseta Oeste" maxlength="50" required>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="agregar-tipo">Tipo de lugar</label>
+                    <select class="seleccion-formulario" id="agregar-tipo" required>
+                        <option value="Caseta" selected>Caseta</option>
+                        <option value="Oficina">Oficina</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="agregar-capacidad">Capacidad (guardías)</label>
+                    <input class="panel-entrada" type="number" id="agregar-capacidad" min="1" max="50" step="1" value="3" required>
+                </div>
+            </div>
+
+            <label class="panel-etiqueta" for="agregar-telefono">Teléfono</label>
+            <input class="panel-entrada" type="tel" id="agregar-telefono" placeholder="Ej. 6433-2321" maxlength="9" pattern="^[0-9]{4}-[0-9]{4}$" title="Formato teléfono: 0000-0000" required>
+
+            <label class="panel-etiqueta" for="agregar-direccion">Dirección</label>
+            <textarea class="panel-textarea" id="agregar-direccion" placeholder="Ej. Acceso oeste, Calle Encinos 34" maxlength="100" required></textarea>
+
+            <div class="panel-actions">
+                <button type="button" class="btn-cancelar-panel btn-secondary" id="btn-cancelar-agregar">Cancelar</button>
+                <button type="submit" class="btn-guardar-panel btn-primary">Guardar Caseta</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="panel-detalle-caseta" class="panel-capa">
+    <div class="panel-card">
+        <div class="panel-encabezado">
+            <div class="panel-encabezado-icono">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="panel-encabezado-texto">
+                <h3 id="detalle-titulo">Caseta</h3>
+                <p>Información, guardías asignados y estado</p>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-detalle" type="button" aria-label="Cerrar">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+
+        <form id="form-detalle-caseta" class="panel-cuerpo">
+            <label class="panel-etiqueta" for="detalle-nombre">Nombre de la caseta / Lugar</label>
+            <input class="panel-entrada" type="text" id="detalle-nombre" maxlength="50" required>
+
+            <div class="dos-col">
+                <div>
+                    <label class="panel-etiqueta" for="detalle-tipo">Tipo de lugar</label>
+                    <select class="seleccion-formulario" id="detalle-tipo">
+                        <option value="Caseta">Caseta</option>
+                        <option value="Oficina">Oficina</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="panel-etiqueta" for="detalle-capacidad">Capacidad (guardías)</label>
+                    <input class="panel-entrada" type="number" id="detalle-capacidad" min="1" max="50" step="1">
+                </div>
+            </div>
+
+            <label class="panel-etiqueta" for="detalle-telefono">Teléfono</label>
+            <input class="panel-entrada" type="tel" id="detalle-telefono" placeholder="0000-0000" maxlength="9" pattern="^[0-9]{4}-[0-9]{4}$" title="Formato teléfono: 0000-0000" required>
+
+            <label class="panel-etiqueta" for="detalle-direccion">Dirección</label>
+            <textarea class="panel-textarea" id="detalle-direccion" maxlength="100" required></textarea>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                <label class="panel-etiqueta" style="margin:0;">Guardías asignados</label>
+                <button type="button" id="btn-toggle-seccion-asignar-caseta" class="btn-secondary" style="font-size:11px; padding:4px 10px; border-radius:6px; cursor:pointer;">
+                    + Añadir varios guardias
+                </button>
+            </div>
+            <div class="guardias-lista" id="detalle-guardias-lista" style="max-height:160px; overflow-y:auto; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:8px; margin-top:6px; background:rgba(0,0,0,0.15); display:flex; flex-direction:column; gap:6px;"></div>
+
+            <!-- Panel para asignar múltiples guardias a esta caseta -->
+            <div id="bloque-asignar-guardias-caseta" style="display:none; margin-top:12px; padding:12px; background:rgba(36,115,245,0.05); border:1px solid rgba(36,115,245,0.2); border-radius:10px;">
+                <div style="font-size:12px; font-weight:700; color:#60a5fa; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
+                    Asignar múltiples guardias a esta caseta
+                </div>
+                
+                <div style="margin-bottom:10px;">
+                    <label class="panel-etiqueta" style="font-size:11px;" for="caseta-asig-turno">Turno Operativo *</label>
+                    <select class="seleccion-formulario" id="caseta-asig-turno" style="width:100%; font-size:13px;">
+                        <option value="">Seleccionar turno...</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <label class="panel-etiqueta" style="font-size:11px; margin:0;">Seleccionar personal disponible</label>
+                    <button type="button" id="btn-caseta-todos-guardias" style="background:none; border:none; color:#38bdf8; font-size:11px; font-weight:600; cursor:pointer; padding:0;">
+                        Seleccionar todos
+                    </button>
+                </div>
+
+                <div class="caja-busqueda" style="margin-bottom:8px; padding:4px 8px; border:1px solid rgba(255,255,255,0.1); border-radius:6px; background:rgba(0,0,0,0.2);">
+                    <input type="text" id="input-buscar-guardias-caseta" placeholder="Buscar guardia..." style="font-size:12px; background:transparent; border:none; color:#ffffff; width:100%; outline:none;">
+                </div>
+
+                <div id="contenedor-guardias-disponibles-caseta" style="max-height:140px; overflow-y:auto; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:6px; background:rgba(0,0,0,0.2); display:flex; flex-direction:column; gap:4px;">
+                </div>
+
+                <div style="margin-top:10px; display:flex; justify-content:flex-end;">
+                    <button type="button" id="btn-guardar-asignaciones-caseta" class="btn-primary" style="font-size:12px; padding:6px 14px; border-radius:6px; font-weight:600;">
+                        Asignar seleccionados
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="panel-actions panel-actions-detalle">
+                <button type="button" class="btn-cancelar-panel btn-secondary" id="btn-cancelar-detalle">Cancelar</button>
+                <button type="submit" class="btn-guardar-panel btn-primary" id="btn-guardar-edicion">Guardar cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/Recursos/comun.js"></script>
+    <script src="../js/Recursos/animaciones.js"></script><script src="../js/Recursos/validaciones.js?v=2"></script>
+    <script src="../js/servicios/api-config.js"></script>
+    <script type="module" src="../js/controladores/casetas.js"></script>
+</body>
+</html>
+
+
+

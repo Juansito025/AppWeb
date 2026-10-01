@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escanear QR â€” Keeper</title>
+    <link rel="stylesheet" href="../css/comun.css">
+    <link rel="stylesheet" href="../css/escanear-qr.css">
+    <link rel="stylesheet" href="../css/panel-infracciones.css">
+    <link rel="stylesheet" href="../css/animaciones.css">
+    <link rel="stylesheet" href="../css/tema-claro.css">
+    <link rel="icon" href="../img/logo-Global.png">
+</head>
+<body>
+    
+    <!-- boton de menu -->
+<button class="movil-menu-btn" id="movil-menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="app-barra-lateral">
+    <svg class="movil-menu-icono" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="barra barra-superior"    d="M3 6h18"  stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-medio"    d="M3 12h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path class="barra barra-inferior" d="M3 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+    </svg>
+</button>
+<div class="movil-capa" id="movil-capa"></div>
+
+<aside class="barra-lateral" id="app-barra-lateral">
+    <div class="contenedor-logotipo">
+        <div class="caja-icono-logotipo">
+            <img src="../img/logo-blanco.png" alt="Keeper" class="logo">
+        </div>
+        <span class="texto-logotipo">keeper</span>
+    </div>
+
+    <div class="carta-usuario">
+        <div class="cabecera-usuario">
+            <svg class="avatar avatar-icono" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="metadatos-usuario">
+                <span class="nombre-usuario"><span class="skeleton"></span></span>
+                <div class="conmutador-modo">
+                    <button class="boton-conmutador activo" id="btn-oscuro" aria-label="Modo oscuro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button class="boton-conmutador" id="btn-claro" aria-label="Modo claro">
+                        <svg class="alternar-img" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <h3 class="bienvenido"><span class="skeleton"></span></h3>
+    </div>
+
+    <nav class="menu-seleccion">
+        <ul>
+            <li>
+                <a href="./dashboard.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    Panel Principal
+                </a>
+            </li>
+            <li class="estado-a">
+                <a href="./escanear-qr.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    Escanear entrada QR
+                </a>
+            </li>
+            <li>
+                <a href="./registrar-incidente.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Reportar incidente
+                </a>
+            </li>
+            <li >
+                <a href="./registrar-visita.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                    Registrar visita
+                </a>
+            </li>
+            <li>
+                <a href="./notificaciones.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notificaciones</span>
+                    <span class="insignia-notificaciones-menu oculto" id="insignia-notificaciones-menu" style="display:none;">0</span>
+                </a>
+            </li>
+            <li>
+                <a href="./propiedades.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Propiedades
+                </a>
+            </li>
+            <li>
+                <a href="./casetas.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22V12h6v10"/><path d="M4 8h16"/><circle cx="12" cy="5" r="1"/></svg>
+                    Casetas
+                </a>
+            </li>
+            <li>
+                <a href="./empleados.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Empleados
+                </a>
+            </li>
+            <li>
+                <a href="./residentes.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Residentes
+                </a>
+            </li>
+            <li>
+                <a href="./turnos.html">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono-menu"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Turnos
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <button class="btn-secondary" id="btn-cerrar-sesion">
+    <div class="cerrar-sesion-icono-contenedor">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </div>
+    <span>Cerrar sesión</span>
+</button>
+</aside>
+
+<div id="modal-cerrar-sesion" class="capa-modal">
+    <div class="tarjeta-modal">
+        <div class="icono-modal">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <p class="texto-modal">¿Desea cerrar sesión?</p>
+        <div class="acciones-modal">
+            <button id="boton-cancelar" class="boton-cancelar" type="button">Cancelar</button>
+            <button id="boton-aceptar" class="boton-aceptar" type="button">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-motivo-rechazo" class="capa-modal">
+    <div class="tarjeta-modal motivo-modal-card">
+        <div class="icono-modal">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="modal-icono-img" style="color:#ef4444;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </div>
+        <p class="texto-modal">Motivo del rechazo</p>
+
+        <div class="motivo-lista" id="motivo-lista">
+            <label class="motivo-opcion">
+                <input type="radio" name="motivoRechazo" value="Documento o identificación no coincide">
+                Documento o identificación no coincide
+            </label>
+            <label class="motivo-opcion">
+                <input type="radio" name="motivoRechazo" value="No autorizado por el residente">
+                No autorizado por el residente
+            </label>
+            <label class="motivo-opcion">
+                <input type="radio" name="motivoRechazo" value="Vehículo no registrado en la propiedad">
+                Vehículo no registrado en la propiedad
+            </label>
+            <label class="motivo-opcion">
+                <input type="radio" name="motivoRechazo" value="Horario de visita no permitido">
+                Horario de visita no permitido
+            </label>
+            <label class="motivo-opcion">
+                <input type="radio" name="motivoRechazo" value="Otro">
+                Otro (especificar)
+            </label>
+        </div>
+
+        <textarea id="motivo-otro-texto" class="motivo-otro-texto qr-oculto"
+                  placeholder="Escribe el motivo del rechazo..."></textarea>
+
+        <div class="acciones-modal">
+            <button id="btn-cancelar-rechazo" class="boton-cancelar" type="button">Cancelar</button>
+            <button id="btn-confirmar-rechazo" class="boton-aceptar btn-confirmar-rechazo" type="button" disabled>
+                Confirmar rechazo
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="panel-infracciones-lista" class="infp-capa">
+    <div class="infp-card">
+        <div class="infp-encabezado">
+            <div>
+                <div class="infp-encabezado-titulo">Infracciones</div>
+                <div class="infp-encabezado-subtitulo">Historial registrado</div>
+            </div>
+            <button class="panel-cerrar" id="btn-cerrar-infracciones-lista" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="infp-lista" id="infp-lista-contenedor"></div>
+    </div>
+</div>
+
+<div id="panel-infraccion-detalle" class="infp-capa">
+    <div class="infp-card">
+        <div class="infp-encabezado">
+            <div>
+                <button class="infp-volver" id="boton-volver-lista-infracciones" type="button" aria-label="Volver"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <div class="infp-encabezado-titulo" id="infp-detalle-titulo">—</div>
+                <div class="infp-encabezado-subtitulo" id="infp-detalle-fecha">—</div>
+            </div>
+        </div>
+        <div class="infp-detalle-cuerpo">
+            <div class="infp-detalle-fila">
+                <span class="infp-item-punto" id="infp-detalle-punto"></span>
+                <span id="infp-detalle-gravedad-texto">—</span>
+            </div>
+            <p class="infp-detalle-desc" id="infp-detalle-desc">—</p>
+
+            <div class="infp-detalle-datos">
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Causante</span><strong id="infp-detalle-causante">—</strong></div>
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Nombre</span><strong id="infp-detalle-nombre">—</strong></div>
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Residente visitado</span><strong id="infp-detalle-residente">—</strong></div>
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Núcleo familiar</span><strong id="infp-detalle-nucleo">—</strong></div>
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2" ry="2"/><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/></svg> Transporte</span><strong id="infp-detalle-transporte">—</strong></div>
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"/><line x1="7" y1="8" x2="11" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg> DUI</span><strong id="infp-detalle-dui">—</strong></div>
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2" ry="2"/><line x1="8" y1="2" x2="8" y2="4"/><line x1="16" y1="2" x2="16" y2="4"/><line x1="4" y1="10" x2="20" y2="10"/></svg> Matrícula</span><strong id="infp-detalle-matricula">—</strong></div>
+                <div class="infp-detalle-dato"><span class="infp-dato-etiqueta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Costo</span><strong id="infp-detalle-costo">—</strong></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="contenido-principal">
+    <div class="contenido-envoltura">
+
+        <header class="encabezado-qr">
+            <div class="grupo-titulo-qr">
+                <div>
+                    <h2 class="titulo-qr">Información de la persona</h2>
+                </div>
+            </div>
+        </header>
+
+        <section class="qr-panel" id="qr-panel">
+
+            
+            <div class="qr-marco-zona" id="qr-estado-marco">
+                <div class="qr-marco">
+                    <span class="qr-corner qr-corner-tl"></span>
+                    <span class="qr-corner qr-corner-tr"></span>
+                    <span class="qr-corner qr-corner-bl"></span>
+                    <span class="qr-corner qr-corner-br"></span>
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="qr-icono-svg"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/></svg>
+                </div>
+            </div>
+
+            
+            <!-- Zona Cámara en Vivo -->
+            <div class="qr-camara-zona qr-oculto" id="qr-estado-camara" style="width: 100%; max-width: 380px; margin: 0 auto; position: relative;">
+                <div id="qr-reader" style="width: 100%; min-height: 250px; border-radius: 16px; overflow: hidden; border: 2px solid var(--accent); box-shadow: 0 0 25px var(--accent-glow-strong); background: #000;"></div>
+                <button type="button" id="btn-detener-camara" class="btn-detener-camara qr-oculto">✕ Cancelar</button>
+            </div>
+
+            <div class="qr-cargando-zona qr-oculto" id="qr-estado-cargando">
+                <div class="qr-spinner"><div class="qr-spinner-arco"></div></div>
+                <p class="texto-cargando-qr">Obteniendo información del pase...</p>
+            </div>
+
+            
+            <div class="qr-foto-zona qr-oculto" id="qr-estado-foto">
+                <div class="circulo-foto-qr" style="position: relative; width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: var(--accent-glow); border: 2px solid var(--accent); margin: 0 auto;">
+                    <img src="../img/logo-Global.png" alt="Foto de la persona escaneada" class="qr-foto-icono-img" id="qr-foto-persona-img" style="width:100%; height:100%; object-fit:cover; border-radius:50%; display: none;">
+                    <div id="qr-foto-persona-placeholder" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color: var(--accent);">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="zona-rechazado-qr qr-oculto" id="qr-estado-rechazado">
+                <div class="icono-rechazado-qr">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="qr-rechazado-icono-img" style="color:#ef4444;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <p class="texto-rechazado-qr">Acceso no autorizado</p>
+                <p class="motivo-rechazado-qr" id="qr-motivo-mostrado"></p>
+            </div>
+
+        </section>
+
+        <section class="panel-datos-qr">
+            <div class="fila-dato-qr">
+                <span class="etiqueta-dato-qr">Nombre completo</span>
+                <span class="valor-dato-qr" id="valor-nombre">Esperando escaneo...</span>
+            </div>
+            <div class="fila-dato-qr">
+                <span class="etiqueta-dato-qr">DUI</span>
+                <span class="valor-dato-qr" id="valor-dui">Esperando escaneo...</span>
+            </div>
+            <div class="fila-dato-qr">
+                <span class="etiqueta-dato-qr">Casa / residente visitado</span>
+                <span class="valor-dato-qr" id="valor-casa">Esperando escaneo...</span>
+            </div>
+            <div class="fila-dato-qr">
+                <span class="etiqueta-dato-qr">Hora estimada de llegada</span>
+                <span class="valor-dato-qr" id="valor-hora">Esperando escaneo...</span>
+            </div>
+            <div class="fila-dato-qr">
+                <span class="etiqueta-dato-qr">Tipo de acceso</span>
+                <span class="valor-dato-qr" id="valor-tipo">Esperando escaneo...</span>
+            </div>
+            <div class="fila-dato-qr">
+                <span class="etiqueta-dato-qr">Vehículo / matrícula</span>
+                <span class="valor-dato-qr" id="valor-vehiculo">Esperando escaneo...</span>
+            </div>
+            <div class="fila-dato-qr">
+                <span class="etiqueta-dato-qr">Teléfono</span>
+                <span class="valor-dato-qr" id="valor-telefono">Esperando escaneo...</span>
+            </div>
+        </section>
+
+        <footer class="qr-pie" style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:center;">
+            <button class="qr-btn-scan" id="btn-escanear" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Escanear entrada (Cámara)
+            </button>
+
+            <div class="qr-oculto" id="qr-botones-resultado" style="display:contents;">
+                <button class="boton-permitir-qr" id="btn-permitir">Permitir acceso</button>
+                <button class="boton-denegar-qr" id="btn-denegar">Denegar acceso</button>
+                <button class="boton-infracciones-qr" id="btn-infracciones">Ver incidentes</button>
+            </div>
+        </footer>
+
+    </div>
+</main>
+
+<footer class="pie-pagina">
+    <img src="../img/logo-blanco.png" alt="Keeper" class="logotipo-pie-pagina">
+    <span class="texto-pie-pagina">© 2026 <strong>keeper</strong>. Todos los derechos reservados.</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="../js/Recursos/comun.js"></script>
+<script src="../js/Recursos/animaciones.js"></script><script src="../js/Recursos/validaciones.js?v=2"></script>
+    <script src="../js/servicios/api-config.js"></script>
+<script type="module" src="../js/controladores/escanear-qr.js"></script>
+
+</body>
+</html>
+
+
+
