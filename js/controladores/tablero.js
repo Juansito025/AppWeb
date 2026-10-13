@@ -4,8 +4,14 @@ function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({ '&':'&amp
 
 // carga del modulo
 const getVisitas = () => (window.getVisitas ? window.getVisitas() : window.apiFetch('/visitas/paginado?page=0&size=10'));
-const getTareas = () => (window.getTareas ? window.getTareas() : window.apiFetch(`/tareas/empleado/${idEmpleado}`));
-const actualizarEstadoTarea = (id, estado) => (window.actualizarEstadoTarea ? window.actualizarEstadoTarea(id, estado) : window.apiFetch(`/tareas/${id}/estado`, { method: 'PATCH', body: { estado } }));
+const idSesion = () => { const s = window.CredentialsStore?.getSession?.(); return s?.idEmpleado || s?.id || null; };
+const getTareas = async () => {
+    const me = await window.CredentialsStore?.verificarSesion?.().catch(() => null);
+    const id = me?.id || idSesion();
+    if (!id) return [];
+    return window.apiFetch(`/tareas/empleado/${encodeURIComponent(id)}`, { silencioso: true });
+};
+const actualizarEstadoTarea = (id, estado) => window.apiFetch(`/tareas/${id}/estado`, { method: 'PATCH', body: { estado } });
 const getPersonas = () => (window.getPersonas ? window.getPersonas() : window.apiFetch('/personas'));
 const getPropiedades = () => (window.getPropiedades ? window.getPropiedades() : window.apiFetch('/propiedades'));
 const getPasesQR = () => (window.getPasesQR ? window.getPasesQR() : window.apiFetch('/paseAccesoQR'));
@@ -17,6 +23,7 @@ let propiedades = [];
 let pasesQR = [];
 const CLASE_ESTADO = { Aprobada: 'estado-aprobada', Desaprobada: 'estado-rechazada', Rechazada: 'estado-rechazada', Expirada: 'estado-expirada', Pendiente: 'estado-pendiente' };
 let tareas = [];
+let errorTareas = '';
 let busqueda = '';
 let filtroCardActual = 'totales'; // 'totales' | 'aceptados' | 'rechazados' | 'vehiculos'
 let filtroTareaEstado = 'todos';
@@ -78,25 +85,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         cargarDatosDashboard(),
         cargarTareas()
     ]);
+    setInterval(() => {
+        if (document.visibilityState !== 'visible') return;
+        cargarDatosDashboard();
+        cargarTareas();
+    }, 60000);
 });
 
 // ── Fecha Actual ─────────────────────────────────────────────────────────────
 function establecerFechaActual() {
     if (!fechaActualEl) return;
-    const hoy = new Date();
-    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    fechaActualEl.textContent = hoy.toLocaleDateString('es-ES', opciones);
+    const pintar = () => {
+        const texto = new Date().toLocaleDateString('es-SV', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        fechaActualEl.textContent = texto.charAt(0).toUpperCase() + texto.slice(1);
+    };
+    pintar();
+    if (!fechaActualEl._reloj) fechaActualEl._reloj = setInterval(pintar, 60000);
 }
 
 // ── Carga y Normalización de Datos del Dashboard ──────────────────────────────
 async function cargarDatosDashboard() {
     try {
-        const [visitasRes, personasRes, propRes, pasesRes, visitantesRes] = await Promise.all([
+        const [visitasRes, personasRes, propRes, pasesRes, visitantesRes, accesosRes] = await Promise.all([
             getVisitas().catch(() => []),
             getPersonas().catch(() => []),
             getPropiedades().catch(() => []),
             getPasesQR().catch(() => []),
-            window.apiFetch('/visitantes', { silencioso: true }).catch(() => [])
+            window.apiFetch('/visitantes', { silencioso: true }).catch(() => []),
+            window.apiFetch('/accesos', { silencioso: true }).catch(() => [])
         ]);
         const visitantes = Array.isArray(visitantesRes) ? visitantesRes : (visitantesRes?.data || []);
         const mapaVisitantes = new Map(visitantes.map(x => [String(x.idVisitante).toLowerCase(), x]));
@@ -110,6 +126,16 @@ async function cargarDatosDashboard() {
         const mapaPersonas = new Map(personas.map(p => [String(p.idPersona || p.id), p]));
         const mapaPases = new Map(pasesQR.map(pq => [String(pq.fkVisitas || pq.fkVisita), pq]));
 
+        const accesos = Array.isArray(accesosRes) ? accesosRes : (accesosRes?.data || accesosRes?.content || []);
+        const visitaDePase = new Map(pasesQR.map(pq => [String(pq.idPaseAcceso || pq.id).toLowerCase(), String(pq.fkVisitas || pq.fkVisita)]));
+        const entradaPorVisita = new Map(); // idVisita -> { hora, metodo }
+        accesos.forEach(a => {
+            const idVis = a.detalleManual?.fkVisitas != null
+                ? String(a.detalleManual.fkVisitas)
+                : visitaDePase.get(String(a.detalleQr?.fkPasesAcceso || '').toLowerCase());
+            if (idVis && !entradaPorVisita.has(idVis)) entradaPorVisita.set(idVis, { hora: a.horaEntrada, metodo: a.metodoAcceso });
+        });
+
         visitas = visitas.map(v => {
             const persona = mapaPersonas.get(String(v.fkPersona)) || {};
             const visitante = mapaVisitantes.get(String(v.fkVisitante).toLowerCase()) || {};
@@ -120,7 +146,11 @@ async function cargarDatosDashboard() {
             
             const prop = propiedades.find(pr => String(pr.fkPropietario || pr.fkPersona) === String(v.fkPersona));
             const destino = prop ? (prop.codigo || prop.calle || `Casa #${prop.idPropiedad}`) : (nombreAnfitrion || 'Residencia');
-            const esProgramada = !!pase || (v.tipoAcceso && v.tipoAcceso.toLowerCase().includes('qr')) || (v.fechaVisita && v.fechaVisita !== '');
+            const entrada = entradaPorVisita.get(String(v.idVisita || v.idVisitas || v.id));
+            const esProgramada = !!pase && entrada?.metodo !== 'Manual';
+            const estadoBase = String(v.estado || v.estadoVisita || '');
+            const rechazada = /^(desaprobada|expirada|rechazada)$/i.test(estadoBase);
+            const estadoMostrar = rechazada ? estadoBase : (entrada ? 'Aprobada' : 'Pendiente');
 
             return {
                 ...v,
@@ -131,7 +161,10 @@ async function cargarDatosDashboard() {
                 destino,
                 residenteDestino: nombreAnfitrion,
                 esProgramada,
-                tienePaseQR: !!pase
+                tienePaseQR: !!pase,
+                ingreso: !!entrada,
+                horaIngreso: entrada?.hora ? String(entrada.hora).replace('T', ' ').slice(0, 16) : '',
+                estadoMostrar
             };
         });
 
@@ -165,8 +198,7 @@ function animarContador(el, objetivo) {
 }
 
 function esAceptado(v) {
-    const est = (v.estado || v.estadoVisita || '').toLowerCase();
-    return est === 'aprobada' || est === 'aprobado' || est === 'aceptado' || est === 'aceptada' || est === 'activo' || est === 'completada';
+    return !!v.ingreso && !esRechazado(v);
 }
 
 function esRechazado(v) {
@@ -180,9 +212,9 @@ function esVehicular(v) {
 }
 
 function actualizarMetricas() {
-    const total = visitas.length;
     const aceptados = visitas.filter(esAceptado).length;
     const rechazados = visitas.filter(esRechazado).length;
+    const total = aceptados + rechazados;
     const vehiculos = visitas.filter(esVehicular).length;
 
     animarContador(statTotales, total);
@@ -314,10 +346,8 @@ function renderizarTablasVisitas() {
     const sufijoFiltro = { totales: '', aceptados: ' aceptadas', rechazados: ' rechazadas', vehiculos: ' vehiculares' }[filtroCardActual] || '';
 
     // visitas programadas y no programadas
-    const hoyISO = fechaLocalISO();
-    const esDeHoy = (v) => String(v.fechaVisita || '').slice(0, 10) === hoyISO;
-    const programadas = filtradas.filter(v => !esDeHoy(v));
-    const noProgramadas = filtradas.filter(esDeHoy);
+    const programadas = filtradas.filter(v => v.esProgramada);
+    const noProgramadas = filtradas.filter(v => !v.esProgramada);
     const rechazados = filtradas.filter(esRechazado);
     const aceptados = filtradas.filter(esAceptado);
 
@@ -336,8 +366,8 @@ function renderizarTablasVisitas() {
                 const nom = v.nombreVisitante || v.nombre || 'Visitante';
                 const resi = v.nombreAnfitrion || v.residenteDestino || v.destino || 'Residente';
                 const tipo = v.tipoTransporte || 'Peatonal';
-                const hora = v.fechaVisita || v.horaEntrada || 'Programada';
-                const est = v.estado || v.estadoVisita || 'Pendiente';
+                const hora = v.horaIngreso || v.fechaVisita || 'Programada';
+                const est = v.estadoMostrar || 'Pendiente';
                 const clase = CLASE_ESTADO[est] || 'estado-pendiente';
                 return `
                     <tr>
@@ -372,8 +402,8 @@ function renderizarTablasVisitas() {
                 const nom = v.nombreVisitante || v.nombre || 'Visitante';
                 const resi = v.nombreAnfitrion || v.residenteDestino || v.destino || 'Sin asignar';
                 const tipo = v.tipoTransporte || 'Peatonal';
-                const hora = v.fechaVisita || v.horaEntrada || 'Registrada';
-                const est = v.estado || v.estadoVisita || 'Aprobada';
+                const hora = v.horaIngreso || v.fechaVisita || 'Registrada';
+                const est = v.estadoMostrar || 'Pendiente';
                 return `
                     <tr>
                         <td><strong>${escapeHtml(nom)}</strong></td>
@@ -464,8 +494,8 @@ function renderizarTablasVisitas() {
                 const nom = v.nombreVisitante || v.nombre || 'Visitante';
                 const dest = v.destino || v.nombreAnfitrion || 'Residencia';
                 const transp = v.tipoTransporte || 'Peatonal';
-                const hora = v.fechaVisita || v.horaEntrada || 'Confirmada';
-                const est = v.estado || 'Aprobada';
+                const hora = v.horaIngreso || v.fechaVisita || 'Confirmada';
+                const est = v.estadoMostrar || 'Aprobada';
                 return `
                     <tr>
                         <td><strong>${escapeHtml(nom)}</strong></td>
@@ -536,9 +566,12 @@ function configurarBusqueda() {
 async function cargarTareas() {
     try {
         const res = await getTareas();
-        tareas = Array.isArray(res) ? res : (res?.data || []);
+        tareas = (Array.isArray(res) ? res : (res?.data || [])).slice()
+            .sort((a, b) => Number(b.idTarea || 0) - Number(a.idTarea || 0));
+        errorTareas = '';
     } catch (e) {
         tareas = [];
+        errorTareas = e.status === 404 ? '' : (e.message || 'No se pudieron cargar tus tareas.');
     }
 
     if (badgeTareas) {
@@ -556,9 +589,15 @@ function renderizarListaTareas() {
 
     const filtradas = tareas.filter(t => {
         if (filtroTareaEstado === 'todos') return true;
-        const est = (t.estadoTarea || t.estado || '').toLowerCase();
+        const est = (t.estadoTarea || t.estado || 'Pendiente').toLowerCase();
+        if (filtroTareaEstado.toLowerCase() === 'en progreso') return est === 'pendiente' || est === 'en progreso';
         return est === filtroTareaEstado.toLowerCase();
     });
+
+    if (errorTareas) {
+        contenedorTareas.innerHTML = `<p style="text-align:center; color:#f87171; font-size:14px; padding:20px;">No se pudieron cargar tus tareas: ${escapeHtml(errorTareas)}</p>`;
+        return;
+    }
 
     if (filtradas.length === 0) {
         contenedorTareas.innerHTML = `<p style="text-align:center; color:#64748b; font-size:14px; padding:20px;">No hay tareas en este estado.</p>`;
@@ -571,6 +610,7 @@ function renderizarListaTareas() {
         const desc = t.descripcion || t.descripcionTarea || 'Sin descripción detallada.';
         const estado = t.estadoTarea || t.estado || 'Pendiente';
         const esProgreso = (estado.toLowerCase() === 'pendiente' || estado.toLowerCase() === 'en progreso');
+        const limite = t.fechaLimite ? new Date(`${String(t.fechaLimite).slice(0, 10)}T12:00:00`).toLocaleDateString('es-SV', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
         const badgeClase = esProgreso ? 'badge-estado-tarea progreso' : (estado.toLowerCase() === 'completada' ? 'badge-estado-tarea completada' : 'badge-estado-tarea cancelada');
 
         return `
@@ -582,7 +622,12 @@ function renderizarListaTareas() {
                     </span>
                 </div>
                 <p class="desc-tarea-guardia">${escapeHtml(desc)}</p>
+                ${limite ? `<p class="desc-tarea-guardia" style="opacity:.8;">Fecha límite: ${escapeHtml(limite)}</p>` : ''}
                 <div style="display:flex; justify-content:flex-end; gap:8px;">
+                    ${estado.toLowerCase() === 'pendiente' ? `
+                        <button type="button" class="btn-completar-tarea btn-iniciar-tarea" data-id="${escapeHtml(id)}">
+                            ▶ Iniciar
+                        </button>` : ''}
                     ${esProgreso ? `
                         <button type="button" class="btn-completar-tarea" data-id="${escapeHtml(id)}">
                             ✓ Completar
@@ -596,7 +641,13 @@ function renderizarListaTareas() {
         `;
     }).join('');
 
-    contenedorTareas.querySelectorAll('.btn-completar-tarea').forEach(btn => {
+    contenedorTareas.querySelectorAll('.btn-iniciar-tarea').forEach(btn => {
+        btn.onclick = async () => {
+            await cambiarEstadoTarea(btn.getAttribute('data-id'), 'En progreso');
+        };
+    });
+
+    contenedorTareas.querySelectorAll('.btn-completar-tarea:not(.btn-iniciar-tarea)').forEach(btn => {
         btn.onclick = async () => {
             const id = btn.getAttribute('data-id');
             await cambiarEstadoTarea(id, 'Completada');

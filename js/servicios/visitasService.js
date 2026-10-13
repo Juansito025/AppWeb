@@ -33,6 +33,7 @@ function normalizarVisita(v, visitantesMap = {}, personasMap = {}) {
         id: v.idVisitas || v.idVisita || v.id,
         fkPersona: rawFkPer,
         fkVisitante: rawFkVis,
+        fkVehiculos: v.fkVehiculos || null,
         fechaVisita: v.fechaVisita,
         horaEntrada: v.horaEntrada || v.fechaVisita || fechaHoraLocalISO(),
         estado: v.estado || 'Aprobada',
@@ -184,16 +185,10 @@ export async function actualizarVisita(id, visita) {
     });
 }
 
-/** cambia solo el estado de la visita (Aprobada / Desaprobada) conservando el resto de datos */
 export async function marcarEstadoVisita(id, estado) {
-    const actual = await apiFetch(`/visitas/${id}`, { silencioso: true });
-    const v = actual?.data || actual || {};
-    return await actualizarVisita(id, {
-        fkPersona: v.fkPersona?.idPersona || v.fkPersona,
-        fkVisitante: v.fkVisitante?.idVisitante || v.fkVisitante,
-        fechaVisita: v.fechaVisita,
-        fkVehiculos: v.fkVehiculos?.idVehiculo || v.fkVehiculos || null,
-        estado
+    return await apiFetch(`/visitas/${id}`, {
+        method: 'PATCH',
+        body: { estado }
     });
 }
 

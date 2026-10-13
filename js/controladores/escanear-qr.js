@@ -2,7 +2,7 @@
 
 import { getVisitas, marcarEstadoVisita } from '../servicios/visitasService.js';
 import { validarPaseQR, registrarAcceso } from '../servicios/pasesQRService.js';
-import { getDetalleTurnos } from '../servicios/turnosService.js';
+import { obtenerMiDetalleTurno } from '../servicios/turnosService.js';
 import { getInfraccionesDetalladas } from '../servicios/infraccionesService.js';
 import { infraccionesDe } from '../servicios/residenteDatosService.js';
 import { getPersona } from '../servicios/personasService.js';
@@ -15,6 +15,17 @@ function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({ '&':'&amp
 let personaActual = null;
 let html5QrScanner = null;
 let camaraActiva = false;
+let arranqueCamara = null;
+
+function mostrarBotonCancelarCamara(visible) {
+    const btn = document.getElementById('btn-detener-camara');
+    if (btn) {
+        btn.classList.toggle('qr-oculto', !visible);
+        btn.disabled = false;
+    }
+    const btnEscanear = document.getElementById('btn-escanear');
+    if (btnEscanear) btnEscanear.classList.toggle('qr-oculto', visible);
+}
 
 function mostrarEstadoQR(estado) {
     const zonas = {
@@ -97,6 +108,7 @@ async function iniciarEscaneoCamara() {
     mostrarEstadoQR('camara');
     const btnEscanear = document.getElementById('btn-escanear');
     if (btnEscanear) btnEscanear.disabled = true;
+    mostrarBotonCancelarCamara(true);
 
     try {
         if (typeof Html5Qrcode === 'undefined') {
@@ -115,15 +127,19 @@ async function iniciarEscaneoCamara() {
             aspectRatio: 1.0
         };
 
-        await html5QrScanner.start(
+        arranqueCamara = html5QrScanner.start(
             { facingMode: 'environment' },
             config,
             onScanSuccess,
             onScanError
         );
+        await arranqueCamara;
 
     } catch (err) {
         camaraActiva = false;
+        arranqueCamara = null;
+        mostrarBotonCancelarCamara(false);
+        if (!document.getElementById('qr-estado-camara') || document.getElementById('qr-estado-camara').classList.contains('qr-oculto')) return;
         console.warn('Error al iniciar cámara:', err);
 
         Swal.fire({
@@ -141,16 +157,23 @@ async function iniciarEscaneoCamara() {
 }
 
 async function detenerCamara() {
-    if (html5QrScanner && camaraActiva) {
+    const btn = document.getElementById('btn-detener-camara');
+    if (btn) btn.disabled = true;
+    if (arranqueCamara) {
+        try { await arranqueCamara; } catch (_) { }
+    }
+    if (html5QrScanner) {
         try {
-            await html5QrScanner.stop();
-            html5QrScanner.clear();
+            if (html5QrScanner.isScanning) await html5QrScanner.stop();
         } catch (e) {
             console.warn('Error al detener cámara:', e);
-            try { html5QrScanner.clear(); } catch(e2){}
         }
-        camaraActiva = false;
+        try { html5QrScanner.clear(); } catch (_) { }
+        html5QrScanner = null;
     }
+    camaraActiva = false;
+    arranqueCamara = null;
+    mostrarBotonCancelarCamara(false);
     volverAEscanear();
 }
 
@@ -162,13 +185,14 @@ function onScanError(errorMessage) {
 async function onScanSuccess(decodedText) {
     if (!camaraActiva) return;
     
-    // Detener cámara inmediatamente al detectar
     if (html5QrScanner) {
         try {
             await html5QrScanner.stop();
         } catch (e) {}
         camaraActiva = false;
     }
+    arranqueCamara = null;
+    mostrarBotonCancelarCamara(false);
 
     mostrarEstadoQR('cargando');
 
@@ -249,6 +273,16 @@ async function procesarCodigoQR(rawText) {
                 );
 
                 if (visitaEncontrada) {
+                    if (String(visitaEncontrada.estado || '').toLowerCase() !== 'aprobada') {
+                        throw new Error(`La visita no está aprobada (estado: ${visitaEncontrada.estado || 'desconocido'}).`);
+                    }
+                    let placa = '';
+                    if (visitaEncontrada.fkVehiculos) {
+                        try {
+                            const veh = await window.apiFetch(`/vehiculos/${encodeURIComponent(visitaEncontrada.fkVehiculos)}`, { silencioso: true });
+                            placa = [veh?.matriculaVehiculo, [veh?.marcaVehiculo, veh?.modeloVehiculo].filter(Boolean).join(' ')].filter(Boolean).join(' · ');
+                        } catch (_) { }
+                    }
                     personaActual = {
                         id: visitaEncontrada.idVisita || visitaEncontrada.id,
                         tipoOrigen: 'paseQR',
@@ -257,7 +291,7 @@ async function procesarCodigoQR(rawText) {
                         casa: visitaEncontrada.nombreAnfitrion || '—',
                         horaEstimada: visitaEncontrada.fechaVisita || '—',
                         tipo: visitaEncontrada.tipoTransporte || 'Peatonal',
-                        Vehículo: (visitaEncontrada.tipoTransporte === 'Vehicular' || visitaEncontrada.tipoTransporte === 'Vehículo') ? 'Vehicular' : 'N/A (peatonal)',
+                        Vehículo: visitaEncontrada.fkVehiculos ? (placa || 'Vehicular') : 'N/A (peatonal)',
                         Teléfono: visitaEncontrada.telefonoVisitante || '—',
                         estado: 'activo',
                         foto: '',
@@ -297,7 +331,7 @@ async function procesarCodigoQR(rawText) {
         mostrarEstadoQR('rechazado');
         const motivoEl = document.getElementById('qr-motivo-mostrado');
         if (motivoEl) motivoEl.textContent = err.message || 'Pase inválido';
-        Swal.fire({
+        await Swal.fire({
             toast: false,
             position: 'center',
             icon: 'error',
@@ -321,6 +355,7 @@ function mostrarBotonesIniciales() {
 }
 
 function volverAEscanear() {
+    mostrarBotonCancelarCamara(false);
     mostrarEstadoQR('marco');
     limpiarDatos();
     personaActual = null;
@@ -339,14 +374,7 @@ async function permitirAcceso() {
         const yo = await window.CredentialsStore.verificarSesion();
         if (!yo) throw new Error('Tu sesión expiró. Vuelve a iniciar sesión.');
 
-        const detalles = await getDetalleTurnos();
-        const miTurno = detalles.find(d =>
-            String(d.fkEmpleado).toLowerCase() === String(yo.id).toLowerCase()
-            && String(d.estadoturno).toLowerCase() === 's'
-        );
-        if (!miTurno) {
-            throw new Error('No tienes un turno activo asignado. Pide al administrador que te asigne a una caseta.');
-        }
+        const miTurno = await obtenerMiDetalleTurno(yo.id);
 
         await registrarAcceso({
             metodoAcceso: 'QR',
@@ -565,7 +593,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     if (!usuarioActual) {
-        window.location.href = '../Index.html';
+        window.location.href = '../index.html';
         return;
     }
 
@@ -584,6 +612,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (btnEscanear) btnEscanear.addEventListener('click', iniciarEscaneoCamara);
     if (btnDetenerCam) btnDetenerCam.addEventListener('click', detenerCamara);
+    window.addEventListener('pagehide', () => {
+        if (html5QrScanner && html5QrScanner.isScanning) html5QrScanner.stop().catch(() => {});
+    });
     if (btnPermitir) btnPermitir.addEventListener('click', permitirAcceso);
     if (btnDenegar) btnDenegar.addEventListener('click', abrirModalMotivo);
     if (btnInfracciones) btnInfracciones.addEventListener('click', verInfracciones);

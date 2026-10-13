@@ -428,3 +428,22 @@
     color: #94a3b8;
 }
 #paginacion-turnos { min-height: 56px; }
+
+.selector-hora-panel {
+    position: static;
+    margin-top: 6px;
+    min-width: 0;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    transform: none;
+}
+.selector-hora-select-h,
+.selector-hora-select-m {
+    width: 100%;
+}
+
+#buscador-guardias-menu {
+    position: static;
+    margin-top: 6px;
+}

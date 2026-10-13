@@ -30,7 +30,7 @@ function prepararPayload(lugar) {
         tipoLugar: tipo,
         capacidadLugar: capacidad,
         direccionLugar: Dirección,
-        telefonoLugar: Teléfono
+        telefonoLugar: Teléfono || null
     };
 
     const id = lugar.idLugarTrabajo || lugar.idCasetas || lugar.id;

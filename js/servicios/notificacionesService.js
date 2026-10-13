@@ -2,7 +2,9 @@
 
 export async function getNotificaciones() {
     try {
-        const res = await apiFetch('/notificaciones');
+        let rol = '';
+        try { rol = String(window.CredentialsStore?.getSession?.()?.rol || '').toUpperCase(); } catch (_) { }
+        const res = await apiFetch(rol.includes('ADMIN') ? '/notificaciones' : '/notificaciones/me', { silencioso: true });
         return Array.isArray(res) ? res : (res?.data || []);
     } catch (error) {
         return [];

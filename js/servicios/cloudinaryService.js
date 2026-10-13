@@ -1,7 +1,7 @@
 /** subida de fotos */
 
 const TIPOS_PERMITIDOS = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-const TAMANO_MAXIMO_MB = 5;
+const TAMANO_MAXIMO_MB = 15;
 
 export function validarImagen(file) {
     if (!file) throw new Error('No se seleccionó ninguna imagen.');
@@ -14,11 +14,35 @@ export function validarImagen(file) {
     return true;
 }
 
+export async function comprimirImagen(file, ladoMaximo = 1280, calidad = 0.85) {
+    if (!file || file.size <= 700 * 1024) return file;
+    try {
+        const url = URL.createObjectURL(file);
+        const img = await new Promise((resolver, rechazar) => {
+            const i = new Image();
+            i.onload = () => resolver(i);
+            i.onerror = () => rechazar(new Error('No se pudo leer la imagen.'));
+            i.src = url;
+        });
+        const escala = Math.min(1, ladoMaximo / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * escala);
+        canvas.height = Math.round(img.height * escala);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(url);
+        const blob = await new Promise(resolver => canvas.toBlob(resolver, 'image/jpeg', calidad));
+        if (!blob || blob.size >= file.size) return file;
+        return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' });
+    } catch (_) {
+        return file;
+    }
+}
+
 async function subirFoto(recurso, id, file) {
     if (!id) throw new Error('Primero hay que guardar el registro para poder subir su foto.');
     validarImagen(file);
     const form = new FormData();
-    form.append('file', file);
+    form.append('file', await comprimirImagen(file));
     return await window.apiFetch(`/${recurso}/${id}/foto`, { method: 'POST', body: form });
 }
 

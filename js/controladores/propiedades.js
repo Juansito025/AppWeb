@@ -133,7 +133,9 @@ async function cargarPropiedades() {
 }
 
 // ── Renderizado de Tabla con Búsqueda, Filtros y Paginación ───────────────────
+let turnoRender = 0;
 async function renderizarTabla() {
+    const miTurno = ++turnoRender;
     if (!tablaCuerpo) return;
 
     const listaFiltrada = propiedades.filter(p => {
@@ -145,7 +147,8 @@ async function renderizarTabla() {
 
         let coincideEstado = true;
         if (filtroEstado !== 'all') {
-            coincideEstado = (p.estado || '').toLowerCase() === filtroEstado.toLowerCase();
+            const sinTildes = (t) => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+            coincideEstado = sinTildes(p.estado) === sinTildes(filtroEstado);
         }
 
         let coincidePisos = true;
@@ -182,6 +185,7 @@ async function renderizarTabla() {
         try {
             // paginacion desde la api
             const pagina = await getPropiedadesPaginado(paginaActual, itemsPorPagina);
+            if (miTurno !== turnoRender) return;
             if (pagina.totalPaginas > 0 && paginaActual > pagina.totalPaginas) {
                 paginaActual = pagina.totalPaginas;
                 return renderizarTabla();
@@ -203,6 +207,7 @@ async function renderizarTabla() {
         itemsPagina = listaFiltrada.slice(inicio, inicio + itemsPorPagina);
     }
 
+    if (miTurno !== turnoRender) return;
     tablaCuerpo.innerHTML = itemsPagina.map(p => {
         const id = p.idPropiedad || p.id;
         const cod = p.codigo || p.codigoPropiedad || `P-${id}`;

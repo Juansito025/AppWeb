@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!Sesión) {
         CredentialsStore.clearSession();
-        setTimeout(() => { window.location.href = '../Index.html'; }, errorApi ? 2500 : 0);
+        setTimeout(() => { window.location.href = '../index.html'; }, errorApi ? 2500 : 0);
         return;
     }
 

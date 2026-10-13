@@ -130,7 +130,9 @@ function poblarSelectResponsables() {
 }
 
 // ── Renderizado de Tabla con Búsqueda y Filtros ───────────────────────────────
+let turnoRender = 0;
 async function renderizarTabla() {
+    const miTurno = ++turnoRender;
     if (!tablaCuerpo) return;
 
     const listaFiltrada = personas.filter(p => {
@@ -177,6 +179,7 @@ async function renderizarTabla() {
         try {
             // paginacion desde la api
             const pagina = await getPersonasPaginado(paginaActual, itemsPorPagina);
+            if (miTurno !== turnoRender) return;
             if (pagina.totalPaginas > 0 && paginaActual > pagina.totalPaginas) {
                 paginaActual = pagina.totalPaginas;
                 return renderizarTabla();
@@ -198,6 +201,7 @@ async function renderizarTabla() {
         itemsPagina = listaFiltrada.slice(inicio, inicio + itemsPorPagina);
     }
 
+    if (miTurno !== turnoRender) return;
     tablaCuerpo.innerHTML = itemsPagina.map(p => {
         const id = p.idPersona || p.idPropietario || p.id;
         const nombre = `${p.nombrePersona || 'Sin nombre'} ${p.apellidoPersona || ''}`.trim();

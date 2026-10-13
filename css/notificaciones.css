@@ -712,3 +712,11 @@
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
 }
+
+#desplegable-destino .panel-desplegable {
+    position: static;
+    margin-top: 8px;
+}
+#desplegable-destino .opciones-lista-scroll {
+    max-height: 260px;
+}

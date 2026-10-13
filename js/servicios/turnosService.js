@@ -130,6 +130,45 @@ export async function getDetalleTurnos() {
     return lista.map(normalizarDetalle);
 }
 
+const DIAS_ISO = { lunes: 1, martes: 2, miercoles: 3, jueves: 4, viernes: 5, sabado: 6, domingo: 7 };
+
+function diaISO(nombre) {
+    const k = String(nombre || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    return DIAS_ISO[k] ?? null;
+}
+
+function diaEnRango(dia, inicio, fin) {
+    if (inicio == null || fin == null) return true;
+    return inicio <= fin ? (dia >= inicio && dia <= fin) : (dia >= inicio || dia <= fin);
+}
+
+export function turnoCubreAhora(turno, ahora = new Date()) {
+    if (!turno) return false;
+    const minutoActual = ahora.getHours() * 60 + ahora.getMinutes();
+    const inicio = horaMinutos(turno.horaInicioTurno);
+    const fin = horaMinutos(turno.horaSalidaTurno);
+    const hoy = ahora.getDay() === 0 ? 7 : ahora.getDay();
+    const ayer = hoy === 1 ? 7 : hoy - 1;
+    const dIni = diaISO(turno.diaInicio);
+    const dFin = diaISO(turno.diaSalida);
+    if (inicio < fin) return diaEnRango(hoy, dIni, dFin) && minutoActual >= inicio && minutoActual < fin;
+    if (minutoActual >= inicio) return diaEnRango(hoy, dIni, dFin);
+    if (minutoActual < fin) return diaEnRango(ayer, dIni, dFin);
+    return false;
+}
+
+export async function obtenerMiDetalleTurno(idEmpleado) {
+    const mios = (await getDetalleTurnos()).filter(d =>
+        String(d.fkEmpleado).toLowerCase() === String(idEmpleado).toLowerCase()
+        && String(d.estadoturno).toLowerCase() === 's');
+    if (!mios.length) throw new Error('No tienes un turno activo asignado. Pide al administrador que te asigne a una caseta.');
+    if (mios.length === 1) return mios[0];
+    const turnos = await getTurnos();
+    const ahora = new Date();
+    const vigente = mios.find(d => turnoCubreAhora(turnos.find(t => String(t.idTurno) === String(d.fkTurno)), ahora));
+    return vigente || mios[0];
+}
+
 // detalles del turno
 export async function getDetalleTurnosPorTurno(idTurno) {
     const todos = await getDetalleTurnos();

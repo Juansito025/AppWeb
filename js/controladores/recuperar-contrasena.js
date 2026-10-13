@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 mostrarAlertaNotificacion('¡Contraseña actualizada con éxito en la base de datos!', 'success');
                 setTimeout(() => {
-                    window.location.href = '../Index.html';
+                    window.location.href = '../index.html';
                 }, 1500);
             } catch (err) {
                 mostrarAlertaNotificacion(err.message || 'Error al conectar con el servidor', 'error');

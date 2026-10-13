@@ -105,17 +105,23 @@ async function cargarDatos() {
 }
 
 function poblarSelectsResidentes() {
-    const opciones = residentesCache.map(function (r) {
-        const id = r.idPersona || r.id;
-        const nom = `${r.nombrePersona || r.firstName || ''} ${r.apellidoPersona || r.lastName || ''}`.trim();
-        return `<option value="${escapeHtml(id)}">${escapeHtml(nom)}</option>`;
-    }).join('');
+    const opciones = residentesCache
+        .slice()
+        .sort((a, b) => `${a.nombrePersona} ${a.apellidoPersona}`.localeCompare(`${b.nombrePersona} ${b.apellidoPersona}`))
+        .map(function (r) {
+            const id = r.idPersona || r.id;
+            const nom = `${r.nombrePersona || r.firstName || ''} ${r.apellidoPersona || r.lastName || ''}`.trim();
+            const prop = propiedadesCache.find(p => String(p.fkPropietario || '') === String(id) || (r.idPersonaResponsable && String(p.fkPropietario || '') === String(r.idPersonaResponsable)));
+            const detalle = [prop ? [prop.codigo, prop.calle].filter(Boolean).join(' · ') : 'Sin propiedad', r.tipoPersona, r.duiPersona ? `DUI ${r.duiPersona}` : ''].filter(Boolean).join(' · ');
+            return `<option value="${escapeHtml(id)}" data-detalle="${escapeHtml(detalle)}">${escapeHtml(nom)}</option>`;
+        }).join('');
 
     ['ri-residente-seleccionar', 'ri-residente-seleccionar-visita'].forEach(function (id) {
         const select = document.getElementById(id);
         if (select) {
             select.innerHTML = '<option value="">Seleccione un residente...</option>' + opciones;
             if (window.sincronizarSelectCustom) window.sincronizarSelectCustom(select);
+            if (window.KeeperBuscadorSelect) window.KeeperBuscadorSelect(select, { placeholder: 'Busca por nombre, casa o DUI del residente', vacio: 'No hay residentes registrados.' });
         }
     });
 }
@@ -406,9 +412,10 @@ async function confirmarInfraccion() {
                         fkVehiculos = nuevoVeh?.data?.idVehiculo || nuevoVeh?.idVehiculo || nuevoVeh?.id;
                     }
                 } catch (eVeh) {
-                    console.warn('Aviso al asociar vehículo:', eVeh.message);
+                    throw new Error(`No se pudo registrar el vehículo con placa ${mat}: ${eVeh.message}`);
                 }
             }
+            if (!fkVehiculos) throw new Error('No se pudo identificar el vehículo de la infracción vehicular.');
         }
 
         // 4. Crear el Incidente correspondiente
@@ -441,10 +448,13 @@ async function confirmarInfraccion() {
         };
 
         await createInfraccion(payloadInfraccion);
+        const gravedadGuardada = window.nombreGravedad(gravedad) || gravedadActual;
+        const residenteDestino = residentesCache.find(x => String(x.idPersona || x.id) === String(residenteSeleccionadoId()));
+        const nombreDestino = residenteDestino ? `${residenteDestino.nombrePersona || ''} ${residenteDestino.apellidoPersona || ''}`.trim() : '';
         cerrarDetalle();
         limpiarFormulario();
         if (window.mostrarAlertaNotificacion) {
-            window.mostrarAlertaNotificacion(`Infracción (${gravedadActual.toUpperCase()}) registrada con éxito`, 'success', '¡Infracción Guardada!');
+            window.mostrarAlertaNotificacion(`Infracción ${gravedadGuardada.toUpperCase()} registrada con éxito por $${costo.toFixed(2)}.${nombreDestino ? ` ${nombreDestino} ya la puede ver en la sección Infracciones de su app.` : ''}`, 'success', '¡Infracción Guardada!');
         }
     } catch (err) {
         if (window.mostrarAlertaNotificacion) {
@@ -464,6 +474,7 @@ function limpiarFormulario() {
     ['ri-residente-seleccionar', 'ri-residente-seleccionar-visita'].forEach(id => {
         const el = document.getElementById(id);
         if (el && window.sincronizarSelectCustom) window.sincronizarSelectCustom(el);
+        if (el && el._keeperBuscador) el._keeperBuscador.refrescar();
     });
     poblarSelectVisitas(null);
     const primeraGravedad = document.querySelector('.tarjeta-gravedad-registro-infraccion');

@@ -28,6 +28,8 @@ let turnosDesplegados = new Set();
 let turnoSeleccionado = null;
 let idTurnoModalAsignacion = null;
 let nombreTurnoModalAsignacion = '';
+let guardiasNuevoTurno = [];
+let idRolVigilante = null;
 
 // ── Referencias DOM ──────────────────────────────────────────────────────────
 const tablaCuerpo = document.getElementById('tabla-cuerpo');
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     configurarBusquedaYFiltros();
     configurarModales();
     configurarPreajustesHora();
+    configurarBuscadorGuardias();
 });
 
 // ── Carga de Datos ───────────────────────────────────────────────────────────
@@ -73,6 +76,9 @@ async function cargarEmpleadosYCasetas() {
         ]);
         empleados = Array.isArray(resEmp) ? resEmp : (resEmp?.data || []);
         casetas = Array.isArray(resCas) ? resCas : (resCas?.data || []);
+        const roles = await apiFetch('/roles', { silencioso: true }).catch(() => []);
+        const vigilante = (Array.isArray(roles) ? roles : []).find(r => String(r.nombreRol || '').toLowerCase() === 'vigilante');
+        idRolVigilante = vigilante ? Number(vigilante.id ?? vigilante.idRol) : null;
     } catch (e) {
         empleados = [];
         casetas = [];
@@ -502,7 +508,8 @@ function configurarModales() {
         btnAbrirAgregar.onclick = () => {
             turnoSeleccionado = null;
             if (formAgregar) formAgregar.reset();
-            if (panelTitulo) panelTitulo.textContent = 'Crear nuevo turno maestro';
+            if (panelTitulo) panelTitulo.textContent = 'Crear nuevo turno';
+            limpiarGuardiasNuevoTurno();
             panelAgregar.classList.add('activo');
         };
     }
@@ -571,16 +578,50 @@ async function guardarTurno() {
         diaTerminar: diaFin
     };
 
+    const idCasetaGuardias = document.getElementById('turno-caseta-guardias')?.value;
+    if (guardiasNuevoTurno.length && !idCasetaGuardias) {
+        if (window.Swal) Swal.fire('Caseta requerida', 'Elige la caseta donde trabajarán los guardías que agregaste.', 'warning');
+        return;
+    }
+
     try {
         if (window.Swal) Swal.showLoading();
+        let idTurnoGuardado;
         if (turnoSeleccionado) {
-            const id = turnoSeleccionado.idTurno || turnoSeleccionado.id;
-            await actualizarTurno(id, { idTurno: id, ...payload });
+            idTurnoGuardado = turnoSeleccionado.idTurno || turnoSeleccionado.id;
+            await actualizarTurno(idTurnoGuardado, { idTurno: idTurnoGuardado, ...payload });
         } else {
-            await createTurno(payload);
+            const creado = await createTurno(payload);
+            idTurnoGuardado = creado?.idTurno ?? creado?.id;
         }
+
+        let avisoGuardias = '';
+        if (guardiasNuevoTurno.length) {
+            if (!idTurnoGuardado) {
+                avisoGuardias = ' Los guardías no se asignaron porque la API no devolvió el turno; asígnalos con "Asignar Personal".';
+            } else {
+                const fallidos = [];
+                for (const idEmpleado of guardiasNuevoTurno) {
+                    const yaAsignado = detallesTurnos.some(d => String(d.fkEmpleado || d.idEmpleado) === String(idEmpleado) && String(d.fkTurno) === String(idTurnoGuardado));
+                    if (yaAsignado) continue;
+                    try {
+                        await createDetalleTurno({
+                            fkTurno: Number(idTurnoGuardado),
+                            fkEmpleado: idEmpleado,
+                            fkLugarCaseta: Number(idCasetaGuardias),
+                            estadoturno: 's'
+                        });
+                    } catch (_) {
+                        fallidos.push(nombreEmpleado(idEmpleado));
+                    }
+                }
+                if (fallidos.length) avisoGuardias = ` No se pudieron asignar: ${fallidos.join(', ')}.`;
+            }
+        }
+
         panelAgregar.classList.remove('activo');
-        if (window.Swal) Swal.fire('¡Éxito!', 'Turno guardado correctamente.', 'success');
+        limpiarGuardiasNuevoTurno();
+        if (window.Swal) Swal.fire(avisoGuardias ? 'Turno guardado' : '¡Éxito!', 'Turno guardado correctamente.' + avisoGuardias, avisoGuardias ? 'warning' : 'success');
         await cargarTurnos();
     } catch (err) {
         if (window.Swal) Swal.fire('Error', 'No se pudo guardar el turno: ' + err.message, 'error');
@@ -599,7 +640,8 @@ async function abrirModalEditarTurno(id) {
     document.getElementById('turno-dia-inicio').value = turnoSeleccionado.diaInicio || 'Lunes';
     document.getElementById('turno-dia-salida').value = turnoSeleccionado.diaTerminar || turnoSeleccionado.diaFin || 'Viernes';
 
-    if (panelTitulo) panelTitulo.textContent = 'Editar turno maestro';
+    if (panelTitulo) panelTitulo.textContent = 'Editar turno';
+    limpiarGuardiasNuevoTurno();
     panelAgregar.classList.add('activo');
 }
 
@@ -1012,4 +1054,115 @@ function configurarPreajustesHora() {
         if (!document.contains(e.target) || e.target.closest('.selector-hora-panel, .selector-hora-activador')) return;
         paneles.forEach(p => p.classList.remove('abierto'));
     });
+}
+
+
+function nombreEmpleado(idEmp) {
+    const e = empleados.find(x => String(x.idEmpleado || x.id) === String(idEmp));
+    return e ? (`${e.nombreEmpleado || ''} ${e.apellidoEmpleado || ''}`.trim() || e.correoEmpleado || 'Guardía') : 'Guardía';
+}
+
+function guardiasDisponibles() {
+    const hoy = window.fechaLocalISO ? window.fechaLocalISO() : new Date().toISOString().slice(0, 10);
+    return empleados.filter(e => {
+        const idEmp = String(e.idEmpleado || e.id);
+        const idRolEmp = Number(e.idRol ?? e.fkRol?.idRol ?? e.fkRol);
+        const nombreRolEmp = String(e.fkRol?.nombreRol || e.rol || '').toLowerCase();
+        const esVigilante = idRolVigilante != null ? idRolEmp === idRolVigilante : nombreRolEmp === 'vigilante';
+        if (!esVigilante) return false;
+        return !(e.fechaSalida && String(e.fechaSalida).slice(0, 10) <= hoy) && Boolean(idEmp);
+    });
+}
+
+function turnosActivosDe(idEmp) {
+    return detallesTurnos
+        .filter(d => String(d.fkEmpleado || d.idEmpleado) === String(idEmp) && String(d.estadoturno || d.estadoTurno || '').toLowerCase() === 's')
+        .map(d => turnos.find(t => String(t.idTurno || t.id) === String(d.fkTurno))?.nombreTurno)
+        .filter(Boolean);
+}
+
+function ultimaCasetaDe(idEmp) {
+    const detalles = detallesTurnos.filter(d => String(d.fkEmpleado || d.idEmpleado) === String(idEmp));
+    const ultimo = detalles[detalles.length - 1];
+    const idCas = ultimo?.fkLugar ?? ultimo?.fkLugarCaseta ?? ultimo?.fkCaseta;
+    if (idCas == null) return '';
+    const c = casetas.find(x => String(x.idLugarTrabajo || x.idCasetas || x.id) === String(idCas));
+    return c ? (c.nombreLugar || c.nombreCaseta || '') : '';
+}
+
+function limpiarGuardiasNuevoTurno() {
+    guardiasNuevoTurno = [];
+    const input = document.getElementById('buscador-guardias-input');
+    const menu = document.getElementById('buscador-guardias-menu');
+    if (input) input.value = '';
+    if (menu) menu.classList.remove('activo');
+    poblarCasetaGuardias();
+    pintarChipsGuardias();
+}
+
+function poblarCasetaGuardias() {
+    const sel = document.getElementById('turno-caseta-guardias');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Caseta para los guardías...</option>' + casetas.map(c => {
+        const id = c.idLugarTrabajo || c.idCasetas || c.id;
+        return `<option value="${escapeHtml(id)}">${escapeHtml(c.nombreLugar || c.nombreCaseta || `Caseta #${id}`)}</option>`;
+    }).join('');
+}
+
+function pintarChipsGuardias() {
+    const cont = document.getElementById('contenedor-chips-guardias');
+    if (!cont) return;
+    cont.innerHTML = guardiasNuevoTurno.map(id => `
+        <span class="chip-guardia">${escapeHtml(nombreEmpleado(id))}
+            <button type="button" class="btn-remover-chip" data-id="${escapeHtml(id)}" aria-label="Quitar">×</button>
+        </span>`).join('');
+    cont.querySelectorAll('.btn-remover-chip').forEach(b => b.addEventListener('click', () => {
+        guardiasNuevoTurno = guardiasNuevoTurno.filter(x => String(x) !== String(b.dataset.id));
+        pintarChipsGuardias();
+    }));
+}
+
+function pintarMenuGuardias(texto) {
+    const menu = document.getElementById('buscador-guardias-menu');
+    if (!menu) return;
+    const t = String(texto || '').toLowerCase().trim();
+    const lista = guardiasDisponibles()
+        .filter(e => !guardiasNuevoTurno.includes(String(e.idEmpleado || e.id)))
+        .filter(e => !t || `${e.nombreEmpleado || ''} ${e.apellidoEmpleado || ''} ${e.duiEmpleado || ''}`.toLowerCase().includes(t))
+        .slice(0, 8);
+    menu.innerHTML = lista.length
+        ? lista.map(e => {
+            const id = String(e.idEmpleado || e.id);
+            const caseta = ultimaCasetaDe(id);
+            const enTurnos = turnosActivosDe(id);
+            const estadoGuardia = enTurnos.length ? `En turno: ${enTurnos.join(', ')}` : 'Sin turno activo';
+            return `<div class="buscador-desplegable-item" data-id="${escapeHtml(id)}">
+                <span class="buscador-desplegable-item-info">${escapeHtml(nombreEmpleado(id))}
+                    <span class="buscador-desplegable-item-caseta">DUI ${escapeHtml(e.duiEmpleado || 'N/A')}</span></span>
+                <span class="buscador-desplegable-item-caseta">${escapeHtml(estadoGuardia)}${caseta ? ' · Caseta: ' + escapeHtml(caseta) : ''}</span>
+            </div>`;
+        }).join('')
+        : `<div class="buscador-desplegable-item" style="cursor:default; color:#8892a8; font-size:13px;">${!empleados.length ? 'No hay empleados registrados' : (guardiasDisponibles().length ? 'No hay vigilantes activos con ese nombre o DUI' : 'No hay vigilantes activos registrados. Crea uno en Empleados.')}</div>`;
+    menu.classList.add('activo');
+    menu.querySelectorAll('.buscador-desplegable-item[data-id]').forEach(item => {
+        item.addEventListener('mousedown', (ev) => {
+            ev.preventDefault();
+            guardiasNuevoTurno.push(item.dataset.id);
+            pintarChipsGuardias();
+            const input = document.getElementById('buscador-guardias-input');
+            if (input) { input.value = ''; input.focus(); }
+            pintarMenuGuardias('');
+        });
+    });
+}
+
+function configurarBuscadorGuardias() {
+    const input = document.getElementById('buscador-guardias-input');
+    const menu = document.getElementById('buscador-guardias-menu');
+    if (!input || !menu) return;
+    poblarCasetaGuardias();
+    input.addEventListener('focus', () => pintarMenuGuardias(input.value));
+    input.addEventListener('input', () => pintarMenuGuardias(input.value));
+    input.addEventListener('blur', () => setTimeout(() => menu.classList.remove('activo'), 150));
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') e.preventDefault(); });
 }

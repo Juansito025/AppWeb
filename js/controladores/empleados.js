@@ -274,7 +274,9 @@ function poblarSelectsEmpleados() {
 }
 
 // ── Renderizado de Tabla con Búsqueda, Filtros y Paginación ───────────────────
+let turnoRender = 0;
 async function renderizarTabla() {
+    const miTurno = ++turnoRender;
     if (!tablaCuerpo) return;
 
     // 1. Filtrar lista
@@ -323,6 +325,7 @@ async function renderizarTabla() {
         try {
             // paginacion desde la api
             const pagina = await getEmpleadosPaginado(paginaActual, itemsPorPagina);
+            if (miTurno !== turnoRender) return;
             if (pagina.totalPaginas > 0 && paginaActual > pagina.totalPaginas) {
                 paginaActual = pagina.totalPaginas;
                 return renderizarTabla();
@@ -345,6 +348,7 @@ async function renderizarTabla() {
     }
 
     // 5. Renderizar filas
+    if (miTurno !== turnoRender) return;
     tablaCuerpo.innerHTML = itemsPagina.map(emp => {
         const id = emp.idEmpleado || emp.id;
         const nombre = `${emp.nombreEmpleado || 'Sin nombre'} ${emp.apellidoEmpleado || ''}`.trim();

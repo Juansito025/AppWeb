@@ -61,7 +61,7 @@ function limpiarSesionLocal() {
 
 function irAlLogin() {
     const path = window.location.pathname.toLowerCase();
-    window.location.href = path.includes('/html/') ? '../Index.html' : './Index.html';
+    window.location.href = path.includes('/html/') ? '../index.html' : './index.html';
 }
 
 function esEmpleadoWeb(usuario) {

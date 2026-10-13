@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // sin sesion ir al login
         if (!rawSession && !['index.html', 'recuperar-contrasena.html', 'registrarse.html'].some(p => pageName.endsWith(p))) {
-            const destinoLogin = pathLower.includes('/html/') ? '../Index.html' : './Index.html';
+            const destinoLogin = pathLower.includes('/html/') ? '../index.html' : './index.html';
             window.location.href = destinoLogin;
             return;
         }
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const irAlLoginComun = (mensaje) => {
         if (window.limpiarSesionLocal) window.limpiarSesionLocal();
         if (mensaje) { try { sessionStorage.setItem('keeper_aviso_login', mensaje); } catch (_) {} }
-        window.location.href = pathLower.includes('/html/') ? '../Index.html' : './Index.html';
+        window.location.href = pathLower.includes('/html/') ? '../index.html' : './index.html';
     };
     const revisarSesion = (inicial) => window.CredentialsStore.verificarSesion().then(me => {
         if (!me) {
@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // sin sesion ir al login
     if (!isPublic && !activeUser) {
-        const destinoLogin2 = pathLower.includes('/html/') ? '../Index.html' : './Index.html';
+        const destinoLogin2 = pathLower.includes('/html/') ? '../index.html' : './index.html';
         window.location.href = destinoLogin2;
         return;
     }
@@ -585,7 +585,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 await window.CredentialsStore.cerrarSesion();
             } else {
                 sessionStorage.clear();
-                window.location.href = '../Index.html';
+                window.location.href = '../index.html';
             }
         });
     }
@@ -1414,6 +1414,20 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.actualizarBadgeNotificaciones) {
         window.actualizarBadgeNotificaciones();
     }
+    const hayInsignia = document.querySelector('.insignia-notificaciones-menu, #insignia-notificaciones-menu');
+    const conSesion = (() => { try { return !!sessionStorage.getItem('keeper_sesion'); } catch (_) { return false; } })();
+    if (!hayInsignia || !conSesion || typeof window.apiFetch !== 'function') return;
+    const contarPendientes = async () => {
+        if (document.visibilityState !== 'visible') return;
+        try {
+            const lista = await window.apiFetch('/notificaciones/me', { silencioso: true });
+            const datos = Array.isArray(lista) ? lista : [];
+            const sinLeer = datos.filter(n => String(n.leidaNotificacion || '').toLowerCase() !== 's').length;
+            window.actualizarBadgeNotificaciones(sinLeer);
+        } catch (_) { }
+    };
+    contarPendientes();
+    setInterval(contarPendientes, 60000);
 });
 
 /** validar campos obligatorios */
@@ -1661,3 +1675,75 @@ document.addEventListener('invalid', function (e) {
     window.addEventListener('scroll', () => { if (campoActual) actualizar(); }, true);
     window.addEventListener('resize', () => { if (campoActual) actualizar(); });
 })();
+
+window.KeeperBuscadorSelect = function (select, opciones = {}) {
+    if (!select || select._keeperBuscador) return select && select._keeperBuscador;
+    const normalizar = (t) => String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    const caja = document.createElement('div');
+    caja.className = 'buscador-select-keeper';
+    caja.innerHTML = `
+        <div class="buscador-select-entrada">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" autocomplete="off" placeholder="${escapeHtml(opciones.placeholder || 'Escribe para buscar...')}">
+        </div>
+        <div class="buscador-select-lista" hidden></div>
+        <div class="buscador-select-elegido" hidden></div>`;
+    const input = caja.querySelector('input');
+    const listaEl = caja.querySelector('.buscador-select-lista');
+    const elegidoEl = caja.querySelector('.buscador-select-elegido');
+    const ancla = select._customDesplegableWrapper || select;
+    ancla.parentNode.insertBefore(caja, ancla);
+    const ocultarOriginal = () => {
+        select.style.setProperty('display', 'none', 'important');
+        if (select._customDesplegableWrapper) select._customDesplegableWrapper.style.display = 'none';
+    };
+    ocultarOriginal();
+
+    const opcionesValidas = () => Array.from(select.options).filter(o => o.value);
+    const pintarElegido = () => {
+        ocultarOriginal();
+        const actual = opcionesValidas().find(o => o.value === select.value);
+        if (actual) {
+            elegidoEl.hidden = false;
+            elegidoEl.innerHTML = `<div><strong>${escapeHtml(actual.textContent.trim())}</strong>${actual.dataset.detalle ? `<span>${escapeHtml(actual.dataset.detalle)}</span>` : ''}</div><button type="button">Cambiar</button>`;
+            caja.querySelector('.buscador-select-entrada').hidden = true;
+            listaEl.hidden = true;
+            elegidoEl.querySelector('button').addEventListener('click', () => {
+                select.value = '';
+                select.dispatchEvent(new Event('change', { bubbles: true }));
+                elegidoEl.hidden = true;
+                caja.querySelector('.buscador-select-entrada').hidden = false;
+                input.value = '';
+                pintarLista('');
+                input.focus();
+            });
+        } else {
+            elegidoEl.hidden = true;
+            caja.querySelector('.buscador-select-entrada').hidden = false;
+        }
+    };
+    const pintarLista = (texto) => {
+        const t = normalizar(texto);
+        const todas = opcionesValidas();
+        const encontradas = todas.filter(o => !t || normalizar(`${o.textContent} ${o.dataset.detalle || ''}`).includes(t)).slice(0, opciones.maximo || 8);
+        listaEl.hidden = false;
+        listaEl.innerHTML = encontradas.length
+            ? encontradas.map(o => `<button type="button" class="buscador-select-opcion" data-valor="${escapeHtml(o.value)}"><strong>${escapeHtml(o.textContent.trim())}</strong>${o.dataset.detalle ? `<span>${escapeHtml(o.dataset.detalle)}</span>` : ''}</button>`).join('')
+            : `<p class="buscador-select-vacio">${todas.length ? 'Sin coincidencias.' : (opciones.vacio || 'No hay opciones disponibles.')}</p>`;
+        listaEl.querySelectorAll('.buscador-select-opcion').forEach(b => b.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            select.value = b.dataset.valor;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+            if (window.sincronizarSelectCustom) window.sincronizarSelectCustom(select);
+            pintarElegido();
+        }));
+    };
+    input.addEventListener('input', () => pintarLista(input.value));
+    input.addEventListener('focus', () => pintarLista(input.value));
+    input.addEventListener('blur', () => setTimeout(() => { if (!caja.contains(document.activeElement)) listaEl.hidden = true; }, 150));
+    select.addEventListener('change', pintarElegido);
+    new MutationObserver(() => { pintarElegido(); if (!listaEl.hidden) pintarLista(input.value); }).observe(select, { childList: true });
+    select._keeperBuscador = { refrescar: pintarElegido, caja };
+    pintarElegido();
+    return select._keeperBuscador;
+};

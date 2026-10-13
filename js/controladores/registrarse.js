@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const irAlLoginConAviso = (mensaje) => {
         mostrarAlertaNotificacion(mensaje, 'info');
         if (submitBtn) submitBtn.disabled = true;
-        setTimeout(() => { window.location.href = '../Index.html'; }, 2200);
+        setTimeout(() => { window.location.href = '../index.html'; }, 2200);
     };
     CredentialsStore.estadoRegistro().then(estado => {
         if (estado && estado.existeAdministrador) {

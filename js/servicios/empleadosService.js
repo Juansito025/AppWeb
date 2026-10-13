@@ -4,7 +4,7 @@ let _rolesCache = null;
 async function obtenerRolesCache() {
     if (_rolesCache) return _rolesCache;
     try {
-        const res = await apiFetch('/roles');
+        const res = await apiFetch('/roles', { silencioso: true });
         _rolesCache = Array.isArray(res) ? res : (res?.data || []);
     } catch (error) {
         _rolesCache = [];
@@ -74,6 +74,7 @@ function prepararPayloadEmpleado(emp) {
         fechaInicioContrato: emp.fechaInicioContrato || fechaLocalISO(),
         fechaNacimientoEmpleado: emp.fechaNacimientoEmpleado || emp.fechaNacimiento || null,
         fechaSalida: emp.fechaSalida || null,
+        activo: !emp.fechaSalida,
         fotoUrlEmpleado: emp.fotoUrlEmpleado || emp.fotoEmpleado || null,
         // El backend espera fkRol como Long plano, no como objeto.
         fkRol: idRolNum

@@ -198,7 +198,7 @@
                     </tr>
                 </thead>
                 <tbody id="tabla-cuerpo">
-                    <tr><td colspan="5" class="tabla-vacia">Cargando turnos maestros...</td></tr>
+                    <tr><td colspan="5" class="tabla-vacia">Cargando turnos...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -221,7 +221,7 @@
         <div class="panel-encabezado">
             <div class="panel-encabezado-icono"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
             <div class="panel-encabezado-texto">
-                <h3 id="panel-turno-titulo">Crear nuevo turno maestro</h3>
+                <h3 id="panel-turno-titulo">Crear nuevo turno</h3>
                 <p>Define los horarios y días del turno de seguridad</p>
             </div>
             <button class="panel-cerrar" id="btn-cerrar-agregar-turno" type="button" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
@@ -349,8 +349,12 @@
             <div class="seccion-guardias-turno">
                 <label class="panel-etiqueta" style="margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
                     <span>Asignar Guardías al Turno (Opcional)</span>
-                    <span style="font-size: 11px; color: #8892a8;">Solo guardías activos con caseta</span>
+                    <span style="font-size: 11px; color: #8892a8;">Solo vigilantes activos</span>
                 </label>
+
+                <select class="seleccion-formulario" id="turno-caseta-guardias" style="margin-bottom: 8px;">
+                    <option value="">Caseta para los guardías...</option>
+                </select>
                 
                 <div class="buscador-desplegable-contenedor" id="buscador-guardias-contenedor">
                     <div class="buscador-desplegable-input-envoltura">

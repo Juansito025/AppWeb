@@ -115,7 +115,6 @@
                 return '';
             case 'telefono':
                 if (!/^\d{4}-\d{4}$/.test(v)) return 'El teléfono debe tener 8 números: 0000-0000';
-                if (!/^[267]/.test(v)) return 'El teléfono debe empezar con 2, 6 o 7';
                 return '';
             case 'placa':
                 return /^[A-Z]{1,2}[0-9A-F]{3}-[0-9A-F]{3}$/.test(v) ? '' : 'La placa debe tener el formato P123-456';

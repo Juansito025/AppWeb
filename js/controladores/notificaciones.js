@@ -439,13 +439,10 @@ function poblarSelectDestinatarios() {
     const esAdmin = rolSesion.includes('admin');
     const idPropio = Sesión?.id;
 
-    const empleadosVisibles = empleadosCache.filter(emp => String(emp.idEmpleado || emp.id) !== String(idPropio));
+    const empleadosVisibles = empleadosCache.filter(emp => String(emp.idEmpleado || emp.id) !== String(idPropio) && !emp.fechaSalida);
 
     if (!esAdmin) {
-        destinatariosSeleccionados = new Set();
-        if (empleadosVisibles.length > 0) {
-            destinatariosSeleccionados.add(String(empleadosVisibles[0].idEmpleado || empleadosVisibles[0].id));
-        }
+        destinatariosSeleccionados.delete('todos');
     } else if (destinatariosSeleccionados.size === 0) {
         destinatariosSeleccionados = new Set(['todos']);
     }
@@ -469,7 +466,7 @@ function poblarSelectDestinatarios() {
     empleadosVisibles.forEach((emp) => {
         const id = String(emp.idEmpleado || emp.id);
         const nombre = `${emp.nombreEmpleado || ''} ${emp.apellidoEmpleado || ''}`.trim() || emp.correoEmpleado || 'Empleado';
-        const rol = (emp.rol && emp.rol.nombreRol) ? emp.rol.nombreRol : (emp.rol || 'Personal');
+        const rol = emp.fkRol?.nombreRol || emp.rol?.nombreRol || (typeof emp.rol === 'string' ? emp.rol : '') || 'Personal';
         const estaMarcado = destinatariosSeleccionados.has(id);
         html += `
             <div class="selector-opcion-item item-destinatario-opcion ${estaMarcado ? 'seleccionado' : ''}" data-valor="${escapeHtml(id)}" style="display:flex; align-items:center; gap:10px; padding:8px 12px; cursor:pointer;">
@@ -529,7 +526,8 @@ function poblarSelectDestinatarios() {
     });
 
     const inputBuscarDestinatario = document.getElementById('input-buscar-destinatario');
-    if (inputBuscarDestinatario) {
+    if (inputBuscarDestinatario && !inputBuscarDestinatario.dataset.conectado) {
+        inputBuscarDestinatario.dataset.conectado = '1';
         inputBuscarDestinatario.addEventListener('input', function () {
             const termino = this.value.trim().toLowerCase();
             contenedor.querySelectorAll('.selector-opcion-item').forEach(item => {
@@ -603,8 +601,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (btnAbrirRedactar && panelRedactar) {
         btnAbrirRedactar.addEventListener('click', function () {
-            poblarSelectDestinatarios();
             if (formRedactar) formRedactar.reset();
+            poblarSelectDestinatarios();
             panelRedactar.classList.add('activo');
         });
     }
@@ -657,7 +655,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Resolver lista de destinatarios (uno, varios o todos)
             let listaDestinos = [];
             if (destino === 'todos' || destinatariosSeleccionados.has('todos')) {
-                listaDestinos = empleadosCache.map(emp => emp.idEmpleado || emp.id).filter(Boolean);
+                listaDestinos = empleadosCache.filter(emp => !emp.fechaSalida).map(emp => emp.idEmpleado || emp.id).filter(Boolean);
             } else if (destino.startsWith('[')) {
                 try {
                     listaDestinos = JSON.parse(destino);

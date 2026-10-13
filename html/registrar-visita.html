@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Visita - Keeper</title>
     <link rel="stylesheet" href="../css/comun.css">
-    <link rel="stylesheet" href="../css/registrarvisita.css?v=2">
+    <link rel="stylesheet" href="../css/registrarvisita.css?v=3">
     <link rel="stylesheet" href="../css/animaciones.css">
     <link rel="stylesheet" href="../css/tema-claro.css">
     <link rel="icon" href="../img/logo-Global.png">
@@ -150,28 +150,32 @@
                 </span>
                 <div>
                     <h1 class="page-titulo">Registrar visita</h1>
-                    <p class="page-subtitulo">Registro manual en caseta: la visita queda pendiente hasta que el residente la aprueba en su app.</p>
+                    <p class="page-subtitulo">Registra a quien llega a la caseta. El residente recibe el aviso en su app para aprobar o rechazar, y también puedes llamarle para confirmar.</p>
                 </div>
             </div>
         </header>
 
         <div class="diseno-visita">
-            <!-- Columna izquierda: formulario -->
-            <div class="tarjeta-formulario-unica">
+            <div class="tarjeta-formulario-unica" id="rv-formulario">
 
                 <section class="rv-seccion">
                     <div class="seccion-encabezado">
                         <span class="rv-paso">1</span>
                         <div>
                             <h3 class="seccion-titulo">Residente que recibe</h3>
-                            <p class="rv-seccion-ayuda">Busca por nombre al residente que autoriza la visita.</p>
+                            <p class="rv-seccion-ayuda">Escribe el nombre del residente o el código de su casa.</p>
                         </div>
                     </div>
                     <div class="grupo-formulario">
-                        <label class="form-etiqueta" for="seleccionar-residente">Residente</label>
-                        <select class="seleccion-formulario forzar-busqueda" id="seleccionar-residente" required>
-                            <option value="" disabled selected>Selecciona un residente...</option>
-                        </select>
+                        <label class="form-etiqueta" for="rv-buscar-residente">Buscar residente</label>
+                        <div class="contenedor-icono-entrada">
+                            <span class="icono-entrada-izquierda">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            </span>
+                            <input type="search" class="entrada-formulario con-icono" id="rv-buscar-residente" placeholder="Ej. Diego o A-12" autocomplete="off" aria-controls="rv-lista-residentes">
+                        </div>
+                        <div class="rv-lista" id="rv-lista-residentes" role="listbox" aria-label="Residentes"></div>
+                        <div class="rv-seleccionado" id="rv-residente-elegido" hidden></div>
                     </div>
                 </section>
 
@@ -180,29 +184,27 @@
                         <span class="rv-paso">2</span>
                         <div>
                             <h3 class="seccion-titulo">Datos del visitante</h3>
-                            <p class="rv-seccion-ayuda">Nombre completo y un teléfono de contacto.</p>
+                            <p class="rv-seccion-ayuda">Nombre, apellido y un teléfono de contacto.</p>
                         </div>
                     </div>
                     <div class="datos-visita-grid">
                         <div class="grupo-formulario">
-                            <label class="form-etiqueta" for="entrada-nombre">Nombre completo</label>
-                            <div class="contenedor-icono-entrada">
-                                <span class="icono-entrada-izquierda">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                </span>
-                                <input type="text" class="entrada-formulario con-icono" id="entrada-nombre" placeholder="Ej. Juan Pérez" maxlength="80" autocomplete="off" required>
-                            </div>
+                            <label class="form-etiqueta" for="entrada-nombre">Nombre</label>
+                            <input type="text" class="entrada-formulario" id="entrada-nombre" placeholder="Ej. Juan" maxlength="50" autocomplete="off" required>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label class="form-etiqueta" for="entrada-apellido">Apellido</label>
+                            <input type="text" class="entrada-formulario" id="entrada-apellido" placeholder="Ej. Pérez" maxlength="50" autocomplete="off" required>
                         </div>
                         <div class="grupo-formulario">
                             <label class="form-etiqueta" for="entrada-telefono">Teléfono</label>
-                            <div class="contenedor-icono-entrada">
-                                <span class="icono-entrada-izquierda">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                                </span>
-                                <input type="tel" class="entrada-formulario con-icono" id="entrada-telefono" placeholder="0000-0000" inputmode="numeric" maxlength="9" pattern="^[2-7]\d{3}-\d{4}$" title="Formato: 0000-0000" required>
-                            </div>
+                            <input type="tel" class="entrada-formulario" id="entrada-telefono" placeholder="0000-0000" inputmode="numeric" maxlength="9" title="Formato: 0000-0000" required>
                         </div>
                         <div class="grupo-formulario">
+                            <label class="form-etiqueta" for="entrada-dui">DUI <span class="etiqueta-opcional">opcional</span></label>
+                            <input type="text" class="entrada-formulario" id="entrada-dui" placeholder="00000000-0" inputmode="numeric" maxlength="10" autocomplete="off">
+                        </div>
+                        <div class="grupo-formulario rv-ancho">
                             <label class="form-etiqueta" for="seleccionar-tipo-visitante">Tipo de visita</label>
                             <select class="seleccion-formulario" id="seleccionar-tipo-visitante">
                                 <option value="Familiar">Familiar</option>
@@ -218,14 +220,14 @@
                     <div class="seccion-encabezado">
                         <span class="rv-paso">3</span>
                         <div>
-                            <h3 class="seccion-titulo">Modo de ingreso e identificación</h3>
-                            <p class="rv-seccion-ayuda">Si entra en vehículo se pide la placa.</p>
+                            <h3 class="seccion-titulo">Modo de ingreso</h3>
+                            <p class="rv-seccion-ayuda">Si entra en vehículo se registra la placa.</p>
                         </div>
                     </div>
 
                     <div class="opciones-transporte" role="radiogroup" aria-label="Modo de ingreso">
                         <label class="tarjeta-transporte" for="opt-peatonal">
-                            <input type="radio" id="opt-peatonal" name="transporte" value="Peatonal" class="radio-transporte" onchange="actualizarTransporte('Peatonal')">
+                            <input type="radio" id="opt-peatonal" name="transporte" value="Peatonal" class="radio-transporte" checked>
                             <span class="envoltura-imagen-transporte">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-2 4"/><path d="M12 13l3 4"/><path d="M9 10l3-2 3 2"/></svg>
                             </span>
@@ -235,7 +237,7 @@
                             </span>
                         </label>
                         <label class="tarjeta-transporte" for="opt-vehiculo">
-                            <input type="radio" id="opt-vehiculo" name="transporte" value="Vehículo" class="radio-transporte" onchange="actualizarTransporte('Vehículo')">
+                            <input type="radio" id="opt-vehiculo" name="transporte" value="Vehicular" class="radio-transporte">
                             <span class="envoltura-imagen-transporte">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="8" rx="2" ry="2"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/><path d="M4 11V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/></svg>
                             </span>
@@ -246,41 +248,30 @@
                         </label>
                     </div>
 
-                    <div class="info-personal-caja" id="info-personal-caja">
-                        <p class="info-personal-ayuda" id="info-personal-ayuda">Elige cómo ingresa la visita para completar su identificación.</p>
-
-                        <div class="info-personal-campos" id="info-personal-campos" style="display:none;">
-                            <div class="info-campo">
-                                <label class="form-etiqueta" for="entrada-dui">DUI <span class="opcional-texto" style="font-size: 0.85em; opacity: 0.7; font-weight: normal;">(Opcional)</span></label>
-                                <div class="contenedor-icono-entrada">
-                                    <span class="icono-entrada-izquierda">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg>
-                                    </span>
-                                    <input type="text" class="entrada-formulario con-icono" id="entrada-dui" placeholder="00000000-0 (Opcional)" inputmode="numeric" maxlength="10">
-                                </div>
-                            </div>
-
-                            <div class="info-campo" id="campo-matricula" style="display:none;">
-                                <label class="form-etiqueta" for="entrada-matricula">Placa</label>
-                                <div class="contenedor-icono-entrada">
-                                    <span class="icono-entrada-izquierda">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="18" y2="12"/></svg>
-                                    </span>
-                                    <input type="text" class="entrada-formulario con-icono" id="entrada-matricula" placeholder="P000-000" maxlength="8" pattern="^[A-Za-z]{1,2}\d{3}-\d{3}$" title="Formato: P000-000" autocomplete="off">
-                                </div>
-                            </div>
-
-                            <div class="info-campo" id="campo-tipo-vehiculo" style="display:none;">
-                                <label class="form-etiqueta" for="seleccionar-tipo-vehiculo">Tipo de vehículo</label>
-                                <select class="seleccion-formulario" id="seleccionar-tipo-vehiculo">
-                                    <option value="" disabled selected>Selecciona tipo...</option>
-                                    <option value="Carro">Carro</option>
-                                    <option value="Moto">Moto</option>
-                                    <option value="Camión">Camión</option>
-                                    <option value="Pick-up">Pick-up</option>
-                                    <option value="Otro">Otro</option>
-                                </select>
-                            </div>
+                    <div class="datos-visita-grid" id="rv-campos-vehiculo" hidden>
+                        <div class="grupo-formulario">
+                            <label class="form-etiqueta" for="entrada-matricula">Placa</label>
+                            <input type="text" class="entrada-formulario" id="entrada-matricula" placeholder="P123-456" maxlength="8" autocomplete="off">
+                        </div>
+                        <div class="grupo-formulario">
+                            <label class="form-etiqueta" for="seleccionar-tipo-vehiculo">Tipo de vehículo</label>
+                            <select class="seleccion-formulario" id="seleccionar-tipo-vehiculo">
+                                <option value="Automóvil">Automóvil</option>
+                                <option value="Pick-up">Pick-up</option>
+                                <option value="Camioneta">Camioneta</option>
+                                <option value="Motocicleta">Motocicleta</option>
+                                <option value="Camión">Camión</option>
+                                <option value="Microbús">Microbús</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label class="form-etiqueta" for="entrada-marca">Marca <span class="etiqueta-opcional">opcional</span></label>
+                            <input type="text" class="entrada-formulario" id="entrada-marca" placeholder="Ej. Toyota" maxlength="20" autocomplete="off">
+                        </div>
+                        <div class="grupo-formulario">
+                            <label class="form-etiqueta" for="entrada-modelo">Modelo <span class="etiqueta-opcional">opcional</span></label>
+                            <input type="text" class="entrada-formulario" id="entrada-modelo" placeholder="Ej. Corolla" maxlength="20" autocomplete="off">
                         </div>
                     </div>
                 </section>
@@ -293,18 +284,37 @@
                             <p class="rv-seccion-ayuda">Motivo de la visita, paquetes, número de acompañantes…</p>
                         </div>
                     </div>
-                    <textarea class="entrada-formulario" id="entrada-observaciones" rows="3" maxlength="250" placeholder="Notas adicionales sobre la visita..."></textarea>
+                    <textarea class="entrada-formulario" id="entrada-observaciones" rows="3" maxlength="250" placeholder="Notas que verá el residente en su app"></textarea>
                 </section>
 
                 <div class="acciones-formulario-contenedor">
-                    <button class="boton-cancelar" type="button" onclick="cancelarFormulario()">Limpiar</button>
-                    <button class="btn-guardar" type="button" onclick="abrirConfirmacion()">
+                    <button class="boton-cancelar" type="button" id="rv-btn-limpiar">Limpiar</button>
+                    <button class="btn-guardar" type="button" id="rv-btn-revisar">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Revisar y registrar
+                        Revisar y enviar al residente
                     </button>
                 </div>
             </div>
 
+            <section class="rv-seguimiento" id="rv-seguimiento" aria-live="polite" hidden>
+                <span class="rv-pildora" id="rv-pildora">Esperando respuesta</span>
+                <h2 class="rv-seg-titulo" id="rv-seg-titulo">—</h2>
+                <p class="rv-seg-detalle" id="rv-seg-detalle">—</p>
+                <dl class="rv-seg-datos" id="rv-seg-datos"></dl>
+                <div class="rv-reloj" id="rv-reloj">5:00</div>
+                <div class="rv-barra" id="rv-barra"><div id="rv-progreso"></div></div>
+                <div class="rv-llamada" id="rv-llamada"></div>
+                <div class="rv-qr" id="rv-qr" hidden>
+                    <img id="rv-qr-img" alt="Código QR del pase de visita" width="200" height="200">
+                    <a id="rv-qr-descargar" class="btn-secondary" download="pase-visita.png">Descargar QR</a>
+                </div>
+                <div class="rv-seg-acciones">
+                    <button type="button" class="btn-guardar" id="rv-btn-registrar-entrada" hidden>Registrar entrada</button>
+                    <button type="button" class="btn-guardar" id="rv-btn-por-llamada" hidden>El residente autorizó por llamada</button>
+                    <button type="button" class="boton-cancelar" id="rv-btn-cancelar-solicitud" hidden>Cancelar solicitud</button>
+                    <button type="button" class="boton-cancelar" id="rv-btn-nueva">Registrar otra visita</button>
+                </div>
+            </section>
         </div>
     </div>
 </main>
@@ -314,8 +324,7 @@
     <span class="texto-pie-pagina">© 2026 <strong>keeper</strong>. Todos los derechos reservados.</span>
 </footer>
 
- 
-<div class="capa-bg" id="capa" onclick="cerrarConfirmacion(event)">
+<div class="capa-bg" id="capa">
     <div class="capa-panel" id="capa-panel" role="dialog" aria-modal="true" aria-labelledby="rv-modal-titulo">
         <div class="ovl-encabezado">
             <div class="ovl-icono-envoltura">
@@ -323,7 +332,7 @@
             </div>
             <div>
                 <h3 class="ovl-titulo" id="rv-modal-titulo">Confirmar visita</h3>
-                <p class="ovl-subtitulo">Revisa los datos antes de registrarla.</p>
+                <p class="ovl-subtitulo">Al enviar, el residente recibirá el aviso en su app.</p>
             </div>
         </div>
 
@@ -333,15 +342,15 @@
             <div class="ovl-seccion"><dt class="ovl-etiqueta">Teléfono</dt><dd class="ovl-valor" id="ovl-telefono">—</dd></div>
             <div class="ovl-seccion"><dt class="ovl-etiqueta">DUI</dt><dd class="ovl-valor" id="ovl-dui">—</dd></div>
             <div class="ovl-seccion"><dt class="ovl-etiqueta">Ingreso</dt><dd class="ovl-valor" id="ovl-transporte">—</dd></div>
-            <div class="ovl-seccion" id="ovl-div-matricula"><dt class="ovl-etiqueta">Placa / tipo</dt><dd class="ovl-valor" id="ovl-matricula">—</dd></div>
+            <div class="ovl-seccion" id="ovl-div-matricula"><dt class="ovl-etiqueta">Vehículo</dt><dd class="ovl-valor" id="ovl-matricula">—</dd></div>
             <div class="ovl-seccion ovl-ancha" id="ovl-div-obs"><dt class="ovl-etiqueta">Observaciones</dt><dd class="ovl-valor" id="ovl-observaciones">—</dd></div>
         </dl>
 
         <div class="ovl-pie">
-            <button class="ovl-btn-cancelar" type="button" onclick="cerrarConfirmacion()">Corregir</button>
-            <button class="ovl-btn-apply" type="button" onclick="confirmarRegistro()">
+            <button class="ovl-btn-cancelar" type="button" id="rv-btn-corregir">Corregir</button>
+            <button class="ovl-btn-apply" type="button" id="rv-btn-enviar">
                 <svg class="imagen-icono-boton" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                Registrar visita
+                Enviar al residente
             </button>
         </div>
     </div>
@@ -352,6 +361,6 @@
 <script src="../js/Recursos/animaciones.js"></script><script src="../js/Recursos/validaciones.js?v=2"></script>
 <script src="../js/Recursos/comun.js"></script>
 <script src="../js/servicios/api-config.js"></script>
-<script type="module" src="../js/controladores/registrar-visita.js"></script>
+<script type="module" src="../js/controladores/registrar-visita.js?v=3"></script>
 </body>
 </html>

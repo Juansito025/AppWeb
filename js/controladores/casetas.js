@@ -330,8 +330,12 @@ async function guardarNuevaCaseta() {
     const Teléfono = (document.getElementById('agregar-telefono') || document.getElementById('agregar-Teléfono'))?.value.trim();
     const Dirección = (document.getElementById('agregar-direccion') || document.getElementById('agregar-Dirección'))?.value.trim();
 
-    if (!nombre || !Dirección || !Teléfono) {
-        if (window.Swal) Swal.fire('Campos requeridos', 'Completa los campos obligatorios.', 'warning');
+    if (!nombre || !Dirección) {
+        if (window.Swal) Swal.fire('Campos requeridos', 'Completa el nombre y la dirección.', 'warning');
+        return;
+    }
+    if (Teléfono && !/^\d{4}-\d{4}$/.test(Teléfono)) {
+        if (window.Swal) Swal.fire('Teléfono no válido', 'El teléfono debe tener el formato 0000-0000, o déjalo vacío.', 'warning');
         return;
     }
 
@@ -341,8 +345,8 @@ async function guardarNuevaCaseta() {
         tipoLugar: tipo,
         capacidadLugar: Number(capacidad || 3),
         capacidadCaseta: Number(capacidad || 3),
-        telefonoLugar: Teléfono,
-        telefonoCaseta: Teléfono,
+        telefonoLugar: Teléfono || null,
+        telefonoCaseta: Teléfono || null,
         direccionLugar: Dirección,
         direccionCaseta: Dirección
     };
@@ -585,6 +589,15 @@ async function guardarEdicionCaseta() {
     const Teléfono = (document.getElementById('detalle-telefono') || document.getElementById('detalle-Teléfono'))?.value.trim();
     const Dirección = (document.getElementById('detalle-direccion') || document.getElementById('detalle-Dirección'))?.value.trim();
 
+    if (!nombre || !Dirección) {
+        if (window.Swal) Swal.fire('Campos requeridos', 'Completa el nombre y la dirección.', 'warning');
+        return;
+    }
+    if (Teléfono && !/^\d{4}-\d{4}$/.test(Teléfono)) {
+        if (window.Swal) Swal.fire('Teléfono no válido', 'El teléfono debe tener el formato 0000-0000, o déjalo vacío.', 'warning');
+        return;
+    }
+
     const payload = {
         idLugarTrabajo: id,
         idCasetas: id,
@@ -593,8 +606,8 @@ async function guardarEdicionCaseta() {
         tipoLugar: tipo,
         capacidadLugar: Number(capacidad || 3),
         capacidadCaseta: Number(capacidad || 3),
-        telefonoLugar: Teléfono,
-        telefonoCaseta: Teléfono,
+        telefonoLugar: Teléfono || null,
+        telefonoCaseta: Teléfono || null,
         direccionLugar: Dirección,
         direccionCaseta: Dirección
     };
