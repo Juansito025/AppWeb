@@ -743,12 +743,14 @@ async function mostrarInfraccionesPersona(idPersona) {
     try {
         // infracciones del residente
         const aLista = (r) => Array.isArray(r) ? r : (r?.data || []);
-        const [infracciones, incidentes, gravedades] = await Promise.all([
+        const [infracciones, incidentes, gravedades, visitas, visitantes] = await Promise.all([
             getInfraccionesDetalladas().then(aLista),
             apiFetch('/incidentes', { silencioso: true }).then(aLista).catch(() => []),
-            apiFetch('/gravedadInfracciones', { silencioso: true }).then(aLista).catch(() => [])
+            apiFetch('/gravedadInfracciones', { silencioso: true }).then(aLista).catch(() => []),
+            apiFetch('/visitas', { silencioso: true }).then(aLista).catch(() => []),
+            apiFetch('/visitantes', { silencioso: true }).then(aLista).catch(() => [])
         ]);
-        const infraccionesPersona = infraccionesDe(idPersona, { infracciones, incidentes, gravedades });
+        const infraccionesPersona = infraccionesDe(idPersona, { infracciones, incidentes, gravedades, visitas, visitantes });
 
         if (infraccionesPersona.length === 0) {
             contenedorInfracciones.innerHTML = '<p style="color:#94a3b8; padding:20px; text-align:center;">No registra infracciones activas.</p>';
@@ -766,6 +768,7 @@ async function mostrarInfraccionesPersona(idPersona) {
                     <span style="background:#ef4444; color:#ffffff; padding:2px 8px; border-radius:4px; font-size:11px;">$${escapeHtml(Number(inf.monto || 0).toFixed(2))}</span>
                 </div>
                 <p style="color:#94a3b8; font-size:13px; margin:6px 0;">${escapeHtml(inf.motivo || 'Infracción de convivencia')}</p>
+                ${inf.causadaPor ? `<p style="color:#f59e0b; font-size:12px; margin:0 0 6px;">Causada por su visita: ${escapeHtml(inf.causadaPor)}</p>` : ''}
                 <div style="display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap;">
                     <label style="font-size:12px; color:#64748b;">Estado:</label>
                     <select class="infp-select-estado seleccion-formulario" style="flex:1; min-width:120px;">

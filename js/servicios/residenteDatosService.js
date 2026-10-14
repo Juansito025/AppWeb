@@ -60,12 +60,26 @@ export function infraccionesDe(idPersona, base) {
             .filter(i => mismoId(i.fkPersonas || i.fkPersona, idPersona))
             .map(i => [String(i.idIncidente), i])
     );
+    const visitasPersona = new Map((base.visitas || [])
+        .filter(v => mismoId(v.fkPersona, idPersona))
+        .map(v => [String(v.idVisitas ?? v.idVisita ?? v.id), v]));
+    const causantes = new Map();
+    if (visitasPersona.size) {
+        base.incidentes.forEach(i => {
+            const visita = i.fkVisita != null ? visitasPersona.get(String(i.fkVisita)) : null;
+            if (!visita || incidentesPersona.has(String(i.idIncidente))) return;
+            incidentesPersona.set(String(i.idIncidente), i);
+            const vis = (base.visitantes || []).find(x => mismoId(x.idVisitante, visita.fkVisitante)) || {};
+            causantes.set(String(i.idIncidente), `${vis.nombreVisitante || ''} ${vis.apellidoVisitante || ''}`.trim() || visita.nombreVisitante || 'Visitante');
+        });
+    }
     return base.infracciones
         .filter(inf => incidentesPersona.has(String(inf.fkIncidente)))
         .map(inf => {
             const inc = incidentesPersona.get(String(inf.fkIncidente));
             return {
                 ...inf,
+                causadaPor: causantes.get(String(inf.fkIncidente)) || '',
                 fecha: inc.fechaHoraIncidente || null,
                 motivo: inc.descripcionIncidente || 'Sin descripción',
                 lugar: inc.lugarIncidente || '',
