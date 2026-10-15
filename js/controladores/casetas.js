@@ -612,13 +612,35 @@ async function guardarEdicionCaseta() {
         direccionCaseta: Dirección
     };
 
+    if (!id) {
+        if (window.Swal) Swal.fire('Error', 'No se encontró el id de esta caseta. Recarga la página e inténtalo de nuevo.', 'error');
+        return;
+    }
+
     try {
-        if (window.Swal) Swal.showLoading();
+        if (window.Swal) Swal.fire({ title: 'Guardando cambios...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
         await actualizarLugarTrabajo(id, payload);
+
+        // comprobar que la api realmente guardo los cambios
+        await cargarCasetas();
+        const guardado = casetas.find(c => String(c.idLugarTrabajo || c.idCasetas || c.id) === String(id));
+        const seGuardo = guardado
+            && guardado.nombreLugar === nombre
+            && (guardado.direccionLugar || '') === Dirección
+            && (guardado.tipoLugar || 'Caseta') === (tipo || 'Caseta')
+            && Number(guardado.capacidadLugar) === Number(capacidad || 3)
+            && (guardado.telefonoLugar || '') === (Teléfono || '');
+
+        if (!seGuardo) {
+            console.warn('[casetas] PUT respondió OK pero la API devolvió:', guardado, 'se envió:', payload);
+            if (window.Swal) Swal.fire('No se guardó', 'La API respondió correctamente pero los datos no cambiaron. Revisa el método de actualizar de /lugarTrabajo en la API.', 'warning');
+            return;
+        }
+
         panelDetalle.classList.remove('activo');
         if (window.Swal) Swal.fire('¡Actualizado!', 'Lugar de trabajo actualizado correctamente.', 'success');
-        await cargarCasetas();
     } catch (err) {
+        console.error('[casetas] Error al actualizar:', err.status, err.data || err.message);
         if (window.Swal) Swal.fire('Error', 'No se pudo actualizar: ' + err.message, 'error');
     }
 }
