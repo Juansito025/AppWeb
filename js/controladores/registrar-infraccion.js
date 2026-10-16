@@ -18,9 +18,11 @@ let propiedadesCache = [];
 function seleccionarGravedad(tarjeta, tipo) {
     document.querySelectorAll('.tarjeta-gravedad-registro-infraccion, .tarjeta-gravedad-registro-Infracción').forEach(function (c) {
         c.classList.remove('seleccionada', 'leve-sel', 'moderada-sel', 'grave-sel');
+        c.setAttribute('aria-checked', 'false');
     });
 
     tarjeta.classList.add('seleccionada');
+    tarjeta.setAttribute('aria-checked', 'true');
     if (tipo === 'leve')     tarjeta.classList.add('leve-sel');
     if (tipo === 'moderada') tarjeta.classList.add('moderada-sel');
     if (tipo === 'grave')    tarjeta.classList.add('grave-sel');
@@ -33,9 +35,11 @@ function seleccionarOpcion(tarjeta, grupo) {
     if (contenedorPadre) {
         contenedorPadre.querySelectorAll('.tarjeta-opcion-registro-infraccion, .tarjeta-opcion-registro-Infracción').forEach(function (c) {
             c.classList.remove('seleccionada');
+            c.setAttribute('aria-checked', 'false');
         });
     }
     tarjeta.classList.add('seleccionada');
+    tarjeta.setAttribute('aria-checked', 'true');
 
     const elNombre = tarjeta.querySelector('.nombre-opcion-registro-infraccion, .nombre-opcion-registro-Infracción');
     const nombreOpcion = elNombre ? elNombre.textContent.trim() : '';

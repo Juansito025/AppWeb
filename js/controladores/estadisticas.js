@@ -43,8 +43,6 @@ async function cargar() {
         pedir('/accesos'), pedir('/visitas'), pedir('/infracciones'), pedir('/gravedadInfracciones'), pedir('/propiedades')
     ]);
     datos = { accesos, visitas, infracciones, gravedades, propiedades };
-    document.getElementById('est-actualizado').textContent =
-        `Datos de la API al ${new Date().toLocaleString('es-SV', { day: '2-digit', month: 'long', hour: '2-digit', minute: '2-digit' })}`;
     pintar();
 }
 

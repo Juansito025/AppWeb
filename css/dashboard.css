@@ -664,5 +664,16 @@
 
 
 /* Estados de visita: pendiente y expirada */
-.pildora-estado.estado-pendiente { background: #f59e0b !important; color: #111827 !important; border: none !important; box-shadow: 0 2px 8px #f59e0b59 !important; }
+.pildora-estado.estado-pendiente { background: #f59e0b !important; color: #ffffff !important; border: none !important; box-shadow: 0 2px 8px #f59e0b59 !important; }
 .pildora-estado.estado-expirada { background: #64748b !important; color: #ffffff !important; border: none !important; box-shadow: 0 2px 8px #64748b59 !important; }
+
+/* Tables keep usable columns on narrow screens. */
+.contenedor-tabla { width:100%; max-width:100%; overflow-x:auto; }
+@media(max-width:1000px) {
+ .tabla-visitas { min-width:860px !important; table-layout:auto !important; }
+ .tabla-visitas th { min-width:145px; }
+ .tabla-visitas th .contenido-cabecera,.tabla-visitas th .celda-cabecera { display:inline-flex; align-items:center; gap:8px; }
+ .tabla-visitas th svg { flex-shrink:0; }
+ .tabla-visitas td.celda-texto-largo { min-width:180px; padding-right:14px; }
+ .tabla-visitas td.celda-texto-largo .kp-ver-mas { position:static; transform:none; margin-left:8px; }
+}

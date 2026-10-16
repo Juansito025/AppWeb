@@ -105,6 +105,8 @@ function setMode(mode, animate = true) {
     }
     
     document.body.setAttribute('data-theme', mode);
+    document.documentElement.setAttribute('data-theme', mode);
+    document.documentElement.style.colorScheme = mode;
     sessionStorage.setItem('theme', mode);
     
     

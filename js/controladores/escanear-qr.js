@@ -314,14 +314,15 @@ async function procesarCodigoQR(rawText) {
         if (botonesResultado) botonesResultado.classList.remove('qr-oculto');
 
         Swal.fire({
-            toast: true,
-            position: 'top-end',
+            toast: false,
+            position: 'center',
+            target: document.body,
             icon: 'success',
             title: personaActual.tipoOrigen === 'residente' 
                 ? 'Pase de Residente verificado' 
                 : 'Código QR de Visita válido',
-            showConfirmButton: false,
-            timer: 2500,
+            showConfirmButton: true,
+            confirmButtonText: 'Continuar',
             background: '#0a0f1c',
             color: '#fff'
         });

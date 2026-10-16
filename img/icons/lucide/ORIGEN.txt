@@ -1,0 +1,3 @@
+Lucide — https://lucide.dev
+Fuente: https://github.com/lucide-icons/lucide/tree/main/icons
+SVG locales para evitar depender de una CDN. Licencia incluida.

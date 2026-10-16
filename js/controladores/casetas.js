@@ -135,9 +135,6 @@ function renderizarTabla() {
             <tr data-id="${escapeHtml(id)}">
                 <td>
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <div style="width:32px; height:32px; border-radius:8px; background:#2473F5; display:flex; align-items:center; justify-content:center; color:#ffffff;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
                         <strong style="color:var(--text-primary, #ffffff);">${escapeHtml(nombre)}</strong>
                     </div>
                 </td>
@@ -145,7 +142,7 @@ function renderizarTabla() {
                 <td><span style="color:#cbd5e1; font-size:13px;">${escapeHtml(tel)}</span></td>
                 <td><span style="color:#cbd5e1; font-size:13px;">${escapeHtml(dir)}</span></td>
                 <td>
-                    <span style="display:inline-flex; align-items:center; gap:6px; background:${guardiasCaseta.length > 0 ? '#2473F5' : '#1e293b'}; color:${guardiasCaseta.length > 0 ? '#ffffff' : '#94a3b8'}; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:600;">
+                    <span class="caseta-capacidad">
                         ${guardiasCaseta.length} / ${escapeHtml(cap)} guardias
                     </span>
                 </td>

@@ -7,7 +7,7 @@ const avatarDefecto = () => window.AVATAR_DEFECTO;
 const AZUL = [36, 115, 245];
 const AZUL_OSCURO = [21, 93, 233];
 const NOCHE = [10, 15, 28];
-const GRIS = [100, 116, 139];
+const GRIS = [82, 82, 91];
 
 function jsPDFClase() {
     const clase = window.jspdf?.jsPDF;
@@ -158,8 +158,14 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
     ]);
 
     // Encabezado
-    doc.setFillColor(...NOCHE);
+    doc.setFillColor(23, 76, 155);
     doc.rect(0, 0, ancho, 34, 'F');
+    doc.setFillColor(36, 115, 245);
+    doc.triangle(0, 0, 118, 0, 0, 34, 'F');
+    doc.setFillColor(14, 165, 233);
+    doc.triangle(ancho, 0, ancho - 34, 0, ancho, 22, 'F');
+    doc.setDrawColor(125, 211, 252);
+    doc.setLineWidth(.35);
     doc.setFillColor(...AZUL);
     doc.rect(0, 34, ancho, 1.4, 'F');
     if (logoBlanco) doc.addImage(logoBlanco.dataURL, 'PNG', M, 8, 18 * logoBlanco.proporcion, 18);
@@ -171,14 +177,12 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
     doc.setFontSize(10);
     doc.text('Reporte de infracciones del residente', M + 22, 24);
     doc.setFontSize(8);
-    doc.text(`Documento: ${numero}`, ancho - M, 15, { align: 'right' });
-    doc.text(`Emitido: ${fechaHoraLarga()}`, ancho - M, 20, { align: 'right' });
-    doc.text(`Emitido por: ${emisor}`, ancho - M, 25, { align: 'right' });
 
     // Datos del residente
     let y = 46;
     const p = ficha.persona;
     if (foto) doc.addImage(foto.dataURL, 'PNG', M, y, 30, 30);
+    else { doc.setFont('helvetica', 'bold'); doc.setFontSize(22); doc.setTextColor(...NOCHE); doc.text((ficha.nombre || 'R').trim().charAt(0).toUpperCase(), M + 15, y + 18, { align: 'center' }); }
     doc.setDrawColor(...AZUL);
     doc.setLineWidth(0.8);
     doc.circle(M + 15, y + 15, 15.2, 'S');
@@ -202,7 +206,7 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
     let yd = y + 19;
     datos.forEach(([etiqueta, valor], i) => {
         const col = i % 2 === 0 ? x : x + 68;
-        if (i % 2 === 0 && i > 0) yd += 10;
+        if (i % 2 === 0 && i > 0) yd += 14;
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(7.5);
         doc.setTextColor(...GRIS);
@@ -210,17 +214,17 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(9.5);
         doc.setTextColor(...NOCHE);
-        const texto = doc.splitTextToSize(String(valor), i === 3 ? ancho - M - col : 64)[0];
+        const texto = doc.splitTextToSize(String(valor), i === 3 ? ancho - M - col : 64).slice(0, 3);
         doc.text(texto, col, yd + 4);
     });
 
     // Resumen
-    y = 86;
+    y = Math.max(94, yd + 18);
     const r = ficha.resumen;
     const cajas = [
         ['Infracciones', String(r.cantidad), NOCHE],
-        ['Pendiente de pago', dinero(r.totalPendiente), [220, 38, 38]],
-        ['Pagado', dinero(r.totalPagado), [22, 163, 74]],
+        ['Pendiente de pago', dinero(r.totalPendiente), AZUL],
+        ['Pagado', dinero(r.totalPagado), AZUL],
         ['Total histórico', dinero(r.totalGeneral), AZUL_OSCURO]
     ];
     const anchoCaja = (ancho - M * 2 - 9) / 4;
@@ -238,12 +242,12 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
         doc.text(etiqueta.toUpperCase(), cx + 5, y + 7.5);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(14);
-        doc.setTextColor(...color);
+        doc.setTextColor(...NOCHE);
         doc.text(valor, cx + 5, y + 15.5);
     });
 
     // Detalle
-    y = 116;
+    y += 30;
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(...NOCHE);
@@ -258,6 +262,7 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
         const coloresEstado = { Pendiente: [220, 38, 38], Pagada: [22, 163, 74], Impugnada: [217, 119, 6], Anulada: GRIS };
         doc.autoTable({
             startY: y + 4,
+            showFoot: 'lastPage',
             margin: { left: M, right: M, top: 20, bottom: 20 },
             head: [['#', 'Fecha', 'Motivo', 'Lugar', 'Gravedad', 'Monto', 'Estado']],
             body: ficha.infracciones.map(i => [
@@ -284,7 +289,7 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
                 6: { cellWidth: 22, fontStyle: 'bold' }
             },
             didParseCell: (d) => {
-                if (d.section === 'body' && d.column.index === 6) d.cell.styles.textColor = coloresEstado[d.cell.raw] || NOCHE;
+                if (d.section === 'body' && d.column.index === 6) d.cell.styles.textColor = NOCHE;
             }
         });
     }
@@ -300,7 +305,6 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(7.5);
         doc.setTextColor(...GRIS);
-        doc.text(`Generado por Keeper con los datos registrados a la fecha de emisión · ${numero}`, M, alto - 9);
         doc.text(`Página ${i} de ${paginas}`, ancho - M, alto - 9, { align: 'right' });
     }
 
@@ -313,122 +317,63 @@ export async function generarReporteInfracciones(ficha, emisor = 'Administració
 /** tarjeta para imprimir */
 export async function generarTarjetaAcceso(ficha, pase) {
     if (!pase?.idPaseAcceso) throw new Error('El residente no tiene un pase de acceso vigente.');
-    const jsPDF = jsPDFClase();
-    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-    const anchoPagina = doc.internal.pageSize.getWidth();
-    const W = 85.6, H = 54;
-    const x0 = (anchoPagina - W) / 2;
-
-    const [logoColor, logoBlanco, foto, qr] = await Promise.all([
-        imagenADataURL(LOGO_COLOR, { lado: 200 }).catch(() => null),
-        imagenADataURL(LOGO_BLANCO, { lado: 200 }).catch(() => null),
+    const Doc = jsPDFClase();
+    const doc = new Doc({ unit: 'mm', format: 'a4' });
+    const W = 54, H = 85.6, y = 42, frente = 42, reverso = 114;
+    const [logo, foto, qr] = await Promise.all([
+        imagenADataURL('../img/llave-keeper-blanca.png', { lado: 200 }).catch(() => null),
         fotoPersona(ficha.persona),
-        generarQrConLogo(contenidoQrPase(pase.idPaseAcceso), { lado: 600 })
+        generarQrConLogo(contenidoQrPase(pase.idPaseAcceso), { lado: 600, color: '#0f172a', logo: null })
     ]);
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(13);
-    doc.setTextColor(...NOCHE);
-    doc.text('Tarjeta de acceso Keeper', anchoPagina / 2, 18, { align: 'center' });
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(...GRIS);
-    doc.text('Imprime al 100 % (tamaño real), en papel mate. Recorta por la línea punteada.', anchoPagina / 2, 24, { align: 'center' });
-
-    const guia = (y) => {
-        doc.setDrawColor(148, 163, 184);
-        doc.setLineWidth(0.2);
-        doc.setLineDashPattern([1.2, 1.2], 0);
-        doc.rect(x0 - 1.5, y - 1.5, W + 3, H + 3, 'S');
-        doc.setLineDashPattern([], 0);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(...NOCHE);
+    doc.text('Credencial personal del residente', 105, 20, { align: 'center' });
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...GRIS);
+    doc.text('Imprimir al 100 %. Recortar y montar ambas caras. No ajustar a la página.', 105, 28, { align: 'center' });
+    const cara = (x, etiqueta) => {
+        doc.setFontSize(8); doc.setTextColor(...GRIS); doc.text(etiqueta, x, y - 4);
+        doc.setDrawColor(148, 163, 184); doc.setLineWidth(.2); doc.setLineDashPattern([1, 1], 0);
+        doc.rect(x - 1.5, y - 1.5, W + 3, H + 3, 'S'); doc.setLineDashPattern([], 0);
+        doc.setFillColor(255, 255, 255); doc.setDrawColor(203, 213, 225); doc.roundedRect(x, y, W, H, 2, 2, 'FD');
+        doc.setFillColor(...AZUL); doc.rect(x, y, W, 22, 'F');
+        doc.setFillColor(186, 230, 253); doc.triangle(x, y + 22, x + 20, y + 22, x, y + 37, 'F');
+        doc.setFillColor(14, 165, 233); doc.triangle(x + W, y + 7, x + W - 14, y + 22, x + W, y + 22, 'F');
     };
-
-    // FRENTE
-    let y = 36;
-    doc.setFontSize(8);
-    doc.setTextColor(...GRIS);
-    doc.text('FRENTE', x0, y - 4);
-    guia(y);
-    doc.setFillColor(255, 255, 255);
-    doc.setDrawColor(203, 213, 225);
-    doc.setLineWidth(0.25);
-    doc.roundedRect(x0, y, W, H, 3, 3, 'FD');
-    // franja superior
-    doc.setFillColor(...NOCHE);
-    doc.roundedRect(x0, y, W, 11, 3, 3, 'F');
-    doc.rect(x0, y + 6, W, 5, 'F');
-    if (logoBlanco) doc.addImage(logoBlanco.dataURL, 'PNG', x0 + 4, y + 2, 7 * logoBlanco.proporcion, 7);
-    doc.setTextColor(255, 255, 255);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.text('KEEPER', x0 + 12, y + 7.2);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.5);
-    doc.text('TARJETA DE ACCESO', x0 + W - 4, y + 7, { align: 'right' });
-    doc.setFillColor(...AZUL);
-    doc.rect(x0, y + 11, W, 0.8, 'F');
-
-    // foto y datos
-    if (foto) doc.addImage(foto.dataURL, 'PNG', x0 + 4, y + 15, 16, 16);
-    doc.setDrawColor(...AZUL);
-    doc.setLineWidth(0.5);
-    doc.circle(x0 + 12, y + 23, 8.1, 'S');
-    const tx = x0 + 4;
-    doc.setTextColor(...NOCHE);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8.5);
-    const lineasNombre = doc.splitTextToSize(ficha.nombre, 44).slice(0, 2);
-    doc.text(lineasNombre, tx, y + 36);
-    let ty = y + 36 + lineasNombre.length * 3.6;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.5);
-    doc.setTextColor(...GRIS);
-    doc.text(String(ficha.persona.tipoPersona || 'Residente').toUpperCase(), tx, ty);
-    ty += 3.4;
-    const pr = ficha.propiedades[0];
-    const propiedad = pr ? ([pr.codigo, pr.calle].filter(Boolean).join(' · ') || pr.descripcion) : 'Sin propiedad asignada';
-    doc.setTextColor(...NOCHE);
-    doc.text(doc.splitTextToSize(propiedad, 44)[0], tx, ty);
-    ty += 3.4;
-    doc.setTextColor(...AZUL_OSCURO);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Válida hasta ${fechaCorta(pase.duracionPase)}`, tx, Math.min(ty, y + H - 3));
-
-    // QR
-    const lqr = 33;
-    doc.addImage(qr, 'PNG', x0 + W - lqr - 3, y + 14, lqr, lqr);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(5.5);
-    doc.setTextColor(...GRIS);
-    doc.text('Presenta este código en la caseta', x0 + W - 3 - lqr / 2, y + H - 3.5, { align: 'center' });
-
-    // REVERSO
-    y = 36 + H + 20;
-    doc.setFontSize(8);
-    doc.text('REVERSO', x0, y - 4);
-    guia(y);
-    doc.setFillColor(...NOCHE);
-    doc.roundedRect(x0, y, W, H, 3, 3, 'F');
-    if (logoColor) doc.addImage(logoColor.dataURL, 'PNG', x0 + W / 2 - 7 * logoColor.proporcion, y + 6, 14 * logoColor.proporcion, 14);
-    doc.setTextColor(255, 255, 255);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('Tarjeta personal e intransferible', x0 + W / 2, y + 27, { align: 'center' });
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.8);
-    doc.setTextColor(203, 213, 225);
-    const reglas = [
-        'Si la pierdes, avisa a la administración para desactivarla',
-        'y emitir una nueva. La tarjeta anterior dejará de funcionar.',
-        'Si encuentras esta tarjeta, entrégala en la caseta de vigilancia.'
-    ];
-    reglas.forEach((linea, i) => doc.text(linea, x0 + W / 2, y + 34 + i * 4, { align: 'center' }));
-    doc.setFillColor(...AZUL);
-    doc.rect(x0, y + H - 6, W, 0.8, 'F');
-    doc.setFontSize(6);
-    doc.setTextColor(148, 163, 184);
-    doc.text(`Emitida el ${fechaCorta(fechaLocalISO())}`, x0 + W / 2, y + H - 2.3, { align: 'center' });
-
+    cara(frente, 'FRENTE');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(255, 255, 255);
+    doc.text('KEEPER', frente + W / 2, y + 8, { align: 'center' });
+    doc.setFillColor(255, 255, 255); doc.circle(frente + W / 2, y + 25, 11.5, 'F');
+    if (foto) doc.addImage(foto.dataURL, 'PNG', frente + W / 2 - 10, y + 15, 20, 20);
+    else { doc.setTextColor(...NOCHE); doc.setFontSize(16); doc.text((ficha.nombre || 'R').trim().charAt(0).toUpperCase(), frente + W / 2, y + 27, { align: 'center' }); }
+    doc.setDrawColor(186, 230, 253); doc.setLineWidth(.6); doc.circle(frente + W / 2, y + 25, 10.8, 'S');
+    doc.setTextColor(...NOCHE); doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(ficha.nombre, W - 8).slice(0, 2), frente + W / 2, y + 41, { align: 'center' });
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(6.5); doc.setTextColor(...GRIS);
+    doc.text(String(ficha.persona.tipoPersona || 'Residente').toUpperCase(), frente + W / 2, y + 49, { align: 'center' });
+    const campo = (etiqueta, valor, top, lineas = 1) => {
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(6); doc.setTextColor(...GRIS); doc.text(etiqueta, frente + 5, y + top);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(...NOCHE);
+        doc.text(doc.splitTextToSize(String(valor || 'No registrado'), W - 10).slice(0, lineas), frente + 5, y + top + 3.5);
+    };
+    const direccion = ficha.propiedades.map(pr => [pr.codigo, pr.calle].filter(Boolean).join(' · ') || pr.descripcion).filter(Boolean).join('; ');
+    campo('TELÉFONO', ficha.persona.telefonoPersona, 55);
+    campo('DIRECCIÓN', direccion || 'Sin propiedad asignada', 64, 2);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(5.7); doc.setTextColor(...GRIS);
+    doc.text('INGRESO', frente + 5, y + 77); doc.text('VENCIMIENTO', frente + 31, y + 77);
+    doc.setDrawColor(203, 213, 225); doc.setLineWidth(.25);
+    doc.line(frente + 27, y + 74.5, frente + 27, y + 82);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(6.8); doc.setTextColor(...NOCHE);
+    doc.text(fechaCorta(ficha.persona.fechaEntradaColonia), frente + 5, y + 81);
+    doc.text(fechaCorta(pase.duracionPase), frente + 31, y + 81);
+    cara(reverso, 'REVERSO');
+    if (logo) doc.addImage(logo.dataURL, 'PNG', reverso + W / 2 - 5 * logo.proporcion, y + 3, 10 * logo.proporcion, 10);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(255,255,255);
+    doc.text('KEEPER', reverso + W / 2, y + 18, { align: 'center' });
+    doc.addImage(qr, 'PNG', reverso + 7, y + 26, 40, 40);
+    doc.setTextColor(...NOCHE); doc.setFontSize(6.8); doc.text('PERSONAL E INTRANSFERIBLE', reverso + W / 2, y + 71, { align: 'center' });
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(6.3);
+    doc.text(doc.splitTextToSize('Uso exclusivo del titular. No compartas esta credencial ni su QR. En caso de pérdida, avisa a la administración.', W - 10), reverso + W / 2, y + 76, { align: 'center' });
+    doc.setTextColor(...GRIS); doc.setFontSize(8);
+    doc.text('El QR es una credencial de acceso. Conserva este documento de forma privada.', 105, y + H + 13, { align: 'center' });
     doc.save(`tarjeta-acceso-${nombreArchivo(ficha.nombre)}.pdf`);
 }
 

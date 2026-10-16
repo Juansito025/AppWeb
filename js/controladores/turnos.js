@@ -508,6 +508,7 @@ function configurarModales() {
         btnAbrirAgregar.onclick = () => {
             turnoSeleccionado = null;
             if (formAgregar) formAgregar.reset();
+            sincronizarFormularioTurno();
             if (panelTitulo) panelTitulo.textContent = 'Crear nuevo turno';
             limpiarGuardiasNuevoTurno();
             panelAgregar.classList.add('activo');
@@ -579,7 +580,9 @@ async function guardarTurno() {
     };
 
     const idCasetaGuardias = document.getElementById('turno-caseta-guardias')?.value;
-    if (guardiasNuevoTurno.length && !idCasetaGuardias) {
+    const idEditado = turnoSeleccionado?.idTurno || turnoSeleccionado?.id;
+    const hayGuardiasSinAsignacion = guardiasNuevoTurno.some(idEmpleado => !detallesTurnos.some(d => String(d.fkEmpleado || d.idEmpleado) === String(idEmpleado) && String(d.fkTurno) === String(idEditado)));
+    if (guardiasNuevoTurno.length && !idCasetaGuardias && (!turnoSeleccionado || hayGuardiasSinAsignacion)) {
         if (window.Swal) Swal.fire('Caseta requerida', 'Elige la caseta donde trabajarán los guardías que agregaste.', 'warning');
         return;
     }
@@ -602,15 +605,26 @@ async function guardarTurno() {
             } else {
                 const fallidos = [];
                 for (const idEmpleado of guardiasNuevoTurno) {
-                    const yaAsignado = detallesTurnos.some(d => String(d.fkEmpleado || d.idEmpleado) === String(idEmpleado) && String(d.fkTurno) === String(idTurnoGuardado));
-                    if (yaAsignado) continue;
+                    const existente = detallesTurnos.find(d => String(d.fkEmpleado || d.idEmpleado) === String(idEmpleado) && String(d.fkTurno) === String(idTurnoGuardado));
                     try {
-                        await createDetalleTurno({
-                            fkTurno: Number(idTurnoGuardado),
-                            fkEmpleado: idEmpleado,
-                            fkLugarCaseta: Number(idCasetaGuardias),
-                            estadoturno: 's'
-                        });
+                        if (existente) {
+                            const lugarActual = existente.fkLugar ?? existente.fkLugarCaseta ?? existente.fkLugarTrabajo;
+                            if (idCasetaGuardias && String(lugarActual) !== String(idCasetaGuardias)) {
+                                await actualizarDetalleTurno(existente.idDetalleTurno || existente.id, {
+                                    ...existente,
+                                    fkLugar: Number(idCasetaGuardias),
+                                    fkTurno: Number(idTurnoGuardado),
+                                    fkEmpleado: idEmpleado
+                                });
+                            }
+                        } else {
+                            await createDetalleTurno({
+                                fkTurno: Number(idTurnoGuardado),
+                                fkEmpleado: idEmpleado,
+                                fkLugarCaseta: Number(idCasetaGuardias),
+                                estadoturno: 's'
+                            });
+                        }
                     } catch (_) {
                         fallidos.push(nombreEmpleado(idEmpleado));
                     }
@@ -628,6 +642,14 @@ async function guardarTurno() {
     }
 }
 
+function sincronizarFormularioTurno() {
+    ['inicio', 'salida'].forEach(configurarSelectorHora);
+    ['turno-dia-inicio', 'turno-dia-salida'].forEach(id => {
+        const select = document.getElementById(id);
+        if (select) select.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+}
+
 async function abrirModalEditarTurno(id) {
     turnoSeleccionado = turnos.find(t => String(t.idTurno || t.id) === String(id));
     if (!turnoSeleccionado) return;
@@ -638,10 +660,20 @@ async function abrirModalEditarTurno(id) {
     document.getElementById('texto-hora-inicio').textContent = textoHora(turnoSeleccionado.horaInicio || '06:00');
     document.getElementById('texto-hora-salida').textContent = textoHora(turnoSeleccionado.horaSalida || '18:00');
     document.getElementById('turno-dia-inicio').value = turnoSeleccionado.diaInicio || 'Lunes';
-    document.getElementById('turno-dia-salida').value = turnoSeleccionado.diaTerminar || turnoSeleccionado.diaFin || 'Viernes';
+    document.getElementById('turno-dia-salida').value = turnoSeleccionado.diaSalida || turnoSeleccionado.diaTerminar || turnoSeleccionado.diaFin || 'Viernes';
+    sincronizarFormularioTurno();
 
     if (panelTitulo) panelTitulo.textContent = 'Editar turno';
     limpiarGuardiasNuevoTurno();
+    const asignaciones = detallesTurnos.filter(d => String(d.fkTurno) === String(id));
+    guardiasNuevoTurno = [...new Set(asignaciones.map(d => String(d.fkEmpleado || d.idEmpleado)))];
+    const casetasActuales = [...new Set(asignaciones.map(d => d.fkLugar ?? d.fkLugarCaseta ?? d.fkLugarTrabajo).filter(v => v != null).map(String))];
+    const selectCaseta = document.getElementById('turno-caseta-guardias');
+    if (selectCaseta) {
+        selectCaseta.value = casetasActuales.length === 1 ? casetasActuales[0] : '';
+        if (window.sincronizarSelectCustom) window.sincronizarSelectCustom(selectCaseta);
+    }
+    pintarChipsGuardias();
     panelAgregar.classList.add('activo');
 }
 
@@ -1028,14 +1060,19 @@ function configurarSelectorHora(sufijo) {
         panel.querySelectorAll('.selector-hora-chip').forEach(c => c.classList.toggle('seleccionado', c.dataset.hora === valor.value));
         const [h, m] = valor.value.split(':');
         if (selHora) selHora.value = h;
-        if (selMin && [...selMin.options].some(o => o.value === m)) selMin.value = m;
+        if (selMin) {
+            if (![...selMin.options].some(o => o.value === m)) selMin.add(new Option(m, m));
+            selMin.value = m;
+        }
         panel.classList.remove('abierto');
     };
 
     activador.onclick = (e) => {
         e.stopPropagation();
+        const abrir = !panel.classList.contains('abierto');
+        fijar(valor.value);
         document.querySelectorAll('.selector-hora-panel.abierto').forEach(p => { if (p !== panel) p.classList.remove('abierto'); });
-        panel.classList.toggle('abierto');
+        panel.classList.toggle('abierto', abrir);
     };
     panel.querySelectorAll('.selector-hora-chip').forEach(chip => {
         chip.textContent = textoHora(chip.dataset.hora);
@@ -1107,6 +1144,7 @@ function poblarCasetaGuardias() {
         const id = c.idLugarTrabajo || c.idCasetas || c.id;
         return `<option value="${escapeHtml(id)}">${escapeHtml(c.nombreLugar || c.nombreCaseta || `Caseta #${id}`)}</option>`;
     }).join('');
+    if (window.sincronizarSelectCustom) window.sincronizarSelectCustom(sel);
 }
 
 function pintarChipsGuardias() {

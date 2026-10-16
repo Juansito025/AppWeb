@@ -87,7 +87,7 @@ function pintar() {
         ? ficha.infracciones.map(i => `
             <tr>
                 <td>${escapeHtml(fecha(i.fecha))}</td>
-                <td class="ficha-motivo">${escapeHtml(i.motivo)}${i.causadaPor ? `<br><small style="color:#f59e0b;">Causada por su visita: ${escapeHtml(i.causadaPor)}</small>` : ''}</td>
+                <td class="ficha-motivo">${escapeHtml(i.motivo)}${i.causadaPor ? `<br><small class="ficha-causada-visita">Causada por su visita: ${escapeHtml(i.causadaPor)}</small>` : ''}</td>
                 <td>${escapeHtml(i.lugar || '—')}</td>
                 <td class="ficha-capital">${escapeHtml(i.gravedad || '—')}</td>
                 <td style="text-align:right; font-variant-numeric:tabular-nums">${escapeHtml(dinero(i.monto))}</td>

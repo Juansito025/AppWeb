@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script src="../js/Recursos/tema-inicial.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reportar incidente - Keeper</title>
@@ -10,8 +11,10 @@
     <link rel="stylesheet" href="../css/tema-claro.css">
     <link rel="icon" href="../img/logo-Global.png">
 
+    <link rel="stylesheet" href="../css/infraccion-diseno.css">
 </head>
 <body>
+    <script>document.body.setAttribute("data-theme", document.documentElement.getAttribute("data-theme") || "dark");</script>
     
     <!-- boton de menu -->
 <button class="movil-menu-btn" id="movil-menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="app-barra-lateral">
@@ -148,16 +151,28 @@
 
         <header class="ri-cabecera">
             <button type="button" class="ri-volver" onclick="location.href='./dashboard.html'">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                <!-- Lucide: arrow-left; ISC/MIT, see img/icons/lucide/LICENSE --><svg aria-hidden="true" focusable="false" class="ri-svg"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg>
+
                 Volver
             </button>
             <div class="ri-titulo-grupo">
-                <span class="ri-titulo-icono">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                </span>
+                
                 <div>
                     <h1 class="page-titulo">Reportar infracción</h1>
-                    <p class="page-subtitulo">Registra el incidente y la multa que se cargará al residente responsable.</p>
+                    
                 </div>
             </div>
         </header>
@@ -168,33 +183,33 @@
                 <!-- 1. Qué pasó -->
                 <section class="tarjeta-seccion-infraccion">
                     <div class="ri-seccion-encabezado">
-                        <span class="ri-paso">1</span>
+                        
                         <div>
-                            <h3 class="ri-seccion-titulo">¿Qué pasó?</h3>
-                            <p class="ri-seccion-ayuda">Describe la falta con hechos concretos: lugar, hora aproximada y qué se observó.</p>
+                            <h3 class="ri-seccion-titulo">Describe lo ocurrido</h3>
+                            
                         </div>
                     </div>
                     <label class="ri-etiqueta" for="ri-descripcion">Descripción</label>
                     <textarea class="area-texto-registro-infraccion" id="ri-descripcion" maxlength="500" placeholder="Ej. Vehículo estacionado frente al portón de la casa 14 bloqueando la salida durante 40 minutos." required minlength="10"></textarea>
                     <p class="mensaje-error-registro-infraccion" id="ri-error-descripcion">Escribe una descripción de la infracción (mínimo 10 caracteres).</p>
 
-                    <p class="ri-etiqueta">Gravedad</p>
+                    <p class="ri-etiqueta">Nivel de gravedad</p>
                     <div class="rejilla-gravedad-registro-infraccion" role="radiogroup" aria-label="Gravedad">
-                        <div class="tarjeta-gravedad-registro-infraccion seleccionada leve-sel" onclick="seleccionarGravedad(this, 'leve')" tabindex="0" role="radio">
+                        <div class="tarjeta-gravedad-registro-infraccion seleccionada leve-sel" onclick="seleccionarGravedad(this, 'leve')" tabindex="0" role="radio" aria-checked="true">
                             <div class="etiqueta-gravedad-registro-infraccion">
                                 <span class="circulo-gravedad-registro-infraccion leve-circle"></span>
                                 <span>Leve</span>
                             </div>
                             <p class="descripcion-gravedad-registro-infraccion">Falta menor que no afecta la convivencia.</p>
                         </div>
-                        <div class="tarjeta-gravedad-registro-infraccion" onclick="seleccionarGravedad(this, 'moderada')" tabindex="0" role="radio">
+                        <div class="tarjeta-gravedad-registro-infraccion" onclick="seleccionarGravedad(this, 'moderada')" tabindex="0" role="radio" aria-checked="false">
                             <div class="etiqueta-gravedad-registro-infraccion">
                                 <span class="circulo-gravedad-registro-infraccion moderada-circle"></span>
                                 <span>Moderada</span>
                             </div>
                             <p class="descripcion-gravedad-registro-infraccion">Interfiere parcialmente en la convivencia.</p>
                         </div>
-                        <div class="tarjeta-gravedad-registro-infraccion" onclick="seleccionarGravedad(this, 'grave')" tabindex="0" role="radio">
+                        <div class="tarjeta-gravedad-registro-infraccion" onclick="seleccionarGravedad(this, 'grave')" tabindex="0" role="radio" aria-checked="false">
                             <div class="etiqueta-gravedad-registro-infraccion">
                                 <span class="circulo-gravedad-registro-infraccion grave-circle"></span>
                                 <span>Grave</span>
@@ -207,23 +222,23 @@
                 <!-- 2. Quién -->
                 <section class="tarjeta-seccion-infraccion">
                     <div class="ri-seccion-encabezado">
-                        <span class="ri-paso">2</span>
+                        
                         <div>
-                            <h3 class="ri-seccion-titulo">¿Quién la cometió?</h3>
-                            <p class="ri-seccion-ayuda">Si fue una visita, la multa se asigna al residente que la recibió.</p>
+                            <h3 class="ri-seccion-titulo">Identifica al responsable</h3>
+                            
                         </div>
                     </div>
 
-                    <div class="dos-columnas-registro-infraccion ri-segmento">
-                        <div class="tarjeta-opcion-registro-infraccion seleccionada" onclick="seleccionarOpcion(this,'causante')" tabindex="0" role="radio">
-                            <span class="ri-opcion-icono"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                    <div class="dos-columnas-registro-infraccion ri-segmento" role="radiogroup" aria-label="Responsable">
+                        <div class="tarjeta-opcion-registro-infraccion seleccionada" onclick="seleccionarOpcion(this,'causante')" tabindex="0" role="radio" aria-checked="true">
+                            
                             <div class="ri-opcion-info">
                                 <div class="nombre-opcion-registro-infraccion">Residente</div>
                                 <div class="descripcion-opcion-registro-infraccion">Vive en la residencial</div>
                             </div>
                         </div>
-                        <div class="tarjeta-opcion-registro-infraccion" onclick="seleccionarOpcion(this,'causante')" tabindex="0" role="radio">
-                            <span class="ri-opcion-icono"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></span>
+                        <div class="tarjeta-opcion-registro-infraccion" onclick="seleccionarOpcion(this,'causante')" tabindex="0" role="radio" aria-checked="false">
+                            
                             <div class="ri-opcion-info">
                                 <div class="nombre-opcion-registro-infraccion">Visitante</div>
                                 <div class="descripcion-opcion-registro-infraccion">Persona de visita</div>
@@ -257,7 +272,7 @@
                     <p class="mensaje-error-registro-infraccion" id="ri-error-residente">Seleccione un residente de la lista.</p>
 
                     <div class="caja-informacion-registro-infraccion" id="ri-nucleo-info">
-                        <span class="ri-info-icono"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                        
                         <div class="ri-info-datos">
                             <div><span>Hogar</span><strong id="ri-nucleo-valor">—</strong></div>
                             <div><span>Dirección</span><strong id="ri-direccion-valor">—</strong></div>
@@ -268,23 +283,23 @@
                 <!-- 3. Identificación y multa -->
                 <section class="tarjeta-seccion-infraccion">
                     <div class="ri-seccion-encabezado">
-                        <span class="ri-paso">3</span>
+                        
                         <div>
                             <h3 class="ri-seccion-titulo">Identificación y multa</h3>
-                            <p class="ri-seccion-ayuda">Si la falta fue con un vehículo, la placa es obligatoria.</p>
+                            
                         </div>
                     </div>
 
-                    <div class="dos-columnas-registro-infraccion ri-segmento">
-                        <div class="tarjeta-opcion-registro-infraccion seleccionada" onclick="seleccionarOpcion(this,'transporte')" tabindex="0" role="radio">
-                            <span class="ri-opcion-icono"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="8" rx="2" ry="2"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/><path d="M4 11V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/></svg></span>
+                    <div class="dos-columnas-registro-infraccion ri-segmento" role="radiogroup" aria-label="Tipo de acceso">
+                        <div class="tarjeta-opcion-registro-infraccion seleccionada" onclick="seleccionarOpcion(this,'transporte')" tabindex="0" role="radio" aria-checked="true">
+                            
                             <div class="ri-opcion-info">
                                 <div class="nombre-opcion-registro-infraccion">Vehicular</div>
                                 <div class="descripcion-opcion-registro-infraccion">Con vehículo</div>
                             </div>
                         </div>
-                        <div class="tarjeta-opcion-registro-infraccion" onclick="seleccionarOpcion(this,'transporte')" tabindex="0" role="radio">
-                            <span class="ri-opcion-icono"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-2 4"/><path d="M12 13l3 4"/><path d="M9 10l3-2 3 2"/></svg></span>
+                        <div class="tarjeta-opcion-registro-infraccion" onclick="seleccionarOpcion(this,'transporte')" tabindex="0" role="radio" aria-checked="false">
+                            
                             <div class="ri-opcion-info">
                                 <div class="nombre-opcion-registro-infraccion">Peatonal</div>
                                 <div class="descripcion-opcion-registro-infraccion">Sin vehículo</div>
@@ -315,9 +330,36 @@
                 </section>
 
                 <div class="barra-pie-registro-infraccion">
-                    <button class="boton-cancelar-registro-infraccion" type="button" onclick="limpiarFormulario()">Limpiar</button>
+                    <button class="boton-cancelar-registro-infraccion" type="button" onclick="limpiarFormulario()"><!-- Lucide: rotate-ccw; ISC/MIT, see img/icons/lucide/LICENSE --><svg aria-hidden="true" focusable="false" class="ri-svg"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+  <path d="M3 3v5h5" />
+</svg>
+Limpiar formulario</button>
                     <button class="boton-guardar-registro-infraccion" type="button" onclick="abrirDetalle()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <!-- Lucide: check; ISC/MIT, see img/icons/lucide/LICENSE --><svg aria-hidden="true" focusable="false" class="ri-svg"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
+</svg>
+
                         Revisar y registrar
                     </button>
                 </div>
@@ -336,7 +378,24 @@
     <div class="capa-panel" id="capa-panel" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="ri-modal-titulo">
         <div class="ovl-encabezado">
             <div class="ovl-icono-envoltura">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <!-- Lucide: clipboard-pen-line; ISC/MIT, see img/icons/lucide/LICENSE --><svg aria-hidden="true" focusable="false" class="ri-svg"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="8" height="4" x="8" y="2" rx="1" />
+  <path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.5" />
+  <path d="M16 4h2a2 2 0 0 1 1.73 1" />
+  <path d="M8 18h1" />
+  <path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+</svg>
+
             </div>
             <div>
                 <h3 class="ovl-titulo" id="ri-modal-titulo">Confirmar infracción</h3>
@@ -364,7 +423,20 @@
         <div class="ovl-pie">
             <button class="ovl-btn-cancelar" type="button" onclick="cerrarDetalle()">Corregir</button>
             <button class="ovl-btn-apply" type="button" id="ri-btn-aplicar" onclick="confirmarInfraccion()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <!-- Lucide: check; ISC/MIT, see img/icons/lucide/LICENSE --><svg aria-hidden="true" focusable="false" class="ri-svg"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 6 9 17l-5-5" />
+</svg>
+
                 Aplicar infracción
             </button>
         </div>

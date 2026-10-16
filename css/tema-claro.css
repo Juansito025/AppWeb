@@ -2233,3 +2233,21 @@ body[data-theme="light"] .notif-tarjeta .notif-cuerpo strong {
     background: transparent !important;
     box-shadow: none !important;
 }
+
+/* The universal dark scrollbar rule must be overridden on each light element. */
+[data-theme="light"], [data-theme="light"] * {
+    scrollbar-color: #94a3b8 #e2e8f0;
+}
+[data-theme="light"]::-webkit-scrollbar-track,
+[data-theme="light"] *::-webkit-scrollbar-track { background: #e2e8f0; }
+[data-theme="light"]::-webkit-scrollbar-thumb,
+[data-theme="light"] *::-webkit-scrollbar-thumb { background: #94a3b8; border: 2px solid #e2e8f0; border-radius: 8px; }
+[data-theme="light"]::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] *::-webkit-scrollbar-thumb:hover { background: #64748b; }
+[data-theme="light"]::-webkit-scrollbar-corner,
+[data-theme="light"] *::-webkit-scrollbar-corner,
+[data-theme="light"]::-webkit-scrollbar-button,
+[data-theme="light"] *::-webkit-scrollbar-button { background: #e2e8f0; color: #475569; }
+
+/* Consistent pending label in the dashboard in light mode. */
+[data-theme="light"] .pildora-estado.estado-pendiente { color:#ffffff !important; }

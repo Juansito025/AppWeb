@@ -240,3 +240,12 @@
     .ficha-acciones .ficha-btn { flex: 1 1 100%; justify-content: center; }
 }
 #tabla-infracciones td:nth-child(2), #tabla-visitas td:first-child, #tabla-accesos td:first-child { white-space: nowrap; }
+
+/* Keeper profile: neutral figures and a restrained brand blue. */
+.ficha-tipo { background:#1d4f98; color:#fff !important; }
+.ficha-kpi { border-left-color:#2473f5; }
+.ficha-kpi.peligro strong,.ficha-kpi.exito strong { color:var(--text-primary) !important; }
+.ficha-etiqueta { color:var(--text-primary); }
+.ficha-causada-visita { color:#2473f5 !important; }
+[data-theme="light"] .ficha-tipo { background:#1d4f98; color:#fff !important; }
+[data-theme="light"] .ficha-kpi.peligro strong,[data-theme="light"] .ficha-kpi.exito strong { color:#14243b !important; }

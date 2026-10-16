@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
+    <script src="../js/Recursos/tema-inicial.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas | Keeper</title>
@@ -12,6 +13,7 @@
 
 </head>
 <body>
+    <script>document.body.setAttribute("data-theme", document.documentElement.getAttribute("data-theme") || "dark");</script>
     
     <div class="bg-cuadricula" aria-hidden="true"></div>
     
@@ -150,7 +152,6 @@
                 </span>
                 <div>
                     <h1 class="page-titulo">Estadísticas</h1>
-                    <p class="est-nota" id="est-actualizado">Cargando datos de la API…</p>
                 </div>
             </div>
             <div class="est-rango" role="group" aria-label="Periodo">

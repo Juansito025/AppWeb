@@ -728,7 +728,10 @@ function configurarVistaPreviaFoto(inputId, imgId) {
         if (!file) return;
         try {
             window.FotosService.validarImagen(file);
-            img.src = await window.FotosService.leerVistaPrevia(file);
+            const vistaPrevia = await window.FotosService.leerVistaPrevia(file);
+            img.onload = null;
+            img.onerror = null;
+            img.src = vistaPrevia;
             img.style.display = 'block';
             const icono = img.parentElement?.querySelector('.icono-marcador-foto');
             if (icono) icono.style.display = 'none';
@@ -866,7 +869,21 @@ async function abrirModalDetalle(id) {
 
     const fotoImg = document.getElementById('detalle-foto-vista-previa-img');
     if (fotoImg) {
-        fotoImg.src = empleadoSeleccionado.fotoUrlEmpleado || window.AVATAR_DEFECTO;
+        const icono = fotoImg.parentElement?.querySelector('.icono-marcador-foto');
+        const foto = empleadoSeleccionado.fotoUrlEmpleado;
+        fotoImg.onload = () => {
+            fotoImg.style.display = foto ? 'block' : 'none';
+            if (icono) icono.style.display = foto ? 'none' : '';
+        };
+        fotoImg.onerror = () => {
+            fotoImg.style.display = 'none';
+            if (icono) icono.style.display = '';
+        };
+        fotoImg.style.display = foto ? 'block' : 'none';
+        if (icono) icono.style.display = foto ? 'none' : '';
+        fotoImg.src = foto || window.AVATAR_DEFECTO;
+        const inputFoto = document.getElementById('detalle-foto');
+        if (inputFoto) inputFoto.value = '';
     }
 
     panelDetalle.classList.add('activo');
