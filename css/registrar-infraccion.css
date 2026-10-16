@@ -411,6 +411,19 @@
 [data-theme="light"] .pagina-solida .desplegable-formulario .selector-activador { color: #000; }
 [data-theme="light"] .pagina-solida .area-texto-registro-infraccion,
 [data-theme="light"] .pagina-solida .entrada-registro-infraccion { background: var(--ri-campo) !important; border-color: transparent !important; color: #000 !important; }
+[data-theme="light"] .pagina-solida .desplegable-formulario .selector-activador { background: var(--ri-campo) !important; border-color: transparent !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion,
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion { background: var(--ri-campo) !important; border-color: transparent !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion:hover,
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion:hover { background: var(--ri-campo-hover) !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada { background: var(--ri-acento) !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .nombre-opcion-registro-infraccion,
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .descripcion-opcion-registro-infraccion { color: #fff !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion .ri-opcion-icono { background: #ffffff; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .ri-opcion-icono { background: var(--ri-acento-hover); color: #fff; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel { background: var(--ri-leve) !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel { background: var(--ri-moderada) !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel { background: var(--ri-grave) !important; }
 [data-theme="light"] .capa-bg { background: #0f172acc; }
 [data-theme="light"] #capa .capa-panel { background: #ffffff !important; }
 [data-theme="light"] .ovl-seccion,
@@ -422,3 +435,249 @@
 
 /* caja en fila */
 #ri-nucleo-info { display: flex !important; }
+
+/* ── Diseño final ──────────────────────────────────────────────────────── */
+.pagina-solida {
+    --ri-borde:        #ffffff12;
+    --ri-borde-fuerte: #ffffff1f;
+    --ri-tarjeta:      #111a2c;
+    --ri-control:      #0c1424;
+    --ri-control-borde:#ffffff1a;
+    --ri-acento-suave: #2473f51f;
+}
+.pagina-solida .contenido-envoltura { max-width: 980px; margin-inline: auto; gap: 24px; }
+
+.pagina-solida .ri-cabecera { gap: 18px; }
+.pagina-solida .ri-volver {
+    height: 34px; padding: 0 12px 0 8px; border-radius: 8px; font-size: 13px;
+    background: transparent; color: var(--ri-texto-3); border: 1px solid var(--ri-borde-fuerte);
+}
+.pagina-solida .ri-volver:hover { color: var(--ri-texto); border-color: var(--ri-acento); }
+.pagina-solida .ri-volver svg { width: 16px; height: 16px; }
+.pagina-solida .ri-titulo-grupo { gap: 16px; align-items: flex-start; }
+.pagina-solida .ri-titulo-icono {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: #ef44441f; color: #f87171; box-shadow: inset 0 0 0 1px #ef444433;
+}
+.pagina-solida .ri-titulo-icono svg { width: 22px; height: 22px; }
+.pagina-solida .ri-cabecera .page-titulo { font-size: 26px; font-weight: 700; letter-spacing: -0.4px; line-height: 1.2; }
+.pagina-solida .ri-cabecera .page-subtitulo { font-size: 14px; margin-top: 6px; }
+
+.pagina-solida .infraccion-formulario-columna { gap: 16px; }
+.pagina-solida .tarjeta-seccion-infraccion {
+    background: var(--ri-tarjeta) !important;
+    border: 1px solid var(--ri-borde) !important;
+    border-radius: 14px;
+    padding: 0 24px 24px;
+    box-shadow: none;
+    gap: 0;
+    overflow: visible;
+}
+.pagina-solida .ri-seccion-encabezado {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 24px; margin: 0 -24px 20px;
+    border-bottom: 1px solid var(--ri-borde);
+}
+.pagina-solida .ri-paso {
+    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+    display: grid; place-items: center;
+    background: transparent; color: var(--ri-acento);
+    box-shadow: inset 0 0 0 1.5px var(--ri-acento);
+    font-size: 12px; font-weight: 700;
+}
+.pagina-solida .ri-seccion-titulo { font-size: 15px; font-weight: 650; margin: 2px 0 0; color: var(--ri-texto); }
+.pagina-solida .ri-seccion-ayuda { font-size: 13px; margin: 3px 0 0; color: var(--ri-texto-3); }
+
+.pagina-solida .ri-etiqueta {
+    display: block; font-size: 12.5px; font-weight: 600; color: var(--ri-texto-2);
+    margin-bottom: 8px; letter-spacing: 0.1px;
+}
+
+.pagina-solida .area-texto-registro-infraccion,
+.pagina-solida .entrada-registro-infraccion,
+.pagina-solida .desplegable-formulario .selector-activador {
+    background: var(--ri-control) !important;
+    border: 1px solid var(--ri-control-borde) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    font-size: 14px;
+}
+.pagina-solida .entrada-registro-infraccion { height: 44px; }
+.pagina-solida .area-texto-registro-infraccion { min-height: 104px; padding: 12px 14px; line-height: 1.55; width: 100%; box-sizing: border-box; margin-bottom: 20px; }
+.pagina-solida .area-texto-registro-infraccion:focus,
+.pagina-solida .entrada-registro-infraccion:focus,
+.pagina-solida .desplegable-formulario .selector-activador.abierto {
+    border-color: var(--ri-acento) !important;
+    box-shadow: 0 0 0 3px var(--ri-acento-suave) !important;
+}
+.pagina-solida .ri-monto span { color: var(--ri-texto-3); }
+
+.pagina-solida .rejilla-gravedad-registro-infraccion { gap: 10px; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion {
+    position: relative;
+    background: var(--ri-control) !important;
+    border: 1px solid var(--ri-control-borde) !important;
+    border-radius: 12px; padding: 14px 16px;
+    transition: border-color .15s, background .15s;
+}
+.pagina-solida .tarjeta-gravedad-registro-infraccion:hover { border-color: var(--ri-borde-fuerte) !important; }
+.pagina-solida .etiqueta-gravedad-registro-infraccion { font-size: 14px; font-weight: 600; color: var(--ri-texto); gap: 8px; }
+.pagina-solida .descripcion-gravedad-registro-infraccion { font-size: 12.5px; color: var(--ri-texto-3); margin-top: 4px; }
+.pagina-solida .circulo-gravedad-registro-infraccion { width: 9px; height: 9px; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel { background: #10b98114 !important; border-color: #10b981 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel { background: #f59e0b14 !important; border-color: #f59e0b !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel { background: #ef444414 !important; border-color: #ef4444 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.seleccionada .descripcion-gravedad-registro-infraccion { color: var(--ri-texto-3) !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel .etiqueta-gravedad-registro-infraccion { color: #34d399 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel .etiqueta-gravedad-registro-infraccion { color: #fbbf24 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel .etiqueta-gravedad-registro-infraccion { color: #f87171 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.seleccionada .circulo-gravedad-registro-infraccion { background: currentColor !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel .circulo-gravedad-registro-infraccion { background: #10b981 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel .circulo-gravedad-registro-infraccion { background: #f59e0b !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel .circulo-gravedad-registro-infraccion { background: #ef4444 !important; }
+
+.pagina-solida .ri-segmento { gap: 10px; margin-bottom: 20px; }
+.pagina-solida .tarjeta-opcion-registro-infraccion {
+    position: relative;
+    background: var(--ri-control) !important;
+    border: 1px solid var(--ri-control-borde) !important;
+    border-radius: 12px; padding: 12px 44px 12px 12px; min-height: 0;
+    transition: border-color .15s, background .15s;
+}
+.pagina-solida .tarjeta-opcion-registro-infraccion:hover { border-color: var(--ri-borde-fuerte) !important; }
+.pagina-solida .tarjeta-opcion-registro-infraccion .ri-opcion-icono {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: #ffffff0d; color: var(--ri-texto-3);
+}
+.pagina-solida .nombre-opcion-registro-infraccion { font-size: 14px; font-weight: 600; color: var(--ri-texto) !important; }
+.pagina-solida .descripcion-opcion-registro-infraccion { font-size: 12.5px; color: var(--ri-texto-3) !important; }
+.pagina-solida .tarjeta-opcion-registro-infraccion::after {
+    content: "" !important; position: absolute; right: 14px; top: 50%;
+    width: 18px; height: 18px; margin-top: -9px; border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px var(--ri-borde-fuerte);
+    background: transparent;
+}
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada {
+    background: var(--ri-acento-suave) !important;
+    border-color: var(--ri-acento) !important;
+}
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .ri-opcion-icono { background: var(--ri-acento) !important; color: #fff !important; }
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .nombre-opcion-registro-infraccion { color: var(--ri-texto) !important; }
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .descripcion-opcion-registro-infraccion { color: var(--ri-texto-3) !important; }
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada::after {
+    box-shadow: inset 0 0 0 5px var(--ri-acento);
+    background: #fff;
+}
+
+.pagina-solida .caja-informacion-registro-infraccion {
+    margin-top: 14px;
+    background: transparent !important;
+    border: 1px dashed var(--ri-borde-fuerte) !important;
+    border-radius: 12px; padding: 12px 14px;
+}
+.pagina-solida .ri-info-icono { background: #ffffff0d; color: var(--ri-texto-3); border-radius: 9px; }
+.pagina-solida .ri-info-datos span { font-size: 11px; letter-spacing: .6px; color: var(--ri-texto-3); }
+.pagina-solida .ri-info-datos strong { font-size: 13.5px; color: var(--ri-texto); }
+
+.pagina-solida .ri-opcional { border-radius: 6px; font-weight: 500; }
+
+.pagina-solida .barra-pie-registro-infraccion {
+    margin-top: 4px; padding-top: 18px; gap: 10px;
+    border-top: 1px solid var(--ri-borde);
+}
+.pagina-solida .boton-cancelar-registro-infraccion,
+.pagina-solida .boton-guardar-registro-infraccion {
+    height: 42px; border-radius: 10px; font-size: 14px; font-weight: 600; padding: 0 18px;
+}
+.pagina-solida .boton-cancelar-registro-infraccion {
+    background: transparent !important; color: var(--ri-texto-2) !important;
+    border: 1px solid var(--ri-borde-fuerte) !important;
+}
+.pagina-solida .boton-cancelar-registro-infraccion:hover { border-color: var(--ri-texto-3) !important; color: var(--ri-texto) !important; }
+.pagina-solida .boton-guardar-registro-infraccion { background: var(--ri-acento) !important; color: #fff !important; box-shadow: 0 6px 16px #2473f533 !important; }
+.pagina-solida .boton-guardar-registro-infraccion:hover { background: var(--ri-acento-hover) !important; }
+
+[data-theme="light"] .pagina-solida {
+    --ri-borde:        #0f172a14;
+    --ri-borde-fuerte: #0f172a26;
+    --ri-tarjeta:      #ffffff;
+    --ri-control:      #f8fafc;
+    --ri-control-borde:#0f172a1f;
+    --ri-acento-suave: #0284c714;
+}
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion,
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion { background: var(--ri-control) !important; border-color: var(--ri-control-borde) !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada { background: var(--ri-acento-suave) !important; border-color: var(--ri-acento) !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .nombre-opcion-registro-infraccion { color: #0f172a !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .descripcion-opcion-registro-infraccion { color: #475569 !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion .ri-opcion-icono,
+[data-theme="light"] .pagina-solida .ri-info-icono { background: #0f172a0d; color: #475569; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel { background: #10b9811a !important; border-color: #10b981 !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel { background: #f59e0b1a !important; border-color: #f59e0b !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel { background: #ef44441a !important; border-color: #ef4444 !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel .etiqueta-gravedad-registro-infraccion { color: #047857 !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel .etiqueta-gravedad-registro-infraccion { color: #b45309 !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel .etiqueta-gravedad-registro-infraccion { color: #b91c1c !important; }
+[data-theme="light"] .pagina-solida .area-texto-registro-infraccion,
+[data-theme="light"] .pagina-solida .entrada-registro-infraccion,
+[data-theme="light"] .pagina-solida .desplegable-formulario .selector-activador { background: var(--ri-control) !important; border: 1px solid var(--ri-control-borde) !important; }
+[data-theme="light"] .pagina-solida .ri-titulo-icono { background: #ef44441a; color: #dc2626; }
+[data-theme="light"] .pagina-solida .boton-guardar-registro-infraccion { box-shadow: 0 6px 16px #0284c733 !important; }
+
+#capa .ovl-icono-envoltura { background: #ef44441f !important; box-shadow: inset 0 0 0 1px #ef444433 !important; }
+#capa .ovl-icono-envoltura svg { color: #f87171 !important; stroke: #f87171 !important; }
+[data-theme="light"] #capa .ovl-icono-envoltura { background: #ef44441a !important; }
+[data-theme="light"] #capa .ovl-icono-envoltura svg { color: #dc2626 !important; stroke: #dc2626 !important; }
+
+@media (max-width: 700px) {
+    .pagina-solida .tarjeta-seccion-infraccion { padding-left: 16px; padding-right: 16px; }
+    .pagina-solida .ri-seccion-encabezado { padding: 16px; margin-left: -16px; margin-right: -16px; }
+    .pagina-solida .ri-cabecera .page-titulo { font-size: 22px; }
+    .pagina-solida .tarjeta-seccion-infraccion { padding-bottom: 18px; }
+}
+
+/* ── Ajustes: selección sólida e íconos sin fondo ─────────────────────── */
+.pagina-solida .ri-volver { padding: 0 14px; }
+.pagina-solida .ri-seccion-encabezado { padding: 16px 24px; }
+.pagina-solida .ri-seccion-titulo { margin: 0; }
+
+.pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel { background: #10b981 !important; border-color: #10b981 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel { background: #f59e0b !important; border-color: #f59e0b !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel { background: #ef4444 !important; border-color: #ef4444 !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.seleccionada .etiqueta-gravedad-registro-infraccion,
+.pagina-solida .tarjeta-gravedad-registro-infraccion.seleccionada .descripcion-gravedad-registro-infraccion { color: #ffffff !important; }
+.pagina-solida .tarjeta-gravedad-registro-infraccion.seleccionada .circulo-gravedad-registro-infraccion { background: #ffffff !important; }
+
+.pagina-solida .tarjeta-opcion-registro-infraccion .ri-opcion-icono,
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .ri-opcion-icono,
+.pagina-solida .ri-info-icono {
+    width: auto; height: auto; padding: 0;
+    background: transparent !important; box-shadow: none !important; border-radius: 0;
+}
+.pagina-solida .tarjeta-opcion-registro-infraccion .ri-opcion-icono { color: var(--ri-texto-3) !important; }
+.pagina-solida .ri-info-icono { color: var(--ri-texto-3); }
+.pagina-solida .tarjeta-opcion-registro-infraccion .ri-opcion-icono svg { width: 22px; height: 22px; }
+
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada { background: var(--ri-acento) !important; border-color: var(--ri-acento) !important; }
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .ri-opcion-icono,
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .nombre-opcion-registro-infraccion,
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .descripcion-opcion-registro-infraccion { color: #ffffff !important; }
+.pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada::after { background: #ffffff; box-shadow: none; }
+
+#capa .ovl-icono-envoltura { background: transparent !important; box-shadow: none !important; width: auto !important; height: auto !important; }
+
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.leve-sel { background: #10b981 !important; border-color: #10b981 !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.moderada-sel { background: #f59e0b !important; border-color: #f59e0b !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.grave-sel { background: #ef4444 !important; border-color: #ef4444 !important; }
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.seleccionada .etiqueta-gravedad-registro-infraccion,
+[data-theme="light"] .pagina-solida .tarjeta-gravedad-registro-infraccion.seleccionada .descripcion-gravedad-registro-infraccion { color: #ffffff !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada { background: var(--ri-acento) !important; border-color: var(--ri-acento) !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .nombre-opcion-registro-infraccion,
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion.seleccionada .descripcion-opcion-registro-infraccion { color: #ffffff !important; }
+[data-theme="light"] .pagina-solida .tarjeta-opcion-registro-infraccion .ri-opcion-icono,
+[data-theme="light"] .pagina-solida .ri-info-icono { background: transparent !important; }
+[data-theme="light"] #capa .ovl-icono-envoltura { background: transparent !important; box-shadow: none !important; }
+
+@media (max-width: 700px) {
+    .pagina-solida .ri-seccion-encabezado { padding: 14px 16px; }
+}
